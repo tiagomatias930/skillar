@@ -11,9 +11,6 @@ import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-// Universal evaluation form for the 10 C/C++ challenges with automatic scoring
-// Default export a React component so it can be previewed easily in shadcn-enabled apps.
-
 const CRITERIA = [
   {
     key: "functional",
