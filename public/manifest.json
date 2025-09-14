@@ -1,0 +1,21 @@
+{
+  "name": "Skillar - Competições e Rankings",
+  "short_name": "Skillar",
+  "description": "Plataforma para criar e gerenciar competições com rankings em tempo real",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f59e0b",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
