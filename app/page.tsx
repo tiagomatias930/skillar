@@ -12,7 +12,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <img
-                src="/public/42skillar.png"
+                src="../public/42skillar.png"
                 className="h-8 w-8 text-blue-600"
                 alt="logo-skiller"
               />
