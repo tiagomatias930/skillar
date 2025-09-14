@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Trophy, Users, Target, Award } from "lucide-react"
+import { Users, Target, Award } from "lucide-react"
 import Link from "next/link"
 
 export default function HomePage() {
@@ -12,9 +12,9 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <img
-                src="../public/42skillar.png"
-                className="h-8 w-8 text-blue-600"
-                alt="logo-skiller"
+                className="h-10 w-10 object-contain"
+                src="/42skillar.png"
+                alt="skiller"
               />
               <h1 className="text-2xl font-bold text-gray-900">42Skillar</h1>
               <h4></h4>
@@ -131,7 +131,11 @@ export default function HomePage() {
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Trophy className="h-6 w-6" />
+              <img
+                className="h-10 w-10 object-contain"
+                src="/42skillar.png"
+                alt="skiller"
+              />
             <p className="text-lg font-semibold">42Skillar</p>
             <p className="text-center text-xl text-etalic text-gray-300">Arena dos Campeões</p>
           </div>
