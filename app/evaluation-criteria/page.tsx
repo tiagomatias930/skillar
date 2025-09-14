@@ -1,5 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { motion } from "framer-motion";
 
 // shadcn/ui components (assumed available in the user's project)
@@ -141,26 +143,86 @@ export default function AvaliacaoForm() {
     setAnswers(initialAnswers);
   }
 
-  function exportAsJSON() {
-    const payload = {
-      challengeName,
-      candidate,
-      date,
-      notes,
-      answers,
-      totalPoints,
-      percentage,
-      grade,
+  function exportCertificate() {
+    if (!candidate || !challengeName || totalPoints <= 0) return;
+    const doc = new jsPDF({ orientation: "landscape", unit: "px", format: [600, 400] });
+
+    // Background tech/cyber style
+    doc.setFillColor(20, 22, 34);
+    doc.rect(0, 0, 600, 400, "F");
+    doc.setFillColor(40, 44, 70);
+    doc.rect(20, 20, 560, 360, "F");
+    // Decorative lines
+    doc.setDrawColor(0, 255, 255);
+    doc.setLineWidth(2);
+    doc.line(40, 60, 560, 60);
+    doc.line(40, 340, 560, 340);
+
+    // Logo
+    const logoImg = new Image();
+    logoImg.src = "/42skillar.png";
+    // Draw logo async
+    logoImg.onload = function () {
+      doc.addImage(logoImg, "PNG", 40, 30, 60, 60);
+      drawRest();
+      doc.save(`certificado-${candidate}-${challengeName}.pdf`);
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${challengeName || "avaliacao"}-${candidate || "candidate"}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+    // If logo fails, fallback
+    logoImg.onerror = function () {
+      drawRest();
+      doc.save(`certificado-${candidate}-${challengeName}.pdf`);
+    };
+
+    function drawRest() {
+      // App name
+      doc.setTextColor(0, 255, 255);
+      doc.setFontSize(28);
+      doc.setFont("helvetica", "bold");
+      doc.text("42Skillar", 120, 70);
+
+      // Certificado title
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(32);
+      doc.setFont("helvetica", "bold");
+      doc.text("Certificado de Desempenho", 300, 120, { align: "center" });
+
+      // Nome do avaliado
+      doc.setFontSize(20);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Certificamos que`, 300, 170, { align: "center" });
+      doc.setFontSize(26);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 255, 255);
+      doc.text(candidate, 300, 200, { align: "center" });
+
+      // Desafio
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(255, 255, 255);
+      doc.text(`obteve destaque no desafio`, 300, 230, { align: "center" });
+      doc.setFontSize(22);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 255, 255);
+      doc.text(challengeName, 300, 260, { align: "center" });
+
+      // Pontuação
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(255, 255, 255);
+      doc.text(`Pontuação final:`, 300, 295, { align: "center" });
+      doc.setFontSize(32);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 255, 255);
+      doc.text(`${totalPoints} pts`, 300, 325, { align: "center" });
+
+      // Data
+      if (date) {
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(180, 200, 255);
+        doc.text(`Data: ${date.split("-").reverse().join("/")}`, 540, 380, { align: "right" });
+      }
+    }
   }
 
   return (
@@ -260,7 +322,9 @@ export default function AvaliacaoForm() {
                       </div>
 
                       <div className="flex gap-2 mt-4">
-                        <Button onClick={exportAsJSON}>Exportar JSON</Button>
+                        <Button onClick={exportCertificate} disabled={!candidate || !challengeName || totalPoints <= 0}>
+                          Exportar Certificado PDF
+                        </Button>
                         <Button variant="outline" onClick={resetForm}>Resetar</Button>
                       </div>
                     </>
