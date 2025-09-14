@@ -44,7 +44,7 @@ export default function HomePage() {
           <div className="max-w-3xl mx-auto">
             <h2 className="text-5xl font-bold text-gray-900 mb-6 text-balance">Compete, Evolua e Conquiste</h2>
             <p className="text-xl text-gray-600 mb-8 text-pretty">
-              Participe de competições semanais, desafie outros usuários e prove suas habilidades no Skillar.
+              Participe de competições semanais, desafie outros usuários e prove suas habilidades no 42Skillar.
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/competitions">

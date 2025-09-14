@@ -82,7 +82,7 @@ export function AdminPanel() {
             <Settings className="h-5 w-5 text-blue-600" />
             Painel Administrativo
           </CardTitle>
-          <CardDescription>Ferramentas para gerenciar a plataforma Skillar</CardDescription>
+          <CardDescription>Ferramentas para gerenciar a plataforma 42Skillar</CardDescription>
         </CardHeader>
       </Card>
 

@@ -26,7 +26,7 @@ export function Navigation() {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Trophy className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Skillar</h1>
+            <h1 className="text-2xl font-bold text-gray-900">42Skillar</h1>
           </Link>
 
           <nav className="flex items-center gap-4">
