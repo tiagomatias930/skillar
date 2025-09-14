@@ -16,7 +16,7 @@ export default function HomePage() {
                 className="h-8 w-8 text-blue-600"
                 alt="logo-skiller"
               />
-              <h1 className="text-2xl font-bold text-gray-900">Skillar</h1>
+              <h1 className="text-2xl font-bold text-gray-900">42Skillar</h1>
               <h4></h4>
               <p className="text-center-2xl font-italic text-gray-400"> Arena dos Campeões </p>
             </div>
