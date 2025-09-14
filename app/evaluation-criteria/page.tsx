@@ -200,14 +200,21 @@ export default function AvaliacaoForm() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <RadioGroup value={answers[c.key as CriteriaKey] !== null && answers[c.key as CriteriaKey] !== undefined ? String(answers[c.key as CriteriaKey]) : ""} onValueChange={(v: string) => setAnswer(c.key as CriteriaKey, v)} className="flex flex-col gap-2">
+                  <RadioGroup
+                    value={answers[c.key as CriteriaKey] !== null && answers[c.key as CriteriaKey] !== undefined ? String(answers[c.key as CriteriaKey]) : ""}
+                    onValueChange={(v: string) => setAnswer(c.key as CriteriaKey, v)}
+                    className="flex flex-col gap-2"
+                    name={c.key}
+                  >
                     {c.options.map((opt, i) => (
-                      <label key={i} className="flex items-center gap-3 p-2 rounded hover:bg-muted">
-                        <RadioGroupItem value={String(opt.value)} />
-                        <div className="flex-1">
-                          <div className="font-medium">{opt.label}</div>
-                        </div>
-                      </label>
+                      <RadioGroupItem
+                        key={i}
+                        value={String(opt.value)}
+                        label={opt.label}
+                        checked={String(answers[c.key as CriteriaKey]) === String(opt.value)}
+                        onChange={() => setAnswer(c.key as CriteriaKey, opt.value)}
+                        name={c.key}
+                      />
                     ))}
                   </RadioGroup>
                 </div>
@@ -232,26 +239,32 @@ export default function AvaliacaoForm() {
               <div>
                 <Label>Resultado</Label>
                 <div className="mt-3 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">Pontuação total (absoluta):</div>
-                    <div className="font-semibold">{totalPoints.toFixed(0)} pts</div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">Percentual:</div>
-                    <div className="font-semibold">{percentage}%</div>
-                  </div>
+                  {Object.values(answers).some((v) => v === null) ? (
+                    <div className="text-red-500 text-sm font-semibold">Preencha todos os critérios para ver o resultado final.</div>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-muted-foreground">Pontuação total (absoluta):</div>
+                        <div className="font-semibold">{totalPoints.toFixed(0)} pts</div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-muted-foreground">Percentual:</div>
+                        <div className="font-semibold">{percentage}%</div>
+                      </div>
 
-                  <Progress value={percentage} />
+                      <Progress value={percentage} />
 
-                  <div className="pt-2">
-                    <div className="text-sm">Classificação: <strong>{grade}</strong></div>
-                    <div className="text-xs text-muted-foreground mt-1">{remark}</div>
-                  </div>
+                      <div className="pt-2">
+                        <div className="text-sm">Classificação: <strong>{grade}</strong></div>
+                        <div className="text-xs text-muted-foreground mt-1">{remark}</div>
+                      </div>
 
-                  <div className="flex gap-2 mt-4">
-                    <Button onClick={exportAsJSON}>Exportar JSON</Button>
-                    <Button variant="outline" onClick={resetForm}>Resetar</Button>
-                  </div>
+                      <div className="flex gap-2 mt-4">
+                        <Button onClick={exportAsJSON}>Exportar JSON</Button>
+                        <Button variant="outline" onClick={resetForm}>Resetar</Button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
