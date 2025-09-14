@@ -132,8 +132,8 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Trophy className="h-6 w-6" />
-            <span className="text-lg font-semibold">42Skillar</span>
-            <span className="text-center text-xl text-etalic">Arena dos Campeões</span>
+            <p className="text-lg font-semibold">42Skillar</p>
+            <p className="text-center text-xl text-etalic">Arena dos Campeões</p>
           </div>
           <p className="text-gray-400">Plataforma de competições semanais - Mostre suas habilidades</p>
           <p className="text-gray-500 text-sm mt-4">&copy; 2025 42Skillar lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc & Nádia Cristovão</p>

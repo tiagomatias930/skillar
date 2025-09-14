@@ -57,7 +57,7 @@ export default function LoginPage() {
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
             <Trophy className="h-8 w-8 text-blue-600" />
             42Skillar
-            <span className="text-center text-xl text-etalic">Arena dos Campeões</span>
+            <p className="text-center text-xl text-etalic">Arena dos Campeões</p>
           </Link>
         </div>
 
