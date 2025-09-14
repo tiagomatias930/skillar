@@ -252,7 +252,7 @@ export default async function HistoryPage() {
               <Calendar className="h-5 w-5 text-purple-600" />
               Resumo da Atividade
             </CardTitle>
-            <CardDescription>Estatísticas gerais da plataforma Skillar</CardDescription>
+            <CardDescription>Estatísticas gerais da plataforma 42Skillar</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">

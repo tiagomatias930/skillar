@@ -7,9 +7,9 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Skillar - Competições e Rankings",
+  title: "42Skillar - Arena dos Campeões ",
   description: "Plataforma para criar e gerenciar competições com rankings em tempo real",
-  generator: "Skillar App",
+  generator: "42Skillar App",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

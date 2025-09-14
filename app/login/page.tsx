@@ -56,13 +56,13 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
             <Trophy className="h-8 w-8 text-blue-600" />
-            Skillar
+            42Skillar
           </Link>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Entrar no Skillar</CardTitle>
+            <CardTitle className="text-2xl text-center">Entrar no 42Skillar</CardTitle>
             <CardDescription className="text-center">
               Digite seu username para participar das competições
             </CardDescription>

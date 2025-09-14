@@ -118,7 +118,7 @@ export default function HomePage() {
       >
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-3xl font-bold mb-4 text-white">Pronto para Começar?</h3>
-          <p className="text-xl mb-8 text-white">Entre no Skillar agora e mostre suas habilidades!</p>
+          <p className="text-xl mb-8 text-white">Entre no 42Skillar agora e mostre suas habilidades!</p>
           <Link href="/login">
             <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
               Começar Agora
@@ -132,9 +132,11 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Trophy className="h-6 w-6" />
-            <span className="text-lg font-semibold">Skillar</span>
+            <span className="text-lg font-semibold">42Skillar</span>
           </div>
           <p className="text-gray-400">Plataforma de competições semanais - Mostre suas habilidades</p>
+          <p className="text-gray-500 text-sm mt-4">&copy; 2025 42Skillar lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc & Nádia Cristovão</p>
+          
         </div>
       </footer>
     </div>
