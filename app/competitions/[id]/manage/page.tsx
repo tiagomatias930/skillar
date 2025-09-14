@@ -116,8 +116,8 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
     console.log("[v0] Current pointsUpdates:", pointsUpdates)
     console.log("[v0] Competition ID:", competition?.id)
 
-    setIsSaving(true)
-    setError(null)
+  setIsSaving(true)
+  setError(null)
 
     try {
       const updates = Object.entries(pointsUpdates).map(([participantId, points]) => ({
@@ -154,7 +154,8 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
 
       showToast("Pontos atualizados com sucesso!", "success")
 
-      router.refresh()
+      // Aguarda refresh para garantir atualização do ranking
+      await router.refresh()
 
       setTimeout(() => {
         router.push(`/competitions/${competition?.id}`)
