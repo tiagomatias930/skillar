@@ -1,100 +1,282 @@
-"use client"
+import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 
-import React from "react"
-import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Navigation } from "@/components/navigation"
+// shadcn/ui components (assumed available in the user's project)
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
-export default function EvaluationCriteriaPage() {
+// Universal evaluation form for the 10 C/C++ challenges with automatic scoring
+// Default export a React component so it can be previewed easily in shadcn-enabled apps.
+
+const CRITERIA = [
+  {
+    key: "functional",
+    title: "Correção Funcional",
+    weight: 30,
+    options: [
+      { label: "Não funciona / incompleto", value: 0 },
+      { label: "Funciona parcialmente, mas falha em casos básicos", value: 10 },
+      { label: "Funciona corretamente nos casos normais", value: 20 },
+      { label: "Funciona corretamente em casos normais e extremos", value: 30 },
+    ],
+  },
+  {
+    key: "quality",
+    title: "Qualidade do Código",
+    weight: 20,
+    options: [
+      { label: "Código confuso, difícil de entender", value: 0 },
+      { label: "Estrutura mínima, mas pouco clara", value: 10 },
+      { label: "Código claro, com funções bem definidas", value: 15 },
+      { label: "Código muito bem organizado, modular e limpo", value: 20 },
+    ],
+  },
+  {
+    key: "performance",
+    title: "Eficiência e Desempenho",
+    weight: 20,
+    options: [
+      { label: "Ineficiente, trava com dados médios", value: 0 },
+      { label: "Funciona, mas com gargalos de desempenho", value: 10 },
+      { label: "Eficiente em casos médios", value: 15 },
+      { label: "Eficiente até em casos grandes e extremos", value: 20 },
+    ],
+  },
+  {
+    key: "practices",
+    title: "Boas Práticas e Padrões",
+    weight: 15,
+    options: [
+      { label: "Sem padrões, tudo em main()", value: 0 },
+      { label: "Alguma separação lógica", value: 5 },
+      { label: "Uso adequado de modularização, funções e nomes claros", value: 10 },
+      { label: "Aplicação consistente de boas práticas", value: 15 },
+    ],
+  },
+  {
+    key: "robust",
+    title: "Tratamento de Erros e Robustez",
+    weight: 10,
+    options: [
+      { label: "Não trata erros", value: 0 },
+      { label: "Algum tratamento básico", value: 5 },
+      { label: "Bom tratamento de erros e entradas inesperadas", value: 10 },
+    ],
+  },
+  {
+    key: "creativity",
+    title: "Criatividade e Extensões",
+    weight: 5,
+    options: [
+      { label: "Seguiu apenas o mínimo", value: 0 },
+      { label: "Acrescentou melhorias úteis / extras", value: 5 },
+    ],
+  },
+];
+
+export default function AvaliacaoForm() {
+  const [challengeName, setChallengeName] = useState("");
+  const [candidate, setCandidate] = useState("");
+  const [date, setDate] = useState("");
+  const [notes, setNotes] = useState("");
+
+  // state for each criteria selected value
+  type CriteriaKey = typeof CRITERIA[number]["key"];
+  type Answers = Record<CriteriaKey, number | null>;
+  const initialAnswers: Answers = CRITERIA.reduce((acc, c) => {
+    acc[c.key as CriteriaKey] = null;
+    return acc;
+  }, {} as Answers);
+  const [answers, setAnswers] = useState<Answers>(initialAnswers);
+
+  function setAnswer(key: CriteriaKey, value: string | number) {
+    setAnswers((s) => ({ ...s, [key]: Number(value) }));
+  }
+
+  // compute weighted score and percentage
+  const { totalPoints, percentage, grade, remark } = useMemo(() => {
+    let obtained = 0;
+    let maxPossible = 0;
+    CRITERIA.forEach((c) => {
+      const selected = answers[c.key as CriteriaKey];
+      maxPossible += c.weight;
+      if (selected !== null && selected !== undefined) {
+        obtained += (selected / c.options[c.options.length - 1].value) * c.weight;
+      }
+    });
+
+    // guard division
+    const percent = maxPossible > 0 ? Math.round((obtained / maxPossible) * 100) : 0;
+
+    let g = "Insuficiente";
+    if (percent >= 90) g = "Excelente";
+    else if (percent >= 75) g = "Muito Bom";
+    else if (percent >= 60) g = "Bom";
+    else if (percent >= 40) g = "Regular";
+
+    let r = "";
+    if (percent >= 90) r = "Ótimo: entregue produção pronta ou quase pronta.";
+    else if (percent >= 75) r = "Muito bom: pequena otimizações faltando.";
+    else if (percent >= 60) r = "Bom: atenção a testes e alguns edge-cases.";
+    else if (percent >= 40) r = "Regular: precisa fortalecer qualidade e robustez.";
+    else r = "Insuficiente: revisar arquitetura e correção.";
+
+    return {
+      totalPoints: Math.round(obtained),
+      percentage: percent,
+      grade: g,
+      remark: r,
+    };
+  }, [answers]);
+
+  function resetForm() {
+    setChallengeName("");
+    setCandidate("");
+    setDate("");
+    setNotes("");
+    setAnswers(initialAnswers);
+  }
+
+  function exportAsJSON() {
+    const payload = {
+      challengeName,
+      candidate,
+      date,
+      notes,
+      answers,
+      totalPoints,
+      percentage,
+      grade,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${challengeName || "avaliacao"}-${candidate || "candidate"}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Navigation />
-      <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <Card>
+    <div className="max-w-4xl mx-auto p-4">
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+        <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Formulário Universal de Avaliação – Desafios de Programação</CardTitle>
-            <CardDescription>
-              Avalie qualquer desafio com critérios claros e objetivos. Pontuação máxima: 100 pontos.
-            </CardDescription>
+            <CardTitle className="text-lg">Formulário de Avaliação (Dinâmico)</CardTitle>
+            <p className="text-sm text-muted-foreground">Avalie os desafios de C/C++ com cálculo automático.</p>
           </CardHeader>
-          <CardContent className="space-y-8">
-            <section>
-              <h2 className="font-bold text-lg mb-2">1. Correção Funcional (30%)</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>O programa resolve o problema proposto?</li>
-                <li>[ ] Não funciona / incompleto (0 pts)</li>
-                <li>[ ] Funciona parcialmente, mas falha em casos básicos (10 pts)</li>
-                <li>[ ] Funciona corretamente nos casos normais (20 pts)</li>
-                <li>[ ] Funciona corretamente em casos normais <b>e extremos</b> (30 pts)</li>
-              </ul>
-            </section>
-            <section>
-              <h2 className="font-bold text-lg mb-2">2. Qualidade do Código (20%)</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>O código é legível e bem estruturado?</li>
-                <li>[ ] Código confuso, difícil de entender (0 pts)</li>
-                <li>[ ] Estrutura mínima, mas pouco clara (10 pts)</li>
-                <li>[ ] Código claro, com funções bem definidas (15 pts)</li>
-                <li>[ ] Código muito bem organizado, modular e limpo (20 pts)</li>
-              </ul>
-            </section>
-            <section>
-              <h2 className="font-bold text-lg mb-2">3. Eficiência e Desempenho (20%)</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>O programa é eficiente em uso de CPU/memória?</li>
-                <li>[ ] Ineficiente, trava com dados médios (0 pts)</li>
-                <li>[ ] Funciona, mas com gargalos de desempenho (10 pts)</li>
-                <li>[ ] Eficiente em casos médios (15 pts)</li>
-                <li>[ ] Eficiente até em casos grandes e extremos (20 pts)</li>
-              </ul>
-            </section>
-            <section>
-              <h2 className="font-bold text-lg mb-2">4. Boas Práticas e Padrões (15%)</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>O desenvolvedor aplica boas práticas?</li>
-                <li>[ ] Sem padrões, tudo em <code>main()</code> (0 pts)</li>
-                <li>[ ] Alguma separação lógica (5 pts)</li>
-                <li>[ ] Uso adequado de modularização, funções e nomes claros (10 pts)</li>
-                <li>[ ] Aplicação consistente de boas práticas (15 pts)</li>
-              </ul>
-            </section>
-            <section>
-              <h2 className="font-bold text-lg mb-2">5. Tratamento de Erros e Robustez (10%)</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>O programa lida com entradas inválidas ou imprevistos?</li>
-                <li>[ ] Não trata erros (0 pts)</li>
-                <li>[ ] Algum tratamento básico (5 pts)</li>
-                <li>[ ] Bom tratamento de erros e entradas inesperadas (10 pts)</li>
-              </ul>
-            </section>
-            <section>
-              <h2 className="font-bold text-lg mb-2">6. Criatividade e Extensões (5%)</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>O programador foi além do pedido?</li>
-                <li>[ ] Seguiu apenas o mínimo (0 pts)</li>
-                <li>[ ] Acrescentou melhorias úteis / extras (5 pts)</li>
-              </ul>
-            </section>
-            <section>
-              <h2 className="font-bold text-lg mb-2">Cálculo da Nota Final</h2>
-              <ul className="list-disc ml-6 space-y-1">
-                <li>Nota = Soma dos Pontos (máx. 100)</li>
-                <li><b>90 – 100:</b> Excelente</li>
-                <li><b>75 – 89:</b> Muito Bom</li>
-                <li><b>60 – 74:</b> Bom, mas pode melhorar</li>
-                <li><b>40 – 59:</b> Regular, precisa de ajustes</li>
-                <li><b>0 – 39:</b> Insuficiente</li>
-              </ul>
-            </section>
-            <div className="mt-8 text-center">
-              <Link href="/" passHref>
-                <Button variant="outline">Voltar para o início</Button>
-              </Link>
+          <CardContent>
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+              <div>
+                <Label className="mb-1">Nome do Desafio</Label>
+                <Input value={challengeName} onChange={(e) => setChallengeName(e.target.value)} placeholder="Ex: Servidor HTTP Minimal" />
+              </div>
+              <div>
+                <Label className="mb-1">Nome do Avaliado</Label>
+                <Input value={candidate} onChange={(e) => setCandidate(e.target.value)} placeholder="Nome completo" />
+              </div>
+              <div>
+                <Label className="mb-1">Data</Label>
+                <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              </div>
             </div>
           </CardContent>
         </Card>
-      </main>
+
+        <div className="space-y-6">
+          {CRITERIA.map((c) => (
+            <Card key={c.key}>
+              <CardHeader>
+                <CardTitle className="flex justify-between items-center">
+                  <span>{c.title}</span>
+                  <span className="text-sm text-muted-foreground">Peso: {c.weight}%</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <RadioGroup value={answers[c.key as CriteriaKey] !== null && answers[c.key as CriteriaKey] !== undefined ? String(answers[c.key as CriteriaKey]) : ""} onValueChange={(v: string) => setAnswer(c.key as CriteriaKey, v)} className="flex flex-col gap-2">
+                    {c.options.map((opt, i) => (
+                      <label key={i} className="flex items-center gap-3 p-2 rounded hover:bg-muted">
+                        <RadioGroupItem value={String(opt.value)} />
+                        <div className="flex-1">
+                          <div className="font-medium">{opt.label}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </RadioGroup>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <Separator className="my-6" />
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Resumo & Resultado</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>Notas / Observações</Label>
+                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Feedback curto para o candidato" />
+              </div>
+
+              <div>
+                <Label>Resultado</Label>
+                <div className="mt-3 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">Pontuação total (absoluta):</div>
+                    <div className="font-semibold">{totalPoints.toFixed(0)} pts</div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">Percentual:</div>
+                    <div className="font-semibold">{percentage}%</div>
+                  </div>
+
+                  <Progress value={percentage} />
+
+                  <div className="pt-2">
+                    <div className="text-sm">Classificação: <strong>{grade}</strong></div>
+                    <div className="text-xs text-muted-foreground mt-1">{remark}</div>
+                  </div>
+
+                  <div className="flex gap-2 mt-4">
+                    <Button onClick={exportAsJSON}>Exportar JSON</Button>
+                    <Button variant="outline" onClick={resetForm}>Resetar</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="mt-6 text-right text-sm text-muted-foreground">Gerado com shadcn/ui • Formulário dinâmico</div>
+      </motion.div>
     </div>
-  )
+  );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
