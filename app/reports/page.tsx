@@ -136,7 +136,18 @@ export default function ReportsPage() {
       <main className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Sistema de Relatórios</h1>
+            <div className="flex items-center gap-4 mb-2">
+              <h1 className="text-3xl font-bold text-gray-900">Sistema de Relatórios</h1>
+              <a
+                href="/evaluation-criteria"
+                className="text-sm px-3 py-1 rounded bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
+                title="Ver critérios de avaliação"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Critérios de Avaliação
+              </a>
+            </div>
             <p className="text-gray-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
           </div>
           <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700">

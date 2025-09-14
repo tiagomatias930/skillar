@@ -16,7 +16,7 @@ export default function HomePage() {
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-2xl font-bold text-gray-900">42Skillar</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Skillar</h1>
               <h4></h4>
               <p className="text-center-2xl font-italic text-gray-300"> Arena dos Campeões </p>
             </div>
@@ -136,7 +136,7 @@ export default function HomePage() {
                 src="/42skillar.png"
                 alt="skiller"
               />
-            <p className="text-lg font-semibold">42Skillar</p>
+            <p className="text-lg font-semibold">Skillar</p>
             <p className="text-center text-xl text-etalic text-gray-300">Arena dos Campeões</p>
           </div>
           <p className="text-gray-400">Plataforma de competições semanais - Mostre suas habilidades</p>

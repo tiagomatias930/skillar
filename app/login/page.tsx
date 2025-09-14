@@ -56,7 +56,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
             <img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />
-            42Skillar
+            Skillar
             <p className="text-center text-xl text-etalic text-gray-300">Arena dos Campeões</p>
           </Link>
         </div>
