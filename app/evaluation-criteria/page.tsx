@@ -145,83 +145,104 @@ export default function AvaliacaoForm() {
 
   function exportCertificate() {
     if (!candidate || !challengeName || totalPoints <= 0) return;
-    const doc = new jsPDF({ orientation: "landscape", unit: "px", format: [600, 400] });
+    const doc = new jsPDF({ orientation: "landscape", unit: "px", format: [1200, 800] });
 
-    // Background tech/cyber style
+    // Fundo escuro
     doc.setFillColor(20, 22, 34);
-    doc.rect(0, 0, 600, 400, "F");
-    doc.setFillColor(40, 44, 70);
-    doc.rect(20, 20, 560, 360, "F");
-    // Decorative lines
-    doc.setDrawColor(0, 255, 255);
-    doc.setLineWidth(2);
-    doc.line(40, 60, 560, 60);
-    doc.line(40, 340, 560, 340);
+    doc.rect(0, 0, 1200, 800, "F");
 
-    // Logo
+    // Linhas tech/cyber
+    doc.setDrawColor(0, 255, 255);
+    doc.setLineWidth(4);
+    doc.line(40, 80, 1160, 80); // topo
+    doc.line(40, 720, 1160, 720); // rodapé
+
+    // Linhas decorativas (cantos)
+    doc.setLineWidth(1.5);
+    doc.line(40, 80, 40, 720);
+    doc.line(1160, 80, 1160, 720);
+    doc.setDrawColor(80, 200, 255);
+    doc.line(40, 200, 400, 80);
+    doc.line(1160, 200, 800, 80);
+    doc.line(40, 600, 400, 720);
+    doc.line(1160, 600, 800, 720);
+
+    // Logo central translúcida
     const logoImg = new Image();
     logoImg.src = "/42skillar.png";
-    // Draw logo async
     logoImg.onload = function () {
-      doc.addImage(logoImg, "PNG", 40, 30, 60, 60);
+      doc.addImage(logoImg, "PNG", 400, 180, 400, 400, undefined, "FAST");
       drawRest();
       doc.save(`certificado-${candidate}-${challengeName}.pdf`);
     };
-    // If logo fails, fallback
     logoImg.onerror = function () {
       drawRest();
       doc.save(`certificado-${candidate}-${challengeName}.pdf`);
     };
 
     function drawRest() {
-      // App name
+      // Logo e nome no topo
+      doc.addImage(logoImg, "PNG", 80, 30, 100, 100, undefined, "FAST");
       doc.setTextColor(0, 255, 255);
-      doc.setFontSize(28);
+      doc.setFontSize(48);
       doc.setFont("helvetica", "bold");
-      doc.text("42Skillar", 120, 70);
+      doc.text("42Skillar", 210, 100);
 
-      // Certificado title
+      // Título
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(32);
+      doc.setFontSize(60);
       doc.setFont("helvetica", "bold");
-      doc.text("Certificado de Desempenho", 300, 120, { align: "center" });
+      doc.text("Certificado de Desempenho", 600, 200, { align: "center" });
 
-      // Nome do avaliado
-      doc.setFontSize(20);
+      // Certificamos que
+      doc.setFontSize(32);
       doc.setFont("helvetica", "normal");
-      doc.text(`Certificamos que`, 300, 170, { align: "center" });
-      doc.setFontSize(26);
+      doc.setTextColor(255, 255, 255);
+      doc.text("Certificamos que", 600, 290, { align: "center" });
+
+      // Nome do aluno
+      doc.setFontSize(48);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(0, 255, 255);
-      doc.text(candidate, 300, 200, { align: "center" });
+      doc.text(candidate, 600, 350, { align: "center" });
 
-      // Desafio
+      // obteve destaque no desafio
+      doc.setFontSize(32);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(255, 255, 255);
+      doc.text("obteve destaque no desafio", 600, 400, { align: "center" });
+
+      // Nome do desafio
+      doc.setFontSize(40);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 255, 255);
+      doc.text(challengeName, 600, 460, { align: "center" });
+
+      // Caixa de pontuação
+      doc.setDrawColor(0, 255, 255);
+      doc.setLineWidth(3);
+      doc.roundedRect(450, 500, 300, 100, 12, 12);
+      doc.setFontSize(32);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(255, 255, 255);
+      doc.text("Pontuação final:", 600, 540, { align: "center" });
+      doc.setFontSize(48);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(0, 255, 255);
+      doc.text(`${totalPoints} pts`, 600, 590, { align: "center" });
+
+      // Data e ícone
       doc.setFontSize(18);
       doc.setFont("helvetica", "normal");
-      doc.setTextColor(255, 255, 255);
-      doc.text(`obteve destaque no desafio`, 300, 230, { align: "center" });
-      doc.setFontSize(22);
-      doc.setFont("helvetica", "bold");
-      doc.setTextColor(0, 255, 255);
-      doc.text(challengeName, 300, 260, { align: "center" });
-
-      // Pontuação
-      doc.setFontSize(18);
-      doc.setFont("helvetica", "normal");
-      doc.setTextColor(255, 255, 255);
-      doc.text(`Pontuação final:`, 300, 295, { align: "center" });
-      doc.setFontSize(32);
-      doc.setFont("helvetica", "bold");
-      doc.setTextColor(0, 255, 255);
-      doc.text(`${totalPoints} pts`, 300, 325, { align: "center" });
-
-      // Data
-      if (date) {
-        doc.setFontSize(12);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(180, 200, 255);
-        doc.text(`Data: ${date.split("-").reverse().join("/")}`, 540, 380, { align: "right" });
-      }
+      doc.setTextColor(200, 220, 255);
+      const dataFormatada = date ? date.split("-").reverse().join("/") : "";
+      doc.text(`Data: ${dataFormatada}`, 1050, 760, { align: "right" });
+      // Pequeno ícone relógio (desenho simples)
+      doc.setDrawColor(0, 255, 255);
+      doc.setLineWidth(2);
+      doc.circle(1080, 755, 12);
+      doc.line(1080, 755, 1080, 748);
+      doc.line(1080, 755, 1087, 755);
     }
   }
 
