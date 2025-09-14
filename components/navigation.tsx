@@ -27,7 +27,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-2">
             <Trophy className="h-8 w-8 text-blue-600" />
             <h1 className="text-2xl font-bold text-gray-900">42Skillar</h1>
-            <p className="text-center text-xl text-etalic">Arena dos Campeões</p>
+            <p className="text-center text-xl text-etalic text-gray-300">Arena dos Campeões</p>
           </Link>
 
           <nav className="flex items-center gap-4">
