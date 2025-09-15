@@ -186,7 +186,7 @@ export default function AvaliacaoForm() {
       doc.setTextColor(0, 255, 255);
       doc.setFontSize(48);
       doc.setFont("helvetica", "bold");
-      doc.text("Skillar", 210, 100, {align: "left"});
+      doc.text("Skillar", 330, 200, {align: "left"});
 
       // Título
       doc.setTextColor(255, 255, 255);

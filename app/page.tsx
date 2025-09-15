@@ -16,9 +16,9 @@ export default function HomePage() {
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-2xl font-bold text-gray-900">Skillar</h1>
+              <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
               <h4></h4>
-              <p className="text-center text-sm-5 font-italic text-gray-300"> Arena dos Campeões </p>
+              <p className="text-center text-sm font-italic text-gray-300"> Arena dos Campeões </p>
             </div>
             <nav className="flex items-center gap-4">
               <Link href="/competitions">
