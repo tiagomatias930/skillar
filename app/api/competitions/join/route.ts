@@ -13,18 +13,18 @@ export async function POST(request: NextRequest) {
     }
 
     console.log("[v0] Calling joinCompetition function")
-    const success = await joinCompetition(competitionId, username)
-    console.log("[v0] joinCompetition result:", success)
+    const { success, supabaseError } = await joinCompetition(competitionId, username)
+    console.log("[v0] joinCompetition result:", success, supabaseError)
 
     if (!success) {
       console.log("[v0] joinCompetition returned false")
-      return NextResponse.json({ error: "Erro ao participar da competição" }, { status: 500 })
+      return NextResponse.json({ error: supabaseError || "Erro ao participar da competição" }, { status: 500 })
     }
 
     console.log("[v0] Successfully joined competition")
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("[v0] Join competition API error:", error)
-    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+    return NextResponse.json({ error: String(error) }, { status: 500 })
   }
 }

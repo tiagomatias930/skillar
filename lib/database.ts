@@ -142,7 +142,7 @@ export async function createCompetition(
 }
 
 // Participant functions
-export async function joinCompetition(competitionId: string, username: string): Promise<boolean> {
+export async function joinCompetition(competitionId: string, username: string): Promise<{ success: boolean, supabaseError?: string }> {
   console.log("[v0] Attempting to join competition:", { competitionId, username })
 
   const supabase = await createClient()
@@ -150,7 +150,7 @@ export async function joinCompetition(competitionId: string, username: string): 
   const user = await getUserByUsername(username)
   if (!user) {
     console.log("[v0] User not found:", username)
-    return false
+    return { success: false, supabaseError: "Usuário não encontrado" }
   }
 
   console.log("[v0] User found:", user)
@@ -165,11 +165,11 @@ export async function joinCompetition(competitionId: string, username: string): 
 
   if (error) {
     console.error("[v0] Error joining competition:", error)
-    return false
+    return { success: false, supabaseError: error.message }
   }
 
   console.log("[v0] Successfully joined competition:", data)
-  return true
+  return { success: true }
 }
 
 export async function getCompetitionRanking(competitionId: string): Promise<Participant[]> {
