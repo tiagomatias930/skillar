@@ -19,6 +19,7 @@ export interface Competition {
   duration_type?: "dias" | "horas"
   duration_value?: number
   duration_minutes?: number
+  custom_end_date?: string
   creator?: User
 }
 
@@ -88,10 +89,7 @@ export async function getActiveCompetitions(): Promise<Competition[]> {
 
   const { data, error } = await supabase
     .from("competitions")
-    .select(`
-      *,
-      creator:users!competitions_creator_id_fkey(*)
-    `)
+    .select("*, creator:users!competitions_creator_id_fkey(*)")
     .eq("is_active", true)
     .order("created_at", { ascending: false })
 
@@ -111,6 +109,7 @@ export async function createCompetition(
   durationType?: "dias" | "horas",
   durationValue?: number,
   durationMinutes?: number,
+  customEndDate?: Date,
 ): Promise<Competition | null> {
   const supabase = await createClient()
 
@@ -129,12 +128,10 @@ export async function createCompetition(
       duration_type: durationType,
       duration_value: durationValue,
       duration_minutes: durationMinutes,
-    })
-    .select(`
-      *,
-      creator:users!competitions_creator_id_fkey(*)
-    `)
-    .single()
+      custom_end_date: customEndDate ? customEndDate.toISOString() : null,
+     })
+     .select("*, creator:users!competitions_creator_id_fkey(*)")
+     .single()
 
   if (error) {
     console.error("Error creating competition:", error)
@@ -179,13 +176,9 @@ export async function getCompetitionRanking(competitionId: string): Promise<Part
   console.log("[v0] getCompetitionRanking called with competitionId:", competitionId)
 
   const supabase = await createClient()
-
   const { data, error } = await supabase
     .from("participants")
-    .select(`
-      *,
-      user:users!participants_user_id_fkey(*)
-    `)
+    .select("*, user:users!participants_user_id_fkey(*)")
     .eq("competition_id", competitionId)
     .order("points", { ascending: false })
 
@@ -197,16 +190,14 @@ export async function getCompetitionRanking(competitionId: string): Promise<Part
   console.log("[v0] Raw ranking data:", data)
   console.log("[v0] Number of participants found:", data?.length || 0)
 
-  if (data) {
-    data.forEach((participant, index) => {
-      console.log(`[v0] Participant ${index + 1}:`, {
-        id: participant.id,
-        username: participant.user?.username,
-        points: participant.points,
-        pointsType: typeof participant.points,
-      })
+  data?.forEach((participant, index) => {
+    console.log(`[v0] Participant ${index + 1}:`, {
+      id: participant.id,
+      username: participant.user?.username,
+      points: participant.points,
+      pointsType: typeof participant.points,
     })
-  }
+  })
 
   return data || []
 }
@@ -224,10 +215,7 @@ export async function updateParticipantPoints(
 
   const { data: existingParticipant, error: checkError } = await supabase
     .from("participants")
-    .select(`
-      *,
-      competition:competitions!participants_competition_id_fkey(*)
-    `)
+    .select("*, competition:competitions!participants_competition_id_fkey(*)")
     .eq("id", participantId)
     .single()
 
@@ -324,11 +312,7 @@ export async function getReports(): Promise<Report[]> {
 
   const { data, error } = await supabase
     .from("reports")
-    .select(`
-      *,
-      reported_user:users!reports_reported_user_id_fkey(*),
-      reporter_user:users!reports_reporter_user_id_fkey(*)
-    `)
+    .select("*, reported_user:users!reports_reported_user_id_fkey(*), reporter_user:users!reports_reporter_user_id_fkey(*)")
     .order("created_at", { ascending: false })
 
   if (error) {
@@ -345,11 +329,7 @@ export async function getCompetitionHistory(): Promise<CompetitionHistory[]> {
 
   const { data, error } = await supabase
     .from("competition_history")
-    .select(`
-      *,
-      winner:users!competition_history_winner_id_fkey(*),
-      competition:competitions!competition_history_competition_id_fkey(*)
-    `)
+    .select("*, winner:users!competition_history_winner_id_fkey(*), competition:competitions!competition_history_competition_id_fkey(*)")
     .order("ended_at", { ascending: false })
 
   if (error) {
@@ -391,10 +371,7 @@ export async function getBlacklist(): Promise<any[]> {
 
   const { data, error } = await supabase
     .from("blacklist")
-    .select(`
-      *,
-      user:users!blacklist_user_id_fkey(*)
-    `)
+    .select("*, user:users!blacklist_user_id_fkey(*)")
     .order("blacklisted_at", { ascending: false })
 
   if (error) {

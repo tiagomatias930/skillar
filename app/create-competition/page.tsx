@@ -17,6 +17,7 @@ export default function CreateCompetitionPage() {
   const [durationType, setDurationType] = useState<"dias" | "horas">("dias")
   const [durationValue, setDurationValue] = useState(7)
   const [durationMinutes, setDurationMinutes] = useState(0)
+  const [customEndDate, setCustomEndDate] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -49,6 +50,7 @@ export default function CreateCompetitionPage() {
           durationType,
           durationValue,
           durationMinutes,
+          customEndDate: customEndDate || undefined,
         }),
       })
 
@@ -141,6 +143,18 @@ export default function CreateCompetitionPage() {
                     <span>minutos</span>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">Escolha se a duração será em dias, horas e minutos.</p>
+                </div>
+
+                <div>
+                  <Label htmlFor="customEndDate">Data e hora de término (opcional)</Label>
+                  <Input
+                    id="customEndDate"
+                    type="datetime-local"
+                    value={customEndDate}
+                    onChange={e => setCustomEndDate(e.target.value)}
+                    className="w-64"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Se preenchido, esta data terá prioridade sobre a duração.</p>
                 </div>
 
                 {error && <p className="text-sm text-red-500">{error}</p>}
