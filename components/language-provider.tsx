@@ -1,9 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { useTheme } from "@/components/use-theme"
 import { I18nContext, Language } from "@/lib/i18n"
 
+type LanguageProviderProps = {
+  children: ReactNode
+}
+
+export default function LanguageProvider({ children }: LanguageProviderProps) {
   const [lang, setLang] = useState<Language>("pt")
   const { theme, setTheme } = useTheme()
   return (

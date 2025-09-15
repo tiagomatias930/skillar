@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense, useState } from "react"
-import { LanguageProvider } from "@/components/language-provider"
+import LanguageProvider from "@/components/language-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
