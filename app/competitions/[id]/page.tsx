@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useI18n } from "@/lib/i18n"
 import { Trophy, Crown, Medal, Award, Users, Calendar, Edit, Clock } from "lucide-react"
 import { CountdownTimer } from "@/components/countdown-timer"
 // ...existing code...
@@ -89,6 +90,12 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
     }
   }
 
+  // i18n
+  const { lang } = useI18n()
+  const t = (key: string) => {
+    const dict = require("@/lib/i18n").translations[lang] || {}
+    return dict[key] || key
+  }
   // Verifica se a competição está encerrada (tempo esgotado)
   const now = new Date()
   const endDate = new Date(competition.custom_end_date || competition.end_date)
@@ -108,16 +115,16 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
               <div className="flex items-center gap-4 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4" />
-                  <span>Criado por {competition.creator?.username}</span>
+                  <span>{t("created_by")} {competition.creator?.username}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <span>Termina em {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
+                  <span>{t("ends_at")} {new Date(competition.custom_end_date || competition.end_date).toLocaleString(lang === "pt" ? "pt-BR" : "en-US", { dateStyle: "short", timeStyle: "short" })}</span>
                 </div>
                 <CountdownTimer endDate={competition.custom_end_date || competition.end_date} />
                 {competition.duration_type && competition.duration_value && (
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-blue-700">Duração:</span>
+                    <span className="font-semibold text-blue-700">{t("duration")}:</span>
                     <span>{competition.duration_value} {competition.duration_type}</span>
                   </div>
                 )}
@@ -125,7 +132,7 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
             </div>
             <div className="flex gap-2">
               <Badge variant={competition.is_active ? "default" : "secondary"}>
-                {competition.is_active ? "Ativa" : "Encerrada"}
+                {competition.is_active ? t("active") : t("closed")}
               </Badge>
             </div>
           </div>
@@ -135,7 +142,7 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
             <Link href={`/competitions/${competition.id}/manage`}>
               <Button variant="outline">
                 <Edit className="h-4 w-4 mr-2" />
-                Gerenciar
+                {t("manage")}
               </Button>
             </Link>
           </div>
@@ -148,12 +155,12 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <Trophy className="h-5 w-5 text-blue-600" />
-                  Ranking em Tempo Real
+                  {t("ranking")}
                 </CardTitle>
                 <CardDescription>
                   {participants.length === 0
-                    ? "Nenhum participante ainda"
-                    : `${participants.length} participante${participants.length > 1 ? "s" : ""} na competição`}
+                    ? t("no_participants")
+                    : `${participants.length} ${lang === "pt" ? (participants.length > 1 ? "participantes" : "participante") : (participants.length > 1 ? "participants" : "participant")}`}
                 </CardDescription>
               </div>
               <RefreshButton />
@@ -195,7 +202,7 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
                       </div>
                       <div className="text-right">
                         <div className="text-2xl font-bold text-blue-600">{participant.points || 0}</div>
-                        <div className="text-sm text-gray-600">pontos</div>
+                        <div className="text-sm text-gray-600">{t("points")}</div>
                       </div>
                     </div>
                   )

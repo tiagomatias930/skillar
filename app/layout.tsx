@@ -3,7 +3,8 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
+import { I18nContext, Language } from "@/lib/i18n"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -26,22 +27,33 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <html lang="pt-BR">
-      <head>
-        <style>{`
-          #v0-built-with-button-5410611f-1f24-4da0-88e0-05df78040d97 {
-            display: none;
-          }
-          [id^="v0-built-with-button-"] {
-            display: none;
-          }
-        `}</style>
-      </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        <Analytics />
-      </body>
-    </html>
-  )
+    const [lang, setLang] = useState<Language>("pt")
+    return (
+      <html lang={lang}>
+        <head>
+          <style>{`
+            #v0-built-with-button-5410611f-1f24-4da0-88e0-05df78040d97 {
+              display: none;
+            }
+            [id^="v0-built-with-button-"] {
+              display: none;
+            }
+          `}</style>
+        </head>
+        <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+          <I18nContext.Provider value={{ lang, setLang }}>
+            <header className="w-full flex justify-end p-2">
+              <button
+                className="px-2 py-1 rounded border text-xs mr-2"
+                onClick={() => setLang(lang === "pt" ? "en" : "pt")}
+              >
+                {lang === "pt" ? "EN" : "PT"}
+              </button>
+            </header>
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          <Analytics />
+          </I18nContext.Provider>
+        </body>
+      </html>
+    )
 }
