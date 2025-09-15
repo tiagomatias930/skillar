@@ -50,7 +50,7 @@ export default function CreateCompetitionPage() {
           durationType,
           durationValue,
           durationMinutes,
-          customEndDate: customEndDate || undefined,
+          customEndDate: customEndDate ? new Date(customEndDate).toISOString() : undefined,
         }),
       })
 
