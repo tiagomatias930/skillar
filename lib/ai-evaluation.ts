@@ -22,7 +22,7 @@ export type EvaluationError = {
   error: string;
 };
 
-const BASE_URL = "http://127.0.0.1:5000/api";
+const BASE_URL = "https://42skillar-aval.vercel.app/api";
 
 export async function evaluateProjectGET(params: EvaluationRequest): Promise<EvaluationResponse | EvaluationError> {
   const query = new URLSearchParams(params as any).toString();
