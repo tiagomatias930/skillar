@@ -1,9 +1,15 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Users, Target, Award } from "lucide-react"
+import { useI18n } from "@/lib/i18n"
 import Link from "next/link"
 
 export default function HomePage() {
+  const { lang } = useI18n()
+  const t = (key: string) => {
+    const dict = require("@/lib/i18n").translations[lang] || {}
+    return dict[key] || key
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
@@ -18,20 +24,20 @@ export default function HomePage() {
               />
               <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
               <h4></h4>
-              <p className="text-center text-sm font-italic text-gray-300"> Arena dos Campeões </p>
+              <p className="text-center text-sm font-italic text-gray-300">{lang === "pt" ? "Arena dos Campeões" : "Champions Arena"}</p>
             </div>
             <nav className="flex items-center gap-4">
               <Link href="/competitions">
-                <Button variant="ghost">Competições</Button>
+                <Button variant="ghost">{lang === "pt" ? "Competições" : "Competitions"}</Button>
               </Link>
               <Link href="/ranking">
-                <Button variant="ghost">Ranking</Button>
+                <Button variant="ghost">{lang === "pt" ? "Ranking" : "Ranking"}</Button>
               </Link>
               <Link href="/history">
-                <Button variant="ghost">Histórico</Button>
+                <Button variant="ghost">{lang === "pt" ? "Histórico" : "History"}</Button>
               </Link>
               <Link href="/login">
-                <Button>Entrar</Button>
+                <Button>{lang === "pt" ? "Entrar" : "Login"}</Button>
               </Link>
             </nav>
           </div>
@@ -42,19 +48,25 @@ export default function HomePage() {
       <section className="py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-5xl font-bold text-gray-900 mb-6 text-balance">Compete, Evolua e Conquiste</h2>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6 text-balance">
+              {lang === "pt"
+                ? "Compete, Evolua e Conquiste"
+                : "Compete, Evolve and Conquer"}
+            </h2>
             <p className="text-xl text-gray-600 mb-8 text-pretty">
-              Participe de competições semanais, desafie outros usuários e prove suas habilidades no 42Skillar.
+              {lang === "pt"
+                ? "Participe de competições semanais, desafie outros usuários e prove suas habilidades no 42Skillar."
+                : "Join weekly competitions, challenge other users and prove your skills at 42Skillar."}
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/competitions">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                  Ver Competições
+                  {lang === "pt" ? "Ver Competições" : "See Competitions"}
                 </Button>
               </Link>
               <Link href="/create-competition">
                 <Button size="lg" variant="outline">
-                  Criar Competição
+                  {lang === "pt" ? "Criar Competição" : "Create Competition"}
                 </Button>
               </Link>
             </div>
@@ -65,17 +77,22 @@ export default function HomePage() {
       {/* Features */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">Como Funciona</h3>
+          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            {lang === "pt" ? "Como Funciona" : "How It Works"}
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <Card className="text-center p-6 hover:shadow-lg transition-shadow">
               <CardHeader className="pb-4">
                 <Target className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold">Crie ou Participe</CardTitle>
+                <CardTitle className="text-xl font-semibold">
+                  {lang === "pt" ? "Crie ou Participe" : "Create or Join"}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-600 leading-relaxed">
-                  Qualquer usuário pode criar uma competição ou participar das existentes. Basta escolher um username
-                  único.
+                  {lang === "pt"
+                    ? "Qualquer usuário pode criar uma competição ou participar das existentes. Basta escolher um username único."
+                    : "Any user can create a competition or join existing ones. Just choose a unique username."}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -83,11 +100,15 @@ export default function HomePage() {
             <Card className="text-center p-6 hover:shadow-lg transition-shadow">
               <CardHeader className="pb-4">
                 <Users className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold">Compete e Pontue</CardTitle>
+                <CardTitle className="text-xl font-semibold">
+                  {lang === "pt" ? "Compete e Pontue" : "Compete and Score"}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-600 leading-relaxed">
-                  O criador da competição atribui pontos aos participantes. Acompanhe o ranking em tempo real.
+                  {lang === "pt"
+                    ? "O criador da competição atribui pontos aos participantes. Acompanhe o ranking em tempo real."
+                    : "The competition creator assigns points to participants. Track the live ranking."}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -95,12 +116,15 @@ export default function HomePage() {
             <Card className="text-center p-6 hover:shadow-lg transition-shadow">
               <CardHeader className="pb-4">
                 <Award className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold">Conquiste Posições</CardTitle>
+                <CardTitle className="text-xl font-semibold">
+                  {lang === "pt" ? "Conquiste Posições" : "Achieve Positions"}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-600 leading-relaxed">
-                  Torne-se Presidente (1º lugar), Vice-presidente (2º lugar) ou Diretor (3º lugar) e entre para o
-                  histórico.
+                  {lang === "pt"
+                    ? "Torne-se Presidente (1º lugar), Vice-presidente (2º lugar) ou Diretor (3º lugar) e entre para o histórico."
+                    : "Become President (1st place), Vice-president (2nd place) or Director (3rd place) and enter the history."}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -117,11 +141,17 @@ export default function HomePage() {
         }}
       >
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-3xl font-bold mb-4 text-white">Pronto para Começar?</h3>
-          <p className="text-xl mb-8 text-white">Entre no 42Skillar agora e mostre suas habilidades!</p>
+          <h3 className="text-3xl font-bold mb-4 text-white">
+            {lang === "pt" ? "Pronto para Começar?" : "Ready to Start?"}
+          </h3>
+          <p className="text-xl mb-8 text-white">
+            {lang === "pt"
+              ? "Entre no 42Skillar agora e mostre suas habilidades!"
+              : "Join 42Skillar now and show your skills!"}
+          </p>
           <Link href="/login">
             <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
-              Começar Agora
+              {lang === "pt" ? "Começar Agora" : "Start Now"}
             </Button>
           </Link>
         </div>
@@ -137,10 +167,18 @@ export default function HomePage() {
                 alt="skiller"
               />
             <p className="text-lg font-semibold">Skillar</p>
-            <p className="text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
+            <p className="text-center text-sm text-italic text-gray-300">{lang === "pt" ? "Arena dos Campeões" : "Champions Arena"}</p>
           </div>
-          <p className="text-gray-400">Plataforma de competições semanais - Mostre suas habilidades</p>
-          <p className="text-gray-500 text-sm mt-4">&copy; 2025 42Skillar lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc & Nádia Cristovão</p>
+          <p className="text-gray-400">
+            {lang === "pt"
+              ? "Plataforma de competições semanais - Mostre suas habilidades"
+              : "Weekly competitions platform - Show your skills"}
+          </p>
+          <p className="text-gray-500 text-sm mt-4">
+            &copy; 2025 42Skillar lda. {lang === "pt"
+              ? "Todos os direitos reservados a: Tiago Matias, Liédson Habacuc & Nádia Cristovão"
+              : "All rights reserved to: Tiago Matias, Liédson Habacuc & Nádia Cristovão"}
+          </p>
           
         </div>
       </footer>
