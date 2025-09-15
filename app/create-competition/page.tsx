@@ -14,6 +14,8 @@ import { Navigation } from "@/components/navigation"
 export default function CreateCompetitionPage() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const [durationType, setDurationType] = useState<"dias" | "horas">("dias")
+  const [durationValue, setDurationValue] = useState(7)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -43,6 +45,8 @@ export default function CreateCompetitionPage() {
           title: title.trim(),
           description: description.trim(),
           creatorUsername: username,
+          durationType,
+          durationValue,
         }),
       })
 
@@ -101,6 +105,31 @@ export default function CreateCompetitionPage() {
                     required
                     rows={4}
                   />
+                </div>
+
+
+                <div>
+                  <Label>Duração do Desafio</Label>
+                  <div className="flex items-center gap-4 mt-2">
+                    <select
+                      className="border rounded px-2 py-1"
+                      value={durationType}
+                      onChange={e => setDurationType(e.target.value as "dias" | "horas")}
+                    >
+                      <option value="dias">Dias</option>
+                      <option value="horas">Horas</option>
+                    </select>
+                    <Input
+                      type="number"
+                      min={1}
+                      max={durationType === "dias" ? 30 : 168}
+                      value={durationValue}
+                      onChange={e => setDurationValue(Number(e.target.value))}
+                      className="w-24"
+                    />
+                    <span>{durationType === "dias" ? "dias" : "horas"}</span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Escolha se a duração será em dias ou horas.</p>
                 </div>
 
                 {error && <p className="text-sm text-red-500">{error}</p>}

@@ -16,6 +16,8 @@ export interface Competition {
   end_date: string
   is_active: boolean
   created_at: string
+  duration_type?: "dias" | "horas"
+  duration_value?: number
   creator?: User
 }
 
@@ -105,6 +107,8 @@ export async function createCompetition(
   title: string,
   description: string,
   creatorUsername: string,
+  durationType?: "dias" | "horas",
+  durationValue?: number,
 ): Promise<Competition | null> {
   const supabase = await createClient()
 
@@ -120,6 +124,8 @@ export async function createCompetition(
       title,
       description,
       creator_id: creator.id,
+      duration_type: durationType,
+      duration_value: durationValue,
     })
     .select(`
       *,
