@@ -13,71 +13,72 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import AiEvaluationForm from "@/components/ai-evaluation-form";
 
 const CRITERIA = [
-  {
-    key: "functional",
-    title: "Correção Funcional",
-    weight: 30,
-    options: [
-      { label: "Não funciona / incompleto", value: 0 },
-      { label: "Funciona parcialmente, mas falha em casos básicos", value: 10 },
-      { label: "Funciona corretamente nos casos normais", value: 20 },
-      { label: "Funciona corretamente em casos normais e extremos", value: 30 },
-    ],
-  },
-  {
-    key: "quality",
-    title: "Qualidade do Código",
-    weight: 20,
-    options: [
-      { label: "Código confuso, difícil de entender", value: 0 },
-      { label: "Estrutura mínima, mas pouco clara", value: 10 },
-      { label: "Código claro, com funções bem definidas", value: 15 },
-      { label: "Código muito bem organizado, modular e limpo", value: 20 },
-    ],
-  },
-  {
-    key: "performance",
-    title: "Eficiência e Desempenho",
-    weight: 20,
-    options: [
-      { label: "Ineficiente, trava com dados médios", value: 0 },
-      { label: "Funciona, mas com gargalos de desempenho", value: 10 },
-      { label: "Eficiente em casos médios", value: 15 },
-      { label: "Eficiente até em casos grandes e extremos", value: 20 },
-    ],
-  },
-  {
-    key: "practices",
-    title: "Boas Práticas e Padrões",
-    weight: 15,
-    options: [
-      { label: "Sem padrões, tudo em main()", value: 0 },
-      { label: "Alguma separação lógica", value: 5 },
-      { label: "Uso adequado de modularização, funções e nomes claros", value: 10 },
-      { label: "Aplicação consistente de boas práticas", value: 15 },
-    ],
-  },
-  {
-    key: "robust",
-    title: "Tratamento de Erros e Robustez",
-    weight: 10,
-    options: [
-      { label: "Não trata erros", value: 0 },
-      { label: "Algum tratamento básico", value: 5 },
-      { label: "Bom tratamento de erros e entradas inesperadas", value: 10 },
-    ],
-  },
-  {
-    key: "creativity",
-    title: "Criatividade e Extensões",
-    weight: 5,
-    options: [
-      { label: "Seguiu apenas o mínimo", value: 0 },
-      { label: "Acrescentou melhorias úteis / extras", value: 5 },
-    ],
-  },
+	{
+		key: "functional",
+		title: "Correção Funcional",
+		weight: 30,
+		options: [
+			{ label: "Não funciona / incompleto", value: 0 },
+			{ label: "Funciona parcialmente, mas falha em casos básicos", value: 10 },
+			{ label: "Funciona corretamente nos casos normais", value: 20 },
+			{ label: "Funciona corretamente em casos normais e extremos", value: 30 },
+		],
+	},
+	{
+		key: "quality",
+		title: "Qualidade do Código",
+		weight: 20,
+		options: [
+			{ label: "Código confuso, difícil de entender", value: 0 },
+			{ label: "Estrutura mínima, mas pouco clara", value: 10 },
+			{ label: "Código claro, com funções bem definidas", value: 15 },
+			{ label: "Código muito bem organizado, modular e limpo", value: 20 },
+		],
+	},
+	{
+		key: "performance",
+		title: "Eficiência e Desempenho",
+		weight: 20,
+		options: [
+			{ label: "Ineficiente, trava com dados médios", value: 0 },
+			{ label: "Funciona, mas com gargalos de desempenho", value: 10 },
+			{ label: "Eficiente em casos médios", value: 15 },
+			{ label: "Eficiente até em casos grandes e extremos", value: 20 },
+		],
+	},
+	{
+		key: "practices",
+		title: "Boas Práticas e Padrões",
+		weight: 15,
+		options: [
+			{ label: "Sem padrões, tudo em main()", value: 0 },
+			{ label: "Alguma separação lógica", value: 5 },
+			{ label: "Uso adequado de modularização e funções", value: 10 },
+			{ label: "Código limpo, modular e reutilizável", value: 15 },
+		],
+	},
+	{
+		key: "robust",
+		title: "Tratamento de Erros e Robustez",
+		weight: 10,
+		options: [
+			{ label: "Não trata erros", value: 0 },
+			{ label: "Algum tratamento básico", value: 5 },
+			{ label: "Bom tratamento de erros e entradas inesperadas", value: 10 },
+		],
+	},
+	{
+		key: "creativity",
+		title: "Criatividade e Extensões",
+		weight: 5,
+		options: [
+			{ label: "Seguiu apenas o mínimo", value: 0 },
+			{ label: "Acrescentou melhorias úteis / extras", value: 5 },
+		],
+	},
 ];
 
 export default function AvaliacaoForm() {
@@ -271,6 +272,8 @@ export default function AvaliacaoForm() {
             </div>
           </CardContent>
         </Card>
+
+        <AiEvaluationForm />
 
         <div className="space-y-6">
           {CRITERIA.map((c) => (
