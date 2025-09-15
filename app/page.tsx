@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Users, Target, Award } from "lucide-react"
-import { useI18n } from "@/lib/i18n"
+import { useI18n } from "@/components/i18n-context"
 import Link from "next/link"
 
 export default function HomePage() {

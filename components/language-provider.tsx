@@ -2,7 +2,8 @@
 
 import { ReactNode, useState } from "react"
 import { useTheme } from "@/components/use-theme"
-import { I18nContext, Language } from "@/lib/i18n"
+import { Language } from "@/lib/i18n"
+import { I18nContext } from "@/components/i18n-context"
 
 type LanguageProviderProps = {
   children: ReactNode
