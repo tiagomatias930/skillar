@@ -27,7 +27,7 @@ export function CountdownTimer({ endDate }: { endDate: string }) {
   }, [endDate])
 
   return (
-    <div className="flex items-center gap-2 text-blue-700 font-semibold">
+    <div className="flex items-center gap-2 text-red-700 font-semibold">
       <Clock className="h-4 w-4" />
       <span>Tempo restante: {timeLeft}</span>
     </div>
