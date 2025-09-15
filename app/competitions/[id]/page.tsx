@@ -89,6 +89,11 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
     }
   }
 
+  // Verifica se a competição está encerrada (tempo esgotado)
+  const now = new Date()
+  const endDate = new Date(competition.custom_end_date || competition.end_date)
+  const isOver = now > endDate
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navigation />
@@ -126,7 +131,7 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
           </div>
 
           <div className="flex gap-4">
-            <JoinCompetitionButton competitionId={competition.id} />
+            <JoinCompetitionButton competitionId={competition.id} disabled={isOver} />
             <Link href={`/competitions/${competition.id}/manage`}>
               <Button variant="outline">
                 <Edit className="h-4 w-4 mr-2" />

@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/toast"
 
+
 interface JoinCompetitionButtonProps {
-  competitionId: string
+  competitionId: string;
+  disabled?: boolean;
 }
 
-export function JoinCompetitionButton({ competitionId }: JoinCompetitionButtonProps) {
+export function JoinCompetitionButton({ competitionId, disabled = false }: JoinCompetitionButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { showToast, ToastContainer } = useToast()
@@ -61,7 +63,7 @@ export function JoinCompetitionButton({ competitionId }: JoinCompetitionButtonPr
   return (
     <>
       <ToastContainer />
-      <Button onClick={handleJoin} disabled={isLoading} className="bg-green-600 hover:bg-green-700">
+      <Button onClick={handleJoin} disabled={isLoading || disabled} className="bg-green-600 hover:bg-green-700">
         {isLoading ? "Participando..." : "Participar"}
       </Button>
     </>
