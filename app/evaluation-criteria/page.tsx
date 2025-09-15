@@ -252,7 +252,7 @@ export default function AvaliacaoForm() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="text-lg">Formulário de Avaliação (Dinâmico)</CardTitle>
-            <p className="text-sm text-muted-foreground">Avalie os desafios de C/C++ com cálculo automático.</p>
+            <p className="text-sm text-muted-foreground">Avalie os desafios com cálculo automático.</p>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
@@ -344,7 +344,7 @@ export default function AvaliacaoForm() {
 
                       <div className="flex gap-2 mt-4">
                         <Button onClick={exportCertificate} disabled={!candidate || !challengeName || totalPoints <= 0}>
-                          Exportar Certificado PDF
+                          Baixar Certificado PDF
                         </Button>
                         <Button variant="outline" onClick={resetForm}>Resetar</Button>
                       </div>
