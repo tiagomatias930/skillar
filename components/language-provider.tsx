@@ -19,7 +19,7 @@ import { I18nContext, Language } from "@/lib/i18n"
           className="px-2 py-1 rounded border text-xs"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
         >
-          {theme === "light" ? "🌙" : "☀️"}
+          {theme === "light" ? "escuro" : "claro"}
         </button>
       </header>
       {children}
