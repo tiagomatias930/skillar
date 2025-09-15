@@ -3,7 +3,7 @@ import { createCompetition } from "@/lib/database"
 
 export async function POST(request: NextRequest) {
   try {
-    const { title, description, creatorUsername, durationType, durationValue } = await request.json()
+    const { title, description, creatorUsername, durationType, durationValue, durationMinutes } = await request.json()
 
     if (!title || !description || !creatorUsername || !durationType || !durationValue) {
       return NextResponse.json({ error: "Todos os campos são obrigatórios" }, { status: 400 })
@@ -14,8 +14,11 @@ export async function POST(request: NextRequest) {
     if (typeof durationValue !== "number" || durationValue < 1) {
       return NextResponse.json({ error: "Valor de duração inválido" }, { status: 400 })
     }
+    if (typeof durationMinutes !== "number" || durationMinutes < 0 || durationMinutes > 59) {
+      return NextResponse.json({ error: "Minutos inválidos" }, { status: 400 })
+    }
 
-    const competition = await createCompetition(title, description, creatorUsername, durationType, durationValue)
+    const competition = await createCompetition(title, description, creatorUsername, durationType, durationValue, durationMinutes)
 
     if (!competition) {
       return NextResponse.json({ error: "Erro ao criar competição" }, { status: 500 })

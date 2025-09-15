@@ -16,6 +16,7 @@ export default function CreateCompetitionPage() {
   const [description, setDescription] = useState("")
   const [durationType, setDurationType] = useState<"dias" | "horas">("dias")
   const [durationValue, setDurationValue] = useState(7)
+  const [durationMinutes, setDurationMinutes] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -47,6 +48,7 @@ export default function CreateCompetitionPage() {
           creatorUsername: username,
           durationType,
           durationValue,
+          durationMinutes,
         }),
       })
 
@@ -125,11 +127,20 @@ export default function CreateCompetitionPage() {
                       max={durationType === "dias" ? 30 : 168}
                       value={durationValue}
                       onChange={e => setDurationValue(Number(e.target.value))}
-                      className="w-24"
+                      className="w-20"
                     />
                     <span>{durationType === "dias" ? "dias" : "horas"}</span>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={59}
+                      value={durationMinutes}
+                      onChange={e => setDurationMinutes(Number(e.target.value))}
+                      className="w-20"
+                    />
+                    <span>minutos</span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">Escolha se a duração será em dias ou horas.</p>
+                  <p className="text-xs text-gray-500 mt-1">Escolha se a duração será em dias, horas e minutos.</p>
                 </div>
 
                 {error && <p className="text-sm text-red-500">{error}</p>}
