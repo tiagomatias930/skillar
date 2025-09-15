@@ -1,5 +1,3 @@
-import { createContext, useContext } from "react"
-
 export type Language = "pt" | "en"
 
 export const translations = {
@@ -31,10 +29,4 @@ export const translations = {
     points: "points",
     // ...add more keys as needed
   },
-}
-
-export const I18nContext = createContext<{ lang: Language; setLang: (l: Language) => void }>({ lang: "pt", setLang: () => {} })
-
-export function useI18n() {
-  return useContext(I18nContext)
 }

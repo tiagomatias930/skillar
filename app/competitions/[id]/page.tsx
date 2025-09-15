@@ -1,9 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useI18n } from "@/lib/i18n"
 import { Trophy, Crown, Medal, Award, Users, Calendar, Edit, Clock } from "lucide-react"
 import { CountdownTimer } from "@/components/countdown-timer"
+import { translations } from "@/lib/i18n"
+import { useI18n } from "@/components/i18n-context"
 // ...existing code...
 // Removed CountdownTimer function implementation
 import Link from "next/link"
