@@ -109,6 +109,12 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
                   <Calendar className="h-4 w-4" />
                   <span>Termina em {new Date(competition.end_date).toLocaleDateString("pt-BR")}</span>
                 </div>
+                {competition.duration_type && competition.duration_value && (
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-blue-700">Duração:</span>
+                    <span>{competition.duration_value} {competition.duration_type}</span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex gap-2">
