@@ -186,7 +186,7 @@ export default function AvaliacaoForm() {
       doc.setTextColor(0, 255, 255);
       doc.setFontSize(48);
       doc.setFont("helvetica", "bold");
-      doc.text("Skillar", 210, 100);
+      doc.text("Skillar", 210, 100, {align: "left"});
 
       // Título
       doc.setTextColor(255, 255, 255);
@@ -197,7 +197,7 @@ export default function AvaliacaoForm() {
       // Certificamos que
       doc.setFontSize(32);
       doc.setFont("helvetica", "normal");
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.text("Certificamos que", 600, 290, { align: "center" });
 
       // Nome do aluno
@@ -209,7 +209,7 @@ export default function AvaliacaoForm() {
       // obteve destaque no desafio
       doc.setFontSize(32);
       doc.setFont("helvetica", "normal");
-      doc.setTextColor(255, 255, 255);
+      doc.setTextColor(0, 0, 0);
       doc.text("obteve destaque no desafio", 600, 400, { align: "center" });
 
       // Nome do desafio
