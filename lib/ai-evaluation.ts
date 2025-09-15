@@ -31,10 +31,18 @@ export async function evaluateProjectGET(params: EvaluationRequest): Promise<Eva
 }
 
 export async function evaluateProjectPOST(body: EvaluationRequest): Promise<EvaluationResponse | EvaluationError> {
-  const res = await fetch(BASE_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return res.json();
+  try {
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Status: ${res.status} - ${text}`);
+    }
+    return res.json();
+  } catch (err: any) {
+    return { error: `Erro ao conectar à API: ${err.message}` };
+  }
 }
