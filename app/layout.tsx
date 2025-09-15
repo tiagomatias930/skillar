@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense, useState } from "react"
-import { I18nContext, Language } from "@/lib/i18n"
+import { LanguageProvider } from "@/components/language-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -27,9 +27,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-    const [lang, setLang] = useState<Language>("pt")
     return (
-      <html lang={lang}>
+      <html lang="pt">
         <head>
           <style>{`
             #v0-built-with-button-5410611f-1f24-4da0-88e0-05df78040d97 {
@@ -41,18 +40,10 @@ export default function RootLayout({
           `}</style>
         </head>
         <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-          <I18nContext.Provider value={{ lang, setLang }}>
-            <header className="w-full flex justify-end p-2">
-              <button
-                className="px-2 py-1 rounded border text-xs mr-2"
-                onClick={() => setLang(lang === "pt" ? "en" : "pt")}
-              >
-                {lang === "pt" ? "EN" : "PT"}
-              </button>
-            </header>
+          <LanguageProvider>
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-          <Analytics />
-          </I18nContext.Provider>
+            <Analytics />
+          </LanguageProvider>
         </body>
       </html>
     )
