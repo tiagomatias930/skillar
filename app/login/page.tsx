@@ -76,7 +76,7 @@ export default function LoginPage() {
             <form onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username" className="mb-1">Username</Label>
                   <Input
                     id="username"
                     type="text"
@@ -85,7 +85,7 @@ export default function LoginPage() {
                     onChange={(e) => setUsername(e.target.value)}
                     required
                     maxLength={50}
-                    className="mt-1"
+
                   />
                 </div>
 
