@@ -128,6 +128,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground bg-center bg-cover bg-size-100;
+    @apply bg-background text-foreground bg-center bg-cover;
   }
 }

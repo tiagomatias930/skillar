@@ -1,19 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { evaluateProjectPOST, type EvaluationRequest, type EvaluationResponse, type EvaluationError, atribuirNotaAoUsuario } from "@/lib/ai-evaluation"
 
 export default function AiEvaluationForm() {
   const [form, setForm] = useState<EvaluationRequest>({
     url: "",
     commit: "",
-    user: localStorage.getItem("skillar_username") || "",
+    user: "",
     desafio: "",
     desc_desafio: ""
   })
   const [result, setResult] = useState<EvaluationResponse | EvaluationError | null>(null)
   const [loading, setLoading] = useState(false)
   const [dbUpdate, setDbUpdate] = useState<{ success: boolean; error?: string } | null>(null)
+
+  useEffect(() => {
+    const username = localStorage.getItem("skillar_username") || ""
+    setForm(f => ({ ...f, user: username }))
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -43,7 +48,7 @@ export default function AiEvaluationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded bg-blue-33">
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded bg-black/50">
       <h2 className="text-lg font-bold mb-2 text-white">Submeter Projeto para Avaliação</h2>
       <p className="text-white">Usuário: {form.user}</p>
       <input className="w-full border p-2 rounded text-white" required placeholder="URL do repositório Git" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
