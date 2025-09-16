@@ -44,12 +44,12 @@ export default function AiEvaluationForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded bg-blue-33">
-      <h2 className="text-lg font-bold mb-2">Submeter Projeto para Avaliação</h2>
-      <input className="w-full border p-2 rounded" required placeholder="URL do repositório Git" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
-      <input className="w-full border p-2 rounded" required placeholder="SHA do commit, ex: 1 para pegar o ultimo commit" value={form.commit} onChange={e => setForm(f => ({ ...f, commit: e.target.value }))} />
-      <input className="w-full border p-2 rounded" required placeholder="Usuário" value={form.user} onChange={e => setForm(f => ({ ...f, user: e.target.value }))} />
-      <input className="w-full border p-2 rounded" required placeholder="Desafio" value={form.desafio} onChange={e => setForm(f => ({ ...f, desafio: e.target.value }))} />
-      <input className="w-full border p-2 rounded" required placeholder="Descrição do desafio" value={form.desc_desafio} onChange={e => setForm(f => ({ ...f, desc_desafio: e.target.value }))} />
+      <h2 className="text-lg font-bold mb-2 text-white">Submeter Projeto para Avaliação</h2>
+      <input className="w-full border p-2 rounded text-white" required placeholder="URL do repositório Git" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-white" required placeholder="SHA do commit, ex: 1 para pegar o ultimo commit" value={form.commit} onChange={e => setForm(f => ({ ...f, commit: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-white" required placeholder="Usuário" value={form.user} onChange={e => setForm(f => ({ ...f, user: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-white" required placeholder="Desafio" value={form.desafio} onChange={e => setForm(f => ({ ...f, desafio: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-white" required placeholder="Descrição do desafio" value={form.desc_desafio} onChange={e => setForm(f => ({ ...f, desc_desafio: e.target.value }))} />
       <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50" disabled={loading}>{loading ? "Avaliando..." : "Submeter"}</button>
       {result && (
         <div className="mt-4 p-3 border rounded bg-gray-50">
