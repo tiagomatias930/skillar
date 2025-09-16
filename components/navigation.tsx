@@ -1,6 +1,6 @@
 "use client"
 
-import { Trophy, LogOut, History } from "lucide-react"
+import { Trophy, LogOut, History, Gamepad2, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -36,6 +36,7 @@ export function Navigation() {
               <Button variant="ghost">Competições</Button>
             </Link>
             <Link href="/ranking">
+              <BarChart3 className="h-4 w-4" />
               <Button variant="ghost">Ranking</Button>
             </Link>
             <Link href="/history">
@@ -43,6 +44,7 @@ export function Navigation() {
               <Button variant="ghost">Histórico</Button>
             </Link>
             <Link href="/jogo">
+              <Gamepad2 className="h-4 w-4" />
               <Button variant="ghost">Jogos & Diversão</Button>
             </Link>
             <Link href="/reports">
