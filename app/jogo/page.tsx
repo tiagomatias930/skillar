@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Home, Trophy, History, LogIn } from "lucide-react"
+import { ExternalLink, Home, Trophy, History } from "lucide-react"
 
 export default function JogoPage() {
   return (
@@ -42,12 +42,6 @@ export default function JogoPage() {
                 <Button variant="ghost" size="sm">
                   <History className="h-4 w-4 mr-1" />
                   Histórico
-                </Button>
-              </Link>
-              <Link href="/login">
-                <Button size="sm">
-                  <LogIn className="h-4 w-4 mr-1" />
-                  Entrar
                 </Button>
               </Link>
             </nav>

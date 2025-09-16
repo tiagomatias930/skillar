@@ -1,6 +1,6 @@
 "use client"
 
-import { Trophy, LogOut } from "lucide-react"
+import { Trophy, LogOut, History } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -32,12 +32,14 @@ export function Navigation() {
 
           <nav className="flex items-center gap-4">
             <Link href="/competitions">
+             <Trophy className="h-4 w-4 mr-1" />
               <Button variant="ghost">Competições</Button>
             </Link>
             <Link href="/ranking">
               <Button variant="ghost">Ranking</Button>
             </Link>
             <Link href="/history">
+               <History className="h-4 w-4 mr-1" />
               <Button variant="ghost">Histórico</Button>
             </Link>
             <Link href="/jogo">
