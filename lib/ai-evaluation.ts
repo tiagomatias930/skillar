@@ -24,6 +24,21 @@ export type EvaluationError = {
 
 const BASE_URL = "https://42skillar-aval.vercel.app/api";
 
+// Função utilitária para chamada GET estilo formulário HTML, exibindo resultado em nova janela
+export async function doApi(form: HTMLFormElement) {
+  const params = new URLSearchParams(new FormData(form) as any);
+  try {
+    const res = await fetch(BASE_URL + "?" + params.toString());
+    const json = await res.json();
+    const win = window.open('', '_blank');
+    if (win) {
+      win.document.write('<pre>' + JSON.stringify(json, null, 2) + '</pre>');
+    }
+  } catch (e: any) {
+    alert('Erro: ' + e.message);
+  }
+}
+
 export async function evaluateProjectGET(params: EvaluationRequest): Promise<EvaluationResponse | EvaluationError> {
   const query = new URLSearchParams(params as any).toString();
   const res = await fetch(`${BASE_URL}?${query}`);
