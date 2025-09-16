@@ -2,27 +2,67 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Home, Trophy, History, LogIn } from "lucide-react"
 
 export default function JogoPage() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center mb-8">Jogo e Diversão</h1>
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-          <p className="text-lg text-gray-600 mb-6">
-            Acesse jogos e diversão no SEGA Play
-          </p>
-          <Link href="https://sega-play.online/" target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-              <ExternalLink className="h-5 w-5 mr-2" />
-              Abrir SEGA Play
-            </Button>
-          </Link>
-          <p className="text-sm text-gray-500 mt-4">
-            O site será aberto em uma nova aba para melhor compatibilidade
-          </p>
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Header da aplicação */}
+      <header className="w-full border-b bg-white/95 backdrop-blur-sm shadow-sm z-10">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img
+                className="h-8 w-8 object-contain"
+                src="/42skillar.png"
+                alt="skiller"
+              />
+              <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
+              <p className="text-center text-xs text-gray-500">Arena dos Campeões</p>
+            </div>
+            <nav className="flex items-center gap-3">
+              <Link href="/">
+                <Button variant="ghost" size="sm">
+                  <Home className="h-4 w-4 mr-1" />
+                  Início
+                </Button>
+              </Link>
+              <Link href="/competitions">
+                <Button variant="ghost" size="sm">
+                  <Trophy className="h-4 w-4 mr-1" />
+                  Competições
+                </Button>
+              </Link>
+              <Link href="/ranking">
+                <Button variant="ghost" size="sm">
+                  Ranking
+                </Button>
+              </Link>
+              <Link href="/history">
+                <Button variant="ghost" size="sm">
+                  <History className="h-4 w-4 mr-1" />
+                  Histórico
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button size="sm">
+                  <LogIn className="h-4 w-4 mr-1" />
+                  Entrar
+                </Button>
+              </Link>
+            </nav>
+          </div>
         </div>
+      </header>
+
+      {/* Conteúdo principal - iframe em fullscreen */}
+      <div className="flex-1 relative">
+        <iframe
+          src="https://sega-play.online/"
+          className="w-full h-full border-0"
+          title="SEGA Play"
+          allowFullScreen
+        />
       </div>
     </div>
   )
