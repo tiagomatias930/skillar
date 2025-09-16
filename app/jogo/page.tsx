@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Home, Trophy, History, LogIn, Gamepad2, AlertCircle } from "lucide-react"
+import { ExternalLink, Home, Trophy, History, LogIn, Gamepad2, AlertCircle, BarChart3 } from "lucide-react"
 
 export default function JogoPage() {
   const [currentUrl, setCurrentUrl] = useState("https://www.classicgames.me/sega/")
@@ -32,32 +32,33 @@ export default function JogoPage() {
             </div>
             <nav className="flex items-center gap-3">
               <Link href="/">
-                <Button variant="ghost" size="sm">
-                  <Home className="h-4 w-4 mr-1" />
-                  Início
+                <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                  <Home className="h-4 w-4" />
+                  <span>Início</span>
                 </Button>
               </Link>
               <Link href="/competitions">
-                <Button variant="ghost" size="sm">
-                  <Trophy className="h-4 w-4 mr-1" />
-                  Competições
+                <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                  <Trophy className="h-4 w-4" />
+                  <span>Competições</span>
                 </Button>
               </Link>
               <Link href="/ranking">
-                <Button variant="ghost" size="sm">
-                  Ranking
+                <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                  <BarChart3 className="h-4 w-4" />
+                  <span>Ranking</span>
                 </Button>
               </Link>
               <Link href="/history">
-                <Button variant="ghost" size="sm">
-                  <History className="h-4 w-4 mr-1" />
-                  Histórico
+                <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                  <History className="h-4 w-4" />
+                  <span>Histórico</span>
                 </Button>
               </Link>
               <Link href="/login">
-                <Button size="sm">
-                  <LogIn className="h-4 w-4 mr-1" />
-                  Entrar
+                <Button size="sm" className="flex items-center gap-1">
+                  <LogIn className="h-4 w-4" />
+                  <span>Entrar</span>
                 </Button>
               </Link>
             </nav>

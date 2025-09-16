@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Users, Target, Award, Trophy, History } from "lucide-react"
+import { Users, Target, Award, Trophy, History, BarChart3, Gamepad2 } from "lucide-react"
 import Link from "next/link"
 
 export default function HomePage() {
@@ -22,22 +22,35 @@ export default function HomePage() {
               <p className="text-center text-sm font-italic text-gray-300">Arena dos Campeões</p>
             </div>
             <nav className="flex items-center gap-4">
-              <Link href="/competitions">
-               <Trophy className="h-4 w-4 mr-1" />
-                <Button variant="ghost">Competições</Button>
+                            <Link href="/competitions">
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <Trophy className="h-4 w-4" />
+                  <span>Competições</span>
+                </Button>
               </Link>
               <Link href="/ranking">
-                <Button variant="ghost">Ranking</Button>
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4" />
+                  <span>Ranking</span>
+                </Button>
               </Link>
               <Link href="/history">
-               <History className="h-4 w-4 mr-1" />
-                <Button variant="ghost">Histórico</Button>
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <History className="h-4 w-4" />
+                  <span>Histórico</span>
+                </Button>
               </Link>
               <Link href="/jogo">
-                <Button variant="ghost">Jogo</Button>
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <Gamepad2 className="h-4 w-4" />
+                  <span>Jogo</span>
+                </Button>
               </Link>
               <Link href="/login">
-                <Button>Entrar</Button>
+                <Button className="flex items-center gap-2">
+                  <Award className="h-4 w-4" />
+                  <span>Entrar</span>
+                </Button>
               </Link>
             </nav>
           </div>

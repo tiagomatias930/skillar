@@ -131,3 +131,9 @@
     @apply bg-background text-foreground bg-center bg-cover;
   }
 }
+
+/* Garantir que os ícones do Lucide React sejam visíveis */
+svg {
+  display: inline-block;
+  vertical-align: middle;
+}
