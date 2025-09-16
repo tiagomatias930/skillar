@@ -56,7 +56,7 @@ export default function LoginPage() {
       style={{ backgroundImage: `url('/_.gif')` }}
     >
       {/* overlay para garantir contraste do formulário */}
-      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
