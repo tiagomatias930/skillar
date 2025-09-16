@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { evaluateProjectPOST, type EvaluationRequest, type EvaluationResponse, type EvaluationError } from "@/lib/ai-evaluation"
+import { evaluateProjectPOST, type EvaluationRequest, type EvaluationResponse, type EvaluationError, atribuirNotaAoUsuario } from "@/lib/ai-evaluation"
 
 export default function AiEvaluationForm() {
   const [form, setForm] = useState<EvaluationRequest>({
@@ -13,14 +13,28 @@ export default function AiEvaluationForm() {
   })
   const [result, setResult] = useState<EvaluationResponse | EvaluationError | null>(null)
   const [loading, setLoading] = useState(false)
+  const [dbUpdate, setDbUpdate] = useState<{ success: boolean; error?: string } | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setResult(null)
+    setDbUpdate(null)
     try {
       const res = await evaluateProjectPOST(form)
       setResult(res)
+      // Se avaliação IA for sucesso, tenta atualizar pontos no banco
+      if (res && !('error' in res)) {
+        // competitionId precisa ser informado (exemplo: do campo desafio ou outro lugar)
+        // Aqui assumimos que o campo desafio é o ID da competição
+        const competitionId = form.desafio
+        const username = form.user
+        const points = res.nota_final
+        if (competitionId && username && typeof points === 'number') {
+          const dbRes = await atribuirNotaAoUsuario(competitionId, username, points)
+          setDbUpdate(dbRes)
+        }
+      }
     } catch (err) {
       setResult({ error: "Erro ao conectar à API." })
     } finally {
@@ -30,9 +44,9 @@ export default function AiEvaluationForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded bg-white">
-      <h2 className="text-lg font-bold mb-2">Submeter Projeto para Avaliação IA</h2>
+      <h2 className="text-lg font-bold mb-2">Submeter Projeto para Avaliação</h2>
       <input className="w-full border p-2 rounded" required placeholder="URL do repositório Git" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
-      <input className="w-full border p-2 rounded" required placeholder="SHA do commit" value={form.commit} onChange={e => setForm(f => ({ ...f, commit: e.target.value }))} />
+      <input className="w-full border p-2 rounded" required placeholder="SHA do commit, ex: 1 para pegar o ultimo commit" value={form.commit} onChange={e => setForm(f => ({ ...f, commit: e.target.value }))} />
       <input className="w-full border p-2 rounded" required placeholder="Usuário" value={form.user} onChange={e => setForm(f => ({ ...f, user: e.target.value }))} />
       <input className="w-full border p-2 rounded" required placeholder="Desafio" value={form.desafio} onChange={e => setForm(f => ({ ...f, desafio: e.target.value }))} />
       <input className="w-full border p-2 rounded" required placeholder="Descrição do desafio" value={form.desc_desafio} onChange={e => setForm(f => ({ ...f, desc_desafio: e.target.value }))} />
@@ -50,6 +64,15 @@ export default function AiEvaluationForm() {
               <div><b>Usuário:</b> {result.user}</div>
               <div><b>Desafio:</b> {result.desafio}</div>
             </div>
+          )}
+        </div>
+      )}
+      {dbUpdate && (
+        <div className="mt-2 p-2 border rounded bg-gray-100">
+          {dbUpdate.success ? (
+            <span className="text-green-700">Resultado final da avaliação</span>
+          ) : (
+            <span className="text-red-700">Erro ao salvar nota: {dbUpdate.error}</span>
           )}
         </div>
       )}

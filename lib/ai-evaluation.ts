@@ -1,3 +1,20 @@
+// Atualiza os pontos do usuário na competição após avaliação IA
+export async function atribuirNotaAoUsuario(competitionId: string, username: string, points: number): Promise<{ success: boolean; error?: string }> {
+  try {
+    const res = await fetch(`/api/competitions/${competitionId}/update-points`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, points }),
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      return { success: false, error: `Status: ${res.status} - ${text}` };
+    }
+    return { success: true };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
 // Utilitário para integração com a API de avaliação por IA
 
 export type EvaluationRequest = {
