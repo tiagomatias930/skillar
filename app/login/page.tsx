@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-// import { Trophy } from "lucide-react"
 import Link from "next/link"
 
 export default function LoginPage() {
@@ -61,7 +60,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
             <img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />
-            <p>Skillar</p>
+            <p className="text-center text-lg text-italic text-gray-900">Skillar</p>
             <p className="text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
           </Link>
         </div>
