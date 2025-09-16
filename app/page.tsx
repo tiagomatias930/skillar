@@ -21,16 +21,16 @@ export default function HomePage() {
               <h4></h4>
               <p className="text-center text-sm font-italic text-gray-300">Arena dos Campeões</p>
             </div>
-            <nav className="flex items-center gap-2">
+            <nav className="flex items-center gap-4">
               <Link href="/competitions">
-               <Trophy className="h-2 w-2 mr-1" />
+               <Trophy className="h-4 w-4 mr-1" />
                 <Button variant="ghost">Competições</Button>
               </Link>
               <Link href="/ranking">
                 <Button variant="ghost">Ranking</Button>
               </Link>
               <Link href="/history">
-               <History className="h-2 w-2 mr-1" />
+               <History className="h-4 w-4 mr-1" />
                 <Button variant="ghost">Histórico</Button>
               </Link>
               <Link href="/jogo">
