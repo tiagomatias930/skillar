@@ -16,8 +16,8 @@ export default function AvaliacaoForm() {
 	return (
 		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', minHeight: '100vh' }} className="p-4">
 			<div className="max-w-xl mx-auto">
-				<h1 className="text-2xl font-bold mb-4 text-center">Avaliação</h1>
-				<p className="mb-6 text-gray-600 text-center">
+				<h1 className="text-2xl font-bold mb-4 text-center text-white">Avaliação</h1>
+				<p className="mb-6 text-gray-600 text-center text-white">
 					Submeta o link do repositório, commit e informações do desafio para receber uma avaliação automática do seu projeto por IA.
 				</p>
 				<AiEvaluationForm />
