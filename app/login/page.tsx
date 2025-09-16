@@ -57,10 +57,10 @@ export default function LoginPage() {
       {/* overlay para garantir contraste do formulário */}
       <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
             <img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />
-            <p className="text-lg text-white">Skillar</p>
+            <h1 className="text-lg text-white">Skillar</h1>
             <p className="text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
           </Link>
         </div>
