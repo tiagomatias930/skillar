@@ -26,3 +26,5 @@ export default function AvaliacaoForm() {
 
 
 
+{/*vaz pegar a imagem que esta na /public/Generated como base e espelho de como vai ser o certificado que vai ser gerado, os dados que vão aparecer no certificado já estão bem especificados
+na imagem. Enquanto isso estou a trabalhar num interface mais soft para esta page*/}
