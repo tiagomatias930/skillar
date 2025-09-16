@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-12 bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center p-2 bg-cover bg-center"
       style={{ backgroundImage: `url('/_.gif')` }}
     >
       {/* overlay para garantir contraste do formulário */}
