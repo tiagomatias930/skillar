@@ -51,7 +51,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-6">
+    <div
+      className="min-h-screen flex items-center justify-center p-6 bg-cover bg-center"
+      style={{ backgroundImage: `url('/_.gif')` }}
+    >
+      {/* overlay para garantir contraste do formulário */}
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
