@@ -58,7 +58,7 @@ export default function JogoPage() {
       {/* Conteúdo principal - iframe em fullscreen */}
       <div className="flex-1 relative">
         <iframe
-          src="https://sega-play.online/"
+          src="https://www.classicgames.me/sega/"
           className="w-full h-full border-0"
           title="SEGA Play"
           allowFullScreen
