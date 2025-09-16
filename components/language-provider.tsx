@@ -21,12 +21,6 @@ export default function LanguageProvider({ children }: LanguageProviderProps) {
         >
           {lang === "pt" ? "EN" : "PT"}
         </button>
-        <button
-          className="px-2 py-1 rounded border text-xs"
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        >
-          {theme === "light" ? "escuro" : "claro"}
-        </button>
       </header>
       {children}
     </I18nContext.Provider>
