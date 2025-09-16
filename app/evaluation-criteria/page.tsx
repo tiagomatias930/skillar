@@ -15,7 +15,7 @@ export default function AvaliacaoForm() {
 
 	return (
 		<div className="max-w-xl mx-auto p-4">
-			<h1 className="text-2xl font-bold mb-4 text-center">Avaliação Automática por IA</h1>
+			<h1 className="text-2xl font-bold mb-4 text-center">Avaliação</h1>
 			<p className="mb-6 text-gray-600 text-center">
 				Submeta o link do repositório, commit e informações do desafio para receber uma avaliação automática do seu projeto por IA.
 			</p>
