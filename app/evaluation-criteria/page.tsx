@@ -14,7 +14,7 @@ export default function AvaliacaoForm() {
 	}
 
 	return (
-		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', minHeight: '100vh' }} className="p-2">
+		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundAttachment: 'fixed', minHeight: '100vh' }} className="p-2">
 			<div className="max-w-xl mx-auto">
 				<h1 className="text-2xl font-bold mb-4 text-center text-white">Avaliação</h1>
 				<p className="mb-6 text-gray-600 text-center text-white">

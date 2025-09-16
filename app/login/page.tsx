@@ -51,7 +51,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-2 bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center p-2 bg-cover bg-center bg-fixed"
       style={{ backgroundImage: `url('/_.gif')` }}
     >
       {/* overlay para garantir contraste do formulário */}
@@ -85,6 +85,7 @@ export default function LoginPage() {
                     onChange={(e) => setUsername(e.target.value)}
                     required
                     maxLength={50}
+                    className="mt-1"
                   />
                 </div>
 
