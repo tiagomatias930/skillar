@@ -8,14 +8,8 @@ import { CountdownTimer } from "@/components/countdown-timer"
 import { RefreshButton } from "@/components/refresh-button"
 import Link from "next/link"
 import { JoinCompetitionButton } from "@/components/join-competition-button"
-import { useI18n } from "@/components/i18n-context"
 
 export default function CompetitionDetailsClient({ competition, participants }: any) {
-  const { lang } = useI18n()
-  const t = (key: string) => {
-    const dict = require("@/lib/i18n").translations[lang] || {}
-    return dict[key] || key
-  }
 
   const now = new Date()
   const endDate = new Date(competition.custom_end_date || competition.end_date)
@@ -71,16 +65,16 @@ export default function CompetitionDetailsClient({ competition, participants }: 
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span>{t("created_by")} {competition.creator?.username}</span>
+                <span>Criado por {competition.creator?.username}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>{t("ends_at")} {new Date(competition.custom_end_date || competition.end_date).toLocaleString(lang === "pt" ? "pt-BR" : "en-US", { dateStyle: "short", timeStyle: "short" })}</span>
+                <span>Termina em {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
               </div>
               <CountdownTimer endDate={competition.custom_end_date || competition.end_date} />
               {competition.duration_type && competition.duration_value && (
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-blue-700">{t("duration")}:</span>
+                  <span className="font-semibold text-blue-700">Duração:</span>
                   <span>{competition.duration_value} {competition.duration_type}</span>
                 </div>
               )}
@@ -88,7 +82,7 @@ export default function CompetitionDetailsClient({ competition, participants }: 
           </div>
           <div className="flex gap-2">
             <Badge variant={competition.is_active ? "default" : "secondary"}>
-              {competition.is_active ? t("active") : t("closed")}
+              {competition.is_active ? "Ativa" : "Encerrada"}
             </Badge>
           </div>
         </div>
@@ -98,7 +92,7 @@ export default function CompetitionDetailsClient({ competition, participants }: 
           <Link href={`/competitions/${competition.id}/manage`}>
             <Button variant="outline">
               <Edit className="h-4 w-4 mr-2" />
-              {t("manage")}
+              Gerenciar
             </Button>
           </Link>
         </div>
@@ -111,12 +105,12 @@ export default function CompetitionDetailsClient({ competition, participants }: 
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Trophy className="h-5 w-5 text-blue-600" />
-                {t("ranking")}
+                Ranking em Tempo Real
               </CardTitle>
               <CardDescription>
                 {participants.length === 0
-                  ? t("no_participants")
-                  : `${participants.length} ${lang === "pt" ? (participants.length > 1 ? "participantes" : "participante") : (participants.length > 1 ? "participants" : "participant")}`}
+                  ? "Nenhum participante ainda"
+                  : `${participants.length} ${participants.length > 1 ? "participantes" : "participante"}`}
               </CardDescription>
             </div>
             <RefreshButton />
@@ -158,7 +152,7 @@ export default function CompetitionDetailsClient({ competition, participants }: 
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-blue-600">{participant.points || 0}</div>
-                      <div className="text-sm text-gray-600">{t("points")}</div>
+                      <div className="text-sm text-gray-600">pontos</div>
                     </div>
                   </div>
                 )
