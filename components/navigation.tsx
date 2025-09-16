@@ -40,7 +40,7 @@ export function Navigation() {
             <Link href="/history">
               <Button variant="ghost">Histórico</Button>
             </Link>
-            <Link href="#blacklist">
+            <Link href="/jogo">
               <Button variant="ghost">Jogos & Diversão</Button>
             </Link>
             <Link href="/reports">

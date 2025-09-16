@@ -31,6 +31,9 @@ export default function HomePage() {
               <Link href="/history">
                 <Button variant="ghost">Histórico</Button>
               </Link>
+              <Link href="/jogo">
+                <Button variant="ghost">Jogo</Button>
+              </Link>
               <Link href="/login">
                 <Button>Entrar</Button>
               </Link>
