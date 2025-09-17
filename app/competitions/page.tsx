@@ -62,7 +62,7 @@ export default async function CompetitionsPage() {
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Calendar className="h-4 w-4" />
-                      <span>Termina em {new Date(competition.end_date).toLocaleDateString("pt-BR")}</span>
+                      <span>Termina em {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
                     </div>
                     <div className="flex gap-2 pt-2">
                       <Link href={`/competitions/${competition.id}`} className="flex-1">
@@ -70,7 +70,7 @@ export default async function CompetitionsPage() {
                           Ver Detalhes
                         </Button>
                       </Link>
-                      <JoinCompetitionButton competitionId={competition.id} disabled={new Date() > new Date(competition.start_date)} />
+                      <JoinCompetitionButton competitionId={competition.id} disabled={new Date() > new Date(competition.end_date)} />
                     </div>
                   </div>
                 </CardContent>
