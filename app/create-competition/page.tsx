@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { AiChallengeGenerator } from "@/components/ai-challenge-generator"
 import { Navigation } from "@/components/navigation"
 
 export default function CreateCompetitionPage() {
@@ -78,6 +79,11 @@ export default function CreateCompetitionPage() {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Criar Nova Competição</h1>
             <p className="text-gray-600">Defina os detalhes da sua competição semanal</p>
           </div>
+
+          <AiChallengeGenerator onChallengeGenerated={(challenge) => {
+            setTitle(challenge.titulo)
+            setDescription(challenge.descricao)
+          }} />
 
           <Card>
             <CardHeader>
