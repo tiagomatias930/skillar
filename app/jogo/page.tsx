@@ -67,15 +67,16 @@ export default function JogoPage() {
       </header>
 
       {/* Conteúdo principal - iframe */}
-      <div className="flex-1">
-        <iframe
-          src={currentUrl}
-          className="w-full h-full border-0"
-          title="Jogo Online"
-          allowFullScreen
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-        />
-      </div>
+      // Por este:
+<div className="flex-1 flex flex-col">
+  <iframe
+    src={currentUrl}
+    className="flex-1 w-full border-0"
+    title="Jogo Online"
+    allowFullScreen
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+  />
+</div>
     </div>
   )
 }
