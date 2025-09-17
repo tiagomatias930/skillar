@@ -15,7 +15,7 @@ export default function CreateCompetitionPage() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [durationType, setDurationType] = useState<"dias" | "horas">("dias")
-  const [durationValue, setDurationValue] = useState(7)
+  const [durationValue, setDurationValue] = useState(1)
   const [durationMinutes, setDurationMinutes] = useState(0)
   const [customEndDate, setCustomEndDate] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
