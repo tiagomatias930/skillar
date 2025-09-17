@@ -1,18 +1,47 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Home, Trophy, History, LogIn, BarChart3 } from "lucide-react"
 
 export default function JogoPage() {
   const [currentUrl, setCurrentUrl] = useState("https://www.retrogames.cc/")
   const [customUrl, setCustomUrl] = useState("")
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const router = useRouter()
+
+  useEffect(() => {
+    const username = localStorage.getItem("skillar_username")
+    if (!username) {
+      router.push("/login")
+    } else {
+      setIsAuthenticated(true)
+    }
+    setIsLoading(false)
+  }, [router])
 
   const handleCustomUrl = () => {
     if (customUrl.trim()) {
       setCurrentUrl(customUrl.trim())
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Verificando autenticação...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return null // Will redirect
   }
 
   return (
@@ -28,7 +57,7 @@ export default function JogoPage() {
                 alt="skiller"
               />
               <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
-              <p className="text-center text-xs text-gray-500">Arena dos Campeões</p>
+              <p className="text-center text-ms text-gray-500">Arena dos Campeões</p>
             </div>
             <nav className="flex items-center gap-3">
               <Link href="/">
@@ -55,19 +84,12 @@ export default function JogoPage() {
                   <span>Histórico</span>
                 </Button>
               </Link>
-              <Link href="/login">
-                <Button size="sm" className="flex items-center gap-1">
-                  <LogIn className="h-4 w-4" />
-                  <span>Entrar</span>
-                </Button>
-              </Link>
             </nav>
           </div>
         </div>
       </header>
 
       {/* Conteúdo principal - iframe */}
-      // Por este:
 <div className="flex-1 flex flex-col">
   <iframe
     src={currentUrl}

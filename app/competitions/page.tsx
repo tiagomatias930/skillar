@@ -70,7 +70,7 @@ export default async function CompetitionsPage() {
                           Ver Detalhes
                         </Button>
                       </Link>
-                      <JoinCompetitionButton competitionId={competition.id} />
+                      <JoinCompetitionButton competitionId={competition.id} disabled={new Date() > new Date(competition.end_date)} />
                     </div>
                   </div>
                 </CardContent>

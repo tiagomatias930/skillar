@@ -64,7 +64,7 @@ export function JoinCompetitionButton({ competitionId, disabled = false }: JoinC
     <>
       <ToastContainer />
       <Button onClick={handleJoin} disabled={isLoading || disabled} className="bg-green-600 hover:bg-green-700">
-        {isLoading ? "Participando..." : "Participar"}
+        {isLoading ? "Participando..." : disabled ? "Encerrada" : "Participar"}
       </Button>
     </>
   )
