@@ -67,7 +67,7 @@ export default function JogoPage() {
       </header>
 
       {/* Conteúdo principal - iframe */}
-      <div className="flex-1 relative bg-gray-200">
+      <div className="flex-1 relative bg-gray-900">
         <iframe
           src={currentUrl}
           className="w-full h-full border-0"
