@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Home, Trophy, History, LogIn, BarChart3 } from "lucide-react"
 
 export default function JogoPage() {
-  const [currentUrl, setCurrentUrl] = useState("https://www.retrogames.cc/")
+  const [currentUrl, setCurrentUrl] = useState("https://www.onlinegames.io/")
   const [customUrl, setCustomUrl] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
