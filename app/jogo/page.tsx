@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Home, Trophy, History, LogIn, Gamepad2, AlertCircle, BarChart3 } from "lucide-react"
+import { ExternalLink, Home, Trophy, History, LogIn, BarChart3 } from "lucide-react"
 
 export default function JogoPage() {
   const [currentUrl, setCurrentUrl] = useState("https://www.retrogames.cc/")
