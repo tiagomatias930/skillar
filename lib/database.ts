@@ -82,8 +82,29 @@ export async function getUserByUsername(username: string): Promise<User | null> 
 }
 
 // Competition functions
+export async function updateExpiredCompetitions(): Promise<void> {
+  console.log("[v0] Updating expired competitions")
+
+  const supabase = await createClient()
+
+  const { error } = await supabase
+    .from("competitions")
+    .update({ is_active: false })
+    .eq("is_active", true)
+    .lt("end_date", new Date().toISOString())
+
+  if (error) {
+    console.error("[v0] Error updating expired competitions:", error)
+  } else {
+    console.log("[v0] Successfully updated expired competitions")
+  }
+}
+
 export async function getActiveCompetitions(): Promise<Competition[]> {
   console.log("[v0] Fetching active competitions")
+
+  // First, update any expired competitions
+  await updateExpiredCompetitions()
 
   const supabase = await createClient()
 
@@ -119,12 +140,38 @@ export async function createCompetition(
 
   await setCurrentUser(creatorUsername)
 
+  // Calculate end_date based on duration or custom date
+  let endDate: Date;
+  if (customEndDate) {
+    endDate = customEndDate;
+  } else if (durationType && durationValue) {
+    const now = new Date();
+    if (durationType === "dias") {
+      endDate = new Date(now.getTime() + (durationValue * 24 * 60 * 60 * 1000)); // days to milliseconds
+    } else if (durationType === "horas") {
+      endDate = new Date(now.getTime() + (durationValue * 60 * 60 * 1000)); // hours to milliseconds
+    } else {
+      // fallback to 7 days
+      endDate = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000));
+    }
+
+    // Add minutes if specified
+    if (durationMinutes && durationMinutes > 0) {
+      endDate = new Date(endDate.getTime() + (durationMinutes * 60 * 1000));
+    }
+  } else {
+    // Default to 7 days if no duration specified
+    endDate = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000));
+  }
+
   const { data, error } = await supabase
     .from("competitions")
     .insert({
       title,
       description,
       creator_id: creator.id,
+      start_date: new Date().toISOString(),
+      end_date: endDate.toISOString(),
       duration_type: durationType,
       duration_value: durationValue,
       duration_minutes: durationMinutes,
