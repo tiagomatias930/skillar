@@ -83,6 +83,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Demo Video Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h3 className="text-3xl font-bold text-center text-gray-900 mb-8">
+            Veja Como Funciona
+          </h3>
+          <div className="max-w-4xl mx-auto aspect-video">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/YwQXnThpS3s"
+              title="Skillar - Demonstração"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="rounded-lg shadow-lg"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
