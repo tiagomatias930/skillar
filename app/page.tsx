@@ -93,7 +93,7 @@ export default function HomePage() {
             <iframe
               width="100%"
               height="100%"
-              src="https://youtu.be/xXeZ3b5Nb08?si=i95TiIgkvKUAeQX5"
+              src="https://www.youtube.com/watch?v=xXeZ3b5Nb08"
               title="Skillar - Demonstração"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
