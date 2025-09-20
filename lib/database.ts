@@ -87,16 +87,13 @@ export async function updateExpiredCompetitions(): Promise<void> {
 
   const supabase = await createClient()
 
-  const { error } = await supabase
-    .from("competitions")
-    .update({ is_active: false })
-    .eq("is_active", true)
-    .lt("end_date", new Date().toISOString())
+  // Call the close_expired_competitions() function
+  const { error: closureError } = await supabase.rpc('close_expired_competitions')
 
-  if (error) {
-    console.error("[v0] Error updating expired competitions:", error)
+  if (closureError) {
+    console.error("[v0] Error closing expired competitions:", closureError)
   } else {
-    console.log("[v0] Successfully updated expired competitions")
+    console.log("[v0] Successfully closed expired competitions")
   }
 }
 
