@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/toast"
@@ -13,8 +13,28 @@ interface JoinCompetitionButtonProps {
 
 export function JoinCompetitionButton({ competitionId, disabled = false }: JoinCompetitionButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [isParticipating, setIsParticipating] = useState(false)
   const router = useRouter()
   const { showToast, ToastContainer } = useToast()
+
+  useEffect(() => {
+    const checkParticipation = async () => {
+      const username = localStorage.getItem("skillar_username")
+      if (!username) return
+
+      try {
+        const response = await fetch(
+          `/api/competitions/check-participation?competitionId=${competitionId}&username=${encodeURIComponent(username)}`
+        )
+        const data = await response.json()
+        setIsParticipating(data.isParticipating)
+      } catch (error) {
+        console.error("Error checking participation:", error)
+      }
+    }
+
+    checkParticipation()
+  }, [competitionId])
 
   const handleJoin = async () => {
     const username = localStorage.getItem("skillar_username")
@@ -63,8 +83,18 @@ export function JoinCompetitionButton({ competitionId, disabled = false }: JoinC
   return (
     <>
       <ToastContainer />
-      <Button onClick={handleJoin} disabled={isLoading || disabled} className="bg-green-600 hover:bg-green-700">
-        {isLoading ? "Participando..." : disabled ? "Encerrada" : "Participar"}
+      <Button 
+        onClick={handleJoin} 
+        disabled={isLoading || disabled || isParticipating} 
+        className={`${isParticipating ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-700'}`}
+      >
+        {isLoading 
+          ? "Participando..." 
+          : disabled 
+            ? "Encerrada" 
+            : isParticipating 
+              ? "Já Participa" 
+              : "Participar"}
       </Button>
     </>
   )
