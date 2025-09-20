@@ -90,15 +90,8 @@ export default function HomePage() {
             Veja Como Funciona
           </h3>
           <div className="max-w-4xl mx-auto aspect-video px-2 sm:px-4">
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/watch?v=xXeZ3b5Nb08"
-              title="Skillar - Demonstração"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="rounded-lg shadow-lg w-full"
-            ></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/xXeZ3b5Nb08?si=vASGsJO20wTg82zI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
           </div>
         </div>
       </section>
@@ -182,11 +175,11 @@ export default function HomePage() {
       <footer className="bg-gray-900 text-white py-6 sm:py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-              <img
-                className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
-                src="/42skillar.png"
-                alt="skiller"
-              />
+            <img
+              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+              src="/42skillar.png"
+              alt="skiller"
+            />
             <p className="text-base sm:text-lg font-semibold">Skillar</p>
             <p className="hidden sm:block text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
           </div>
