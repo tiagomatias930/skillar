@@ -103,16 +103,6 @@ export default async function HistoryPage() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Competições Ativas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">{activeCompetitions?.length || 0}</div>
-              <p className="text-xs text-red-600">Encerradas</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">Total de Usuários</CardTitle>
             </CardHeader>
             <CardContent>
