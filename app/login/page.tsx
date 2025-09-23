@@ -91,14 +91,40 @@ export default function LoginPage() {
 
                 {error && <p className="text-sm text-red-500">{error}</p>}
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Entrando..." : "Entrar"}
+                <Button type="submit" className="w-full mb-4" disabled={isLoading}>
+                  {isLoading ? "Entrando..." : "Entrar como Visitante"}
+                </Button>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      Ou entre com
+                    </span>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  className="w-full mt-4 bg-[#00BABC] hover:bg-[#00BABC]/90"
+                  onClick={() => {
+                    setIsLoading(true)
+                    window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https://42skillar.vercel.app/&response_type=code`
+                  }}
+                  disabled={isLoading}
+                >
+                  <img src="https://api.intra.42.fr/assets/42_logo-7dfc9110a5319a308863b96bda33cea995046d1731cebb735e41b16255106c12.svg" 
+                       alt="42 Logo" 
+                       className="h-5 w-5 mr-2" />
+                  Entrar com a 42
                 </Button>
               </div>
             </form>
 
             <div className="mt-6 text-center text-sm text-gray-600">
-              <p>Não precisa de senha - apenas escolha um username único!</p>
+              <p>Entre com sua conta da 42 para participar das competições!</p>
             </div>
           </CardContent>
         </Card>
