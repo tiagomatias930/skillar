@@ -25,7 +25,7 @@ export async function GET(request: Request) {
         client_id: 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
         client_secret: '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',
         code: code,
-        redirect_uri: 'https://42skillar.vercel.app/' // Must match exactly what's registered in 42 OAuth app
+        redirect_uri: 'https://42skillar.vercel.app/api/auth/callback/42' // Must match exactly what's registered in 42 OAuth app
       }).toString()
     })
 
@@ -132,20 +132,22 @@ export async function GET(request: Request) {
     // Create response with redirect
     const response = NextResponse.redirect(finalRedirectUrl)
     
-    // Set cookies individually with domain
+    // Set cookies individually
     response.cookies.set('session', JSON.stringify(session), {
       path: '/',
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 1 week
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      domain: '42skillar.vercel.app'
     })
     
     response.cookies.set('skillar_user', clientDataCookie, {
       path: '/',
       secure: true,
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 1 week
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      domain: '42skillar.vercel.app'
     })
 
     return response
