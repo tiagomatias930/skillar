@@ -111,7 +111,7 @@ export default function LoginPage() {
                   className="w-full mt-4 bg-[#00BABC] hover:bg-[#00BABC]/90"
                   onClick={() => {
                     setIsLoading(true)
-                    window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https://42skillar.vercel.app&response_type=code&state=${encodeURIComponent("/competitions")}`
+                    window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https://42skillar.vercel.app/competitions&response_type=code`
                   }}
                   disabled={isLoading}
                 >
