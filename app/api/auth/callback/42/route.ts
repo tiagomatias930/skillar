@@ -50,9 +50,20 @@ export async function GET(request: Request) {
     }
 
     const userData = await userResponse.json()
+    console.log("User data from 42 API:", JSON.stringify({
+      login: userData.login,
+      id: userData.id,
+      email: userData.email,
+      campus_users: userData.campus_users,
+      usual_full_name: userData.usual_full_name,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      image: userData.image
+    }, null, 2))
 
     // Get primary campus info
     const primaryCampus = userData.campus_users?.[0]?.campus?.name || "Unknown Campus"
+    console.log("Detected primary campus:", primaryCampus)
 
     // Prepare user data
     const userInfo = {
