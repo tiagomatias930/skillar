@@ -28,6 +28,12 @@ export default function HomePage() {
                   <span>Competições</span>
                 </Button>
               </Link>
+              <Link href="/equipas">
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  <span>Equipas</span>
+                </Button>
+              </Link>
               <Link href="/ranking">
                 <Button variant="ghost" className="flex items-center gap-2">
                   <BarChart3 className="h-4 w-4" />

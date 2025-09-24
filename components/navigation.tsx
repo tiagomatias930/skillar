@@ -1,22 +1,17 @@
 "use client"
 
-import { Trophy, LogOut, History, Gamepad2, BarChart3 } from "lucide-react"
+import { Trophy, LogOut, History, Gamepad2, BarChart3, Users } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useUsername } from "@/hooks/use-local-storage"
 
 export function Navigation() {
-  const [username, setUsername] = useState<string | null>(null)
+  const [username, setUsername] = useUsername()
   const router = useRouter()
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("skillar_username")
-    setUsername(storedUsername)
-  }, [])
-
   const handleLogout = () => {
-    localStorage.removeItem("skillar_username")
+    setUsername(null)
     router.push("/")
   }
 
@@ -35,6 +30,10 @@ export function Navigation() {
              <Trophy className="h-4 w-4 mr-1" />
               <Button variant="ghost">Competições</Button>
             </Link>
+                <Link href="/equipas">
+                  <Users className="h-4 w-4 mr-1" />
+                  <Button variant="ghost">Equipas</Button>
+                </Link>
             <Link href="/ranking">
               <BarChart3 className="h-4 w-4" />
               <Button variant="ghost">Ranking</Button>

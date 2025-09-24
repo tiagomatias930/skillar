@@ -16,7 +16,7 @@ export default function AiEvaluationForm() {
   const [dbUpdate, setDbUpdate] = useState<{ success: boolean; error?: string } | null>(null)
 
   useEffect(() => {
-    const username = localStorage.getItem("skillar_username") || ""
+    const username = typeof window !== 'undefined' ? localStorage.getItem("skillar_username") || "" : ""
     setForm(f => ({ ...f, user: username }))
   }, [])
 

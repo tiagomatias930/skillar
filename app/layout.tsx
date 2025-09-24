@@ -29,16 +29,6 @@ export default function RootLayout({
 }>) {
     return (
       <html lang="pt">
-        <head>
-          <style>{`
-            #v0-built-with-button-5410611f-1f24-4da0-88e0-05df78040d97 {
-              display: none;
-            }
-            [id^="v0-built-with-button-"] {
-              display: none;
-            }
-          `}</style>
-        </head>
         <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>

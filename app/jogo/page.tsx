@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Home, Trophy, History, LogIn, BarChart3 } from "lucide-react"
+import { ExternalLink, Home, Trophy, History, LogIn, BarChart3, Users } from "lucide-react"
 
 export default function JogoPage() {
   const [currentUrl, setCurrentUrl] = useState("https://www.onlinegames.io/")
@@ -70,6 +70,12 @@ export default function JogoPage() {
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
                   <Trophy className="h-4 w-4" />
                   <span>Competições</span>
+                </Button>
+              </Link>
+                <Link href="/equipas">
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  <span>Equipas</span>
                 </Button>
               </Link>
               <Link href="/ranking">
