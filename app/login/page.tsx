@@ -13,19 +13,9 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
     console.log("Starting OAuth callback processing with code:", code.substring(0, 10) + "...")
     
-    // Test if API route exists first
-    try {
-      const testResponse = await fetch("/api/auth/callback", {
-        method: "GET"
-      })
-      console.log("API route test:", testResponse.status)
-    } catch (testError) {
-      console.log("API route test failed, might not exist")
-    }
-    
-    // Try server-side callback
-    console.log("Attempting server-side callback...")
-    const response = await fetch("/api/auth/callback", {
+    // Try the new callback API endpoint
+    console.log("Attempting OAuth callback...")
+    const response = await fetch("/api/callback", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,16 +26,13 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     console.log("Callback response status:", response.status)
     
     if (!response.ok) {
-      const errorText = await response.text()
-      console.error("Callback API error:", response.status, errorText)
-      
-      // If server callback fails, try direct approach as fallback
-      console.log("Server callback failed, trying direct approach...")
-      return await directOAuthFlow(code, router)
+      const errorData = await response.json().catch(() => null)
+      console.error("Callback API error:", response.status, errorData)
+      throw new Error(errorData?.error || `API returned ${response.status}`)
     }
 
     const data = await response.json()
-    console.log("Callback response data:", data)
+    console.log("Callback response:", data)
     
     if (!data.success) {
       throw new Error(data.error || "Authentication failed")
@@ -63,20 +50,10 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
   } catch (error: unknown) {
     console.error("OAuth processing error:", error)
     
-    // More user-friendly error handling
     let errorMessage = "Falha na autenticação. "
     if (error instanceof Error) {
       if (error.message.includes("Failed to fetch")) {
-        errorMessage += "Erro de conexão. Tente novamente."
-      } else if (error.message.includes("Server callback failed")) {
-        errorMessage += "Erro no servidor. Tentando método alternativo..."
-        // Try direct approach as last resort
-        try {
-          await directOAuthFlow(code, router)
-          return
-        } catch (directError) {
-          errorMessage += " Método alternativo também falhou."
-        }
+        errorMessage += "Erro de conexão. Verifique sua internet."
       } else {
         errorMessage += error.message
       }
@@ -96,57 +73,8 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
 
 // Fallback direct OAuth flow (for when server callback fails)
 async function directOAuthFlow(code: string, router: ReturnType<typeof useRouter>) {
-  console.log("Attempting direct OAuth flow...")
-  
-  // Create a simple proxy to avoid CORS
-  const proxyUrl = `https://cors-anywhere.herokuapp.com/https://api.intra.42.fr/oauth/token`
-  
-  try {
-    const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
-      },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
-        client_secret: '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',
-        code: code,
-        redirect_uri: 'https://42skillar.vercel.app/login'
-      }).toString()
-    })
-
-    if (!tokenResponse.ok) {
-      throw new Error(`Token request failed: ${tokenResponse.status}`)
-    }
-
-    const tokenData = await tokenResponse.json()
-    console.log("Direct token received")
-
-    // Get user info
-    const userResponse = await fetch("https://api.intra.42.fr/v2/me", {
-      headers: {
-        Authorization: `Bearer ${tokenData.access_token}`
-      }
-    })
-
-    if (!userResponse.ok) {
-      throw new Error(`Failed to get user info: ${userResponse.status}`)
-    }
-
-    const userData = await userResponse.json()
-    console.log("Direct user data received:", userData.login)
-
-    // Store user data
-    localStorage.setItem("skillar_username", userData.login.trim())
-    localStorage.setItem("skillar_access_token", tokenData.access_token)
-    
-    router.push("/competitions")
-  } catch (error) {
-    console.error("Direct OAuth flow failed:", error)
-    throw error
-  }
+  // This function is no longer needed since we're using a simpler approach
+  throw new Error("Direct OAuth flow not implemented")
 }
 
 export default function LoginPage() {
