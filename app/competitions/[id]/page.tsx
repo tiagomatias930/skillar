@@ -20,6 +20,19 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
     .eq("id", id)
     .single()
 
+  // Get participants with team information
+  const { data: participants } = await supabase
+    .from("participants")
+    .select(`
+      *,
+      user:users!participants_user_id_fkey(*),
+      participation_type,
+      team_id,
+      team_name
+    `)
+    .eq("competition_id", id)
+    .order("points", { ascending: false })
+
   if (!competition) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -36,12 +49,16 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
     )
   }
 
-  const participants = await getCompetitionRanking(id)
+  const participantsRanking = await getCompetitionRanking(id)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navigation />
-      <CompetitionDetailsClient competition={competition} participants={participants} />
+      <CompetitionDetailsClient 
+        competition={competition} 
+        participants={participantsRanking}
+        participantsWithTeams={participants || []}
+      />
     </div>
   )
 }

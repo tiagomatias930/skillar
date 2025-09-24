@@ -186,8 +186,13 @@ export async function createCompetition(
 }
 
 // Participant functions
-export async function joinCompetition(competitionId: string, username: string): Promise<{ success: boolean, supabaseError?: string }> {
-  console.log("[v0] Attempting to join competition:", { competitionId, username })
+export async function joinCompetition(
+  competitionId: string, 
+  username: string, 
+  participationType: 'solo' | 'team' = 'solo',
+  teamId?: string
+): Promise<{ success: boolean, supabaseError?: string }> {
+  console.log("[v0] Attempting to join competition:", { competitionId, username, participationType, teamId })
 
   const supabase = await createClient()
 
@@ -199,21 +204,72 @@ export async function joinCompetition(competitionId: string, username: string): 
 
   console.log("[v0] User found:", user)
 
-  const { data, error } = await supabase
-    .from("participants")
-    .insert({
-      competition_id: competitionId,
-      user_id: user.id,
-    })
-    .select()
+  // Para participação em equipe, verificar se o usuário é líder
+  if (participationType === 'team') {
+    if (!teamId) {
+      return { success: false, supabaseError: "ID da equipe é obrigatório para participação em equipe" }
+    }
 
-  if (error) {
-    console.error("[v0] Error joining competition:", error)
-    return { success: false, supabaseError: error.message }
+    // Verificar se o usuário é líder da equipe (usando mock teams)
+    try {
+      const { mockTeams } = await import('@/lib/mock-teams')
+      const team = mockTeams.find((t: any) => t.id === teamId)
+      
+      if (!team) {
+        return { success: false, supabaseError: "Equipe não encontrada" }
+      }
+
+      const userMember = team.team_members.find((m: any) => m.user_id === username)
+      if (!userMember || userMember.role !== 'leader') {
+        return { success: false, supabaseError: "Apenas o líder da equipe pode inscrevê-la" }
+      }
+
+      // Adicionar todos os membros da equipe
+      for (const member of team.team_members) {
+        const memberUser = await getUserByUsername(member.user_id)
+        if (memberUser) {
+          const { error: memberError } = await supabase
+            .from("participants")
+            .insert({
+              competition_id: competitionId,
+              user_id: memberUser.id,
+              participation_type: 'team',
+              team_id: teamId,
+              team_name: team.name
+            })
+
+          if (memberError) {
+            console.error("[v0] Error adding team member:", memberError)
+            // Continue adicionando outros membros mesmo se um falhar
+          }
+        }
+      }
+
+      console.log("[v0] Successfully added team to competition")
+      return { success: true }
+    } catch (error) {
+      console.error("[v0] Error processing team participation:", error)
+      return { success: false, supabaseError: "Erro ao processar participação em equipe" }
+    }
+  } else {
+    // Participação solo
+    const { data, error } = await supabase
+      .from("participants")
+      .insert({
+        competition_id: competitionId,
+        user_id: user.id,
+        participation_type: 'solo'
+      })
+      .select()
+
+    if (error) {
+      console.error("[v0] Error joining competition:", error)
+      return { success: false, supabaseError: error.message }
+    }
+
+    console.log("[v0] Successfully joined competition:", data)
+    return { success: true }
   }
-
-  console.log("[v0] Successfully joined competition:", data)
-  return { success: true }
 }
 
 export async function getCompetitionRanking(competitionId: string): Promise<Participant[]> {
