@@ -11,10 +11,8 @@ import Link from "next/link"
 
 async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
-    console.log("Starting OAuth callback processing with code:", code.substring(0, 10) + "...")
 
     // Try the existing callback API endpoint
-    console.log("Attempting OAuth callback...")
     const response = await fetch("/api/auth/callback/42", {  // Updated to match your current path
       method: "POST",
       headers: {
@@ -23,22 +21,16 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
       body: JSON.stringify({ code }),
     })
 
-    console.log("Callback response status:", response.status)
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => null)
-      console.error("Callback API error:", response.status, errorData)
       throw new Error(errorData?.error || `API returned ${response.status}`)
     }
 
     const data = await response.json()
-    console.log("Callback response:", data)
 
     if (!data.success) {
       throw new Error(data.error || "Authentication failed")
     }
-
-    console.log("OAuth successful for user:", data.username)
 
     // Store user data
     localStorage.setItem("skillar_username", data.username)
@@ -60,17 +52,14 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
         throw new Error(data1.error || "Erro ao fazer login")
       }
     } catch (error: unknown) {
-      console.error("Guest login error:", error)
       // setError(error instanceof Error ? error.message : "Erro desconhecido")
     } finally {
       // setIsLoading(false)
     }
 
-    console.log("Login successful, redirecting to competitions")
     window.location.href = "https://42skillar.vercel.app/competitions"
     //router.replace("/competitions")    
   } catch (error: unknown) {
-    console.error("OAuth processing error:", error)
 
     let errorMessage = "Falha na autenticação. "
     if (error instanceof Error) {
@@ -93,11 +82,9 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     currentUrl.searchParams.delete('state')
     window.history.replaceState({}, '', currentUrl.toString())
   } finally {
-    console.log("Finished OAuth callback processing")
   }
 }
 
-// Fallback direct OAuth flow (for when server callback fails)
 async function directOAuthFlow(code: string, router: ReturnType<typeof useRouter>) {
   // This function is no longer needed since we're using a simpler approach
   throw new Error("Direct OAuth flow not implemented")
@@ -116,7 +103,6 @@ export default function LoginPage() {
     const code = searchParams.get('code')
     const error = searchParams.get('error')
 
-    console.log('OAuth callback detected:', { code: code?.substring(0, 10), error })
 
     if (error) {
       setError(`OAuth error: ${error}`)
@@ -126,7 +112,6 @@ export default function LoginPage() {
 
     // Prevent multiple processing of the same code
     if (code && !isProcessingOAuth && code !== localStorage.getItem('last_processed_code')) {
-      console.log('Processing OAuth code...')
       localStorage.setItem('last_processed_code', code) // Prevent reprocessing
       setIsProcessingOAuth(true)
       setIsLoading(true)
@@ -170,7 +155,6 @@ export default function LoginPage() {
       localStorage.setItem("skillar_username", username.trim())
       router.push("/competitions")
     } catch (error: unknown) {
-      console.error("Guest login error:", error)
       setError(error instanceof Error ? error.message : "Erro desconhecido")
     } finally {
       setIsLoading(false)
@@ -182,7 +166,7 @@ export default function LoginPage() {
     setError(null)
 
     // Use environment variables for OAuth config (you should move these to env vars)
-    const clientId = process.env.NEXT_PUBLIC_42_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
+    const clientId = process.env.INTRA42_CLIENT_ID
     const redirectUri = process.env.NEXT_PUBLIC_42_REDIRECT_URI || 'https://42skillar.vercel.app/login'
 
     const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=public`

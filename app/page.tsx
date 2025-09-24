@@ -89,9 +89,19 @@ export default function HomePage() {
           <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6 sm:mb-8">
             Veja Como Funciona
           </h3>
-          <div className="max-w-4xl mx-auto aspect-video px-2 sm:px-4">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/xXeZ3b5Nb08?si=vASGsJO20wTg82zI" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
-            </iframe>
+          <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/xXeZ3b5Nb08?si=vASGsJO20wTg82zI"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
           </div>
         </div>
       </section>

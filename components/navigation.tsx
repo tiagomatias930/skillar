@@ -25,9 +25,9 @@ export function Navigation() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />
-            <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
-            <p className="text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
+            <img src="/42skillar.png" alt="42Skillar Logo" className="h-12 w-12 object-contain" />
+            <h1 className="text-3xl font-bold text-gray-900">Skillar</h1>
+            <p className="text-center text-lg text-italic text-gray-300">Arena dos Campeões</p>
           </Link>
 
           <nav className="flex items-center gap-4">
