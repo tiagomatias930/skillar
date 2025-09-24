@@ -96,8 +96,11 @@ export async function GET(request: Request) {
       localStorage.setItem("skillar_username", userData.login.trim())
       return NextResponse.redirect("https://42skillar.vercel.app/competitions")
     } catch (error: unknown) {
-      // Handle error (logging or custom logic can be added here if needed)
+      alert("Login failed: " + (error instanceof Error ? error.message : "Unknown error"))
+      console.error("Login API error: ++++", error)
     } finally {
+      console.log("Finished OAuth callback processing ++++")
+      alert("Finished OAuth callback processing ++++")  
       // No loading state to set in server-side code
     }
   
