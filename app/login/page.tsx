@@ -70,8 +70,7 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     }
 
     console.log("Login successful, redirecting to competitions")
-    router.push("/competitions")
-    
+    router.replace("/competitions")    
   } catch (error: unknown) {
     console.error("OAuth processing error:", error)
     
