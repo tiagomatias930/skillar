@@ -30,7 +30,7 @@ export async function GET(request: Request) {
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         client_id: 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
-        client_secret: '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',
+        client_secret: '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',
         code: code,
         redirect_uri: 'https://42skillar.vercel.app/competitions' // Must match exactly what's registered in 42 OAuth app
       }).toString()
