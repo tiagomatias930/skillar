@@ -52,12 +52,12 @@ export default function JogoPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img
-                className="h-8 w-8 object-contain"
+                className="h-12 w-12 object-contain"
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
-              <p className="text-center text-ms text-gray-500">Arena dos Campeões</p>
+              <h1 className="text-3xl font-bold text-gray-900">Skillar</h1>
+              <p className="text-center text-lg text-gray-500">Arena dos Campeões</p>
             </div>
             <nav className="flex items-center gap-3">
               <Link href="/">

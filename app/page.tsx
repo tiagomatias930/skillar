@@ -13,13 +13,13 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
             <div className="flex items-center gap-2">
               <img
-                className="h-10 w-10 object-contain"
+                className="h-12 w-12 object-contain"
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-lg font-bold text-gray-900">Skillar</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Skillar</h1>
               <h4></h4>
-              <p className="hidden sm:block text-center text-sm font-italic text-gray-300">Arena dos Campeões</p>
+              <p className="hidden sm:block text-center text-lg font-italic text-gray-300">Arena dos Campeões</p>
             </div>
             <nav className="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
               <Link href="/competitions">
