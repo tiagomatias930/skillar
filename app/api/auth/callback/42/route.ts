@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
+export const dynamic = 'force-dynamic'
+
 // Store used codes temporarily (in production, use a database or Redis)
 const usedCodes = new Set<string>()
 

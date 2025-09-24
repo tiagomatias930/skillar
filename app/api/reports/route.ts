@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createReport, getReports } from "@/lib/database"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const reports = await getReports()
