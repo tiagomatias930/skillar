@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { mockTeams, updateTeam, removeTeam } from '@/lib/mock-teams'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }

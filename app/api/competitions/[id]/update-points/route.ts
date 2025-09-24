@@ -2,6 +2,8 @@ import { type NextRequest, NextResponse } from "next/server"
 import { updateParticipantPoints, getCompetitionRanking } from "@/lib/database"
 import { revalidatePath } from "next/cache"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
