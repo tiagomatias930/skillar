@@ -61,7 +61,7 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     //router.replace("/competitions")    
   } catch (error: unknown) {
 
-    let errorMessage = "Falha na autenticação. "
+    let errorMessage = "Falha na autenticação."
     if (error instanceof Error) {
       if (error.message.includes("Failed to fetch")) {
         errorMessage += "Erro de conexão. Verifique sua internet."
