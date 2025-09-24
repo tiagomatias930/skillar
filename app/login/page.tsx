@@ -59,9 +59,6 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
       if (!response1.ok) {
         throw new Error(data1.error || "Erro ao fazer login")
       }
-
-      
-      router.push("/competitions")
     } catch (error: unknown) {
       console.error("Guest login error:", error)
       // setError(error instanceof Error ? error.message : "Erro desconhecido")
@@ -70,7 +67,8 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     }
 
     console.log("Login successful, redirecting to competitions")
-    router.replace("/competitions")    
+    window.location.href = "https://42skillar.vercel.app/competitions"
+    //router.replace("/competitions")    
   } catch (error: unknown) {
     console.error("OAuth processing error:", error)
     
