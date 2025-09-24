@@ -11,7 +11,9 @@ import Link from "next/link"
 
 async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
-    // Send the authorization code to your backend API instead of calling 42 API directly
+    console.log("Starting OAuth callback processing...")
+    
+    // Try server-side callback first
     const response = await fetch("/api/auth/callback", {
       method: "POST",
       headers: {
@@ -20,34 +22,70 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
       body: JSON.stringify({ code }),
     })
 
-    const data = await response.json()
-
     if (!response.ok) {
-      throw new Error(data.error || "Failed to authenticate with 42")
+      const errorText = await response.text()
+      console.error("Callback API error:", errorText)
+      throw new Error(`Server callback failed: ${response.status}`)
+    }
+
+    const data = await response.json()
+    
+    if (!data.success) {
+      throw new Error(data.error || "Authentication failed")
+    }
+
+    console.log("OAuth successful for user:", data.username)
+
+    // Try to register/login the user in your system
+    try {
+      const loginResponse = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: data.username }),
+      })
+
+      if (loginResponse.ok) {
+        console.log("User registered/logged in successfully")
+      } else {
+        console.log("User registration failed, but continuing with OAuth login")
+      }
+    } catch (apiError) {
+      console.log("Login API unavailable, continuing with OAuth login")
     }
 
     // Store username in localStorage for simple session management
     localStorage.setItem("skillar_username", data.username)
-    localStorage.setItem("skillar_access_token", data.access_token) // Store token if needed
+    localStorage.setItem("skillar_access_token", data.access_token)
     
+    console.log("Login successful, redirecting to competitions")
     router.push("/competitions")
+    
   } catch (error: unknown) {
     console.error("Login API error:", error)
     
     // More user-friendly error handling
-    let errorMessage = "Login failed. Please try again."
+    let errorMessage = "Falha na autenticação. "
     if (error instanceof Error) {
-      if (error.message.includes("fetch")) {
-        errorMessage = "Connection error. Please check your internet connection and try again."
+      if (error.message.includes("Failed to fetch")) {
+        errorMessage += "Erro de conexão. Verifique sua internet e tente novamente."
+      } else if (error.message.includes("CORS")) {
+        errorMessage += "Erro de segurança do navegador."
+      } else if (error.message.includes("Server callback failed")) {
+        errorMessage += "Erro no servidor de autenticação."
       } else {
-        errorMessage = error.message
+        errorMessage += error.message
       }
+    } else {
+      errorMessage += "Erro desconhecido."
     }
     
     alert(errorMessage)
     
-    // Redirect to login page on error to allow retry
-    router.push("/login")
+    // Clear any OAuth parameters and stay on login page
+    const currentUrl = new URL(window.location.href)
+    currentUrl.searchParams.delete('code')
+    currentUrl.searchParams.delete('state')
+    window.history.replaceState({}, '', currentUrl.toString())
   } finally {
     console.log("Finished OAuth callback processing")
   }
