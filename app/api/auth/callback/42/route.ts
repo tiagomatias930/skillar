@@ -1,88 +1,96 @@
-// app/api/auth/callback/route.ts
 import { NextRequest, NextResponse } from "next/server"
 
-// Configuração de CORS
-const allowedOrigins = ['https://42skillar.vercel.app', 'http://localhost:3000', 'http://localhost:5000']
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Max-Age': '86400', // 24 horas
-}
-
-// Handler para OPTIONS (preflight requests)
-export async function OPTIONS() {
-  return NextResponse.json({}, { headers: corsHeaders })
-}
-
 export async function POST(request: NextRequest) {
-  // Verificar a origem da requisição
-  const origin = request.headers.get('origin') || ''
-  const allowedOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0]
+  console.log("OAuth callback API called")
   
-  // Atualizar o header de CORS com a origem permitida
-  const headers = {
-    ...corsHeaders,
-    'Access-Control-Allow-Origin': allowedOrigin,
-  }
   try {
-    const { code } = await request.json()
+    const body = await request.json()
+    const { code } = body
+    
+    console.log("Received code:", code ? code.substring(0, 10) + "..." : "null")
 
     if (!code) {
+      console.log("No code provided")
       return NextResponse.json(
         { error: "Authorization code is required" },
         { status: 400 }
       )
     }
 
+    // OAuth credentials
+    const clientId = 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
+    const clientSecret = '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'
+    const redirectUri = 'https://42skillar.vercel.app/login'
+
     // Exchange code for access token
+    const tokenParams = new URLSearchParams({
+      grant_type: 'authorization_code',
+      client_id: clientId,
+      client_secret: clientSecret,
+      code: code,
+      redirect_uri: redirectUri
+    })
+
+    console.log("Making token request to 42 API...")
+    
     const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'User-Agent': 'SkillarApp/1.0'
       },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: process.env.FORTY_TWO_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
-        client_secret: process.env.FORTY_TWO_CLIENT_SECRET || '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',
-        code: code,
-        redirect_uri: process.env.FORTY_TWO_REDIRECT_URI || 'https://42skillar.vercel.app/login'
-      }).toString()
+      body: tokenParams.toString()
     })
 
+    console.log("Token response status:", tokenResponse.status)
+    console.log("Token response headers:", Object.fromEntries(tokenResponse.headers.entries()))
+
     if (!tokenResponse.ok) {
-      const errorData = await tokenResponse.json()
-      console.error("42 API token error:", errorData)
+      const errorText = await tokenResponse.text()
+      console.error("42 API token error:", tokenResponse.status, errorText)
       return NextResponse.json(
-        { error: errorData.error_description || errorData.error || "Failed to get access token" },
-        { status: 400, headers }
+        { 
+          error: `Failed to get access token from 42 API`,
+          details: errorText,
+          status: tokenResponse.status
+        },
+        { status: 400 }
       )
     }
 
     const tokenData = await tokenResponse.json()
+    console.log("Token received, access_token length:", tokenData.access_token?.length)
 
     // Get user info from 42 API
+    console.log("Making user info request...")
     const userResponse = await fetch("https://api.intra.42.fr/v2/me", {
       headers: {
-        Authorization: `Bearer ${tokenData.access_token}`
+        'Authorization': `Bearer ${tokenData.access_token}`,
+        'Accept': 'application/json',
+        'User-Agent': 'SkillarApp/1.0'
       }
     })
 
+    console.log("User response status:", userResponse.status)
+
     if (!userResponse.ok) {
-      console.error("Failed to get user info from 42 API")
+      const errorText = await userResponse.text()
+      console.error("Failed to get user info:", userResponse.status, errorText)
       return NextResponse.json(
-        { error: 'Failed to get user info from 42 API' },
-        { status: 400, headers }
+        { 
+          error: 'Failed to get user info from 42 API',
+          details: errorText,
+          status: userResponse.status
+        },
+        { status: 400 }
       )
     }
 
     const userData = await userResponse.json()
+    console.log("User data received for:", userData.login)
 
-    // Here you can save the user to your database or perform other operations
-    // For now, we'll just return the user data
-    
-    return NextResponse.json({
+    const result = {
       success: true,
       username: userData.login.trim(),
       access_token: tokenData.access_token,
@@ -90,24 +98,30 @@ export async function POST(request: NextRequest) {
         id: userData.id,
         email: userData.email,
         displayname: userData.displayname,
-        image: userData.image,
+        image: userData.image?.link || userData.image,
         campus: userData.campus?.[0]?.name || null
       }
-    }, { headers })
+    }
+
+    console.log("Returning success response")
+    return NextResponse.json(result)
 
   } catch (error) {
     console.error("OAuth callback error:", error)
     return NextResponse.json(
-      { error: "Internal server error during OAuth callback" },
-      { status: 500, headers }
+      { 
+        error: "Internal server error during OAuth callback",
+        details: error instanceof Error ? error.message : "Unknown error"
+      },
+      { status: 500 }
     )
   }
 }
 
-// Handle GET requests (in case someone tries to access this endpoint directly)
-export async function GET() {
+export async function GET(request: NextRequest) {
+  console.log("GET request to callback API - returning method not allowed")
   return NextResponse.json(
-    { error: "This endpoint only accepts POST requests" },
-    { status: 405, headers: corsHeaders }
+    { error: "This endpoint only accepts POST requests", timestamp: new Date().toISOString() },
+    { status: 405 }
   )
 }
