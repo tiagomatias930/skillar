@@ -90,7 +90,7 @@ export default function HomePage() {
             Veja Como Funciona
           </h3>
           <div className="max-w-4xl mx-auto aspect-video px-2 sm:px-4">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/xXeZ3b5Nb08?si=vASGsJO20wTg82zI" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/xXeZ3b5Nb08?si=vASGsJO20wTg82zI" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
             </iframe>
           </div>
         </div>

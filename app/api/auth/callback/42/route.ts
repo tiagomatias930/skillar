@@ -1,6 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-
+import router from "next/dist/shared/lib/router/router"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import Link from "next/link"
 export const dynamic = 'force-dynamic'
 export const runtime = 'edge'
 
@@ -50,19 +57,8 @@ export async function GET(request: Request) {
     }
 
     const userData = await userResponse.json()
-    console.log("User data from 42 API:", JSON.stringify({
-      login: userData.login,
-      id: userData.id,
-      email: userData.email,
-      campus_users: userData.campus_users,
-      usual_full_name: userData.usual_full_name,
-      first_name: userData.first_name,
-      last_name: userData.last_name,
-      image: userData.image
-    }, null, 2))
 
-    // Get primary campus info
-    const primaryCampus = userData.campus_users?.[0]?.campus?.name || "Unknown Campus"
+    let primaryCampus = userData.campus_users?.[0]?.campus?.name || "Unknown Campus"
     console.log("Detected primary campus:", primaryCampus)
 
     // Prepare user data
@@ -82,75 +78,29 @@ export async function GET(request: Request) {
       is_staff: Boolean(userData.staff),
       updated_at: new Date().toISOString()
     }
-
-    // Create or update user in database
-    const supabase = await createClient()
-    const { error: upsertError } = await supabase
-      .from('users')
-      .upsert(userInfo, {
-        onConflict: 'intra_id'
+    
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: userData.login.trim() }),
       })
 
-    if (upsertError) {
-      console.error('Failed to upsert user:', upsertError)
-      throw new Error('Failed to save user data')
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao fazer login")
+      }
+
+      // Store username in localStorage for simple session management
+      localStorage.setItem("skillar_username", userData.login.trim())
+      return NextResponse.redirect("https://42skillar.vercel.app/competitions")
+    } catch (error: unknown) {
+      // Handle error (logging or custom logic can be added here if needed)
+    } finally {
+      // No loading state to set in server-side code
     }
-
-    // Store auth data in session cookie
-    const session = {
-      access_token: tokenData.access_token,
-      refresh_token: tokenData.refresh_token,
-      username: userInfo.username,
-      intra_id: userInfo.intra_id,
-      displayname: userInfo.displayname,
-      avatar_url: userInfo.avatar_url,
-      campus: userInfo.campus,
-      is_staff: userInfo.is_staff,
-    }
-
-    // Store basic user info in localStorage
-    const clientData = {
-      username: userInfo.username,
-      displayname: userInfo.displayname,
-      avatar_url: userInfo.avatar_url,
-      campus: userInfo.campus,
-    }
-    
-    // Set cookie with client data that should be available in the frontend
-    const clientDataCookie = encodeURIComponent(JSON.stringify(clientData))
-
-    // Get redirect URL from state parameter
-    const state = searchParams.get("state")
-    const redirectUrl = state ? decodeURIComponent(state) : "/competitions"
-
-    // Construct full redirect URL
-    const baseUrl = 'https://42skillar.vercel.app' as string
-    const finalRedirectUrl = redirectUrl.startsWith("/") 
-      ? `${baseUrl}${redirectUrl}`
-      : `${baseUrl}/competitions`
-
-    // Create response with redirect
-    const response = NextResponse.redirect(finalRedirectUrl)
-    
-    // Set cookies individually
-    response.cookies.set('session', JSON.stringify(session), {
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      domain: '42skillar.vercel.app'
-    })
-    
-    response.cookies.set('skillar_user', clientDataCookie, {
-      path: '/',
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      domain: '42skillar.vercel.app'
-    })
-
-    return response
+  
   } catch (error) {
     console.error("OAuth callback error:", error)
     return NextResponse.redirect(
