@@ -5,10 +5,13 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useUsername } from "@/hooks/use-local-storage"
+import { useTranslation } from "@/hooks/use-translation"
+import { LanguageSelector } from "@/components/language-selector"
 
 export function Navigation() {
   const [username, setUsername] = useUsername()
   const router = useRouter()
+  const { t } = useTranslation()
 
   const handleLogout = () => {
     setUsername(null)
@@ -28,42 +31,44 @@ export function Navigation() {
           <nav className="flex items-center gap-4">
             <Link href="/competitions">
              <Trophy className="h-4 w-4 mr-1" />
-              <Button variant="ghost">Competições</Button>
+              <Button variant="ghost">{t('navigation.competitions')}</Button>
             </Link>
                 <Link href="/equipas">
                   <Users className="h-4 w-4 mr-1" />
-                  <Button variant="ghost">Equipas</Button>
+                  <Button variant="ghost">{t('navigation.teams')}</Button>
                 </Link>
             <Link href="/ranking">
               <BarChart3 className="h-4 w-4" />
-              <Button variant="ghost">Ranking</Button>
+              <Button variant="ghost">{t('navigation.ranking')}</Button>
             </Link>
             <Link href="/history">
                <History className="h-4 w-4 mr-1" />
-              <Button variant="ghost">Histórico</Button>
+              <Button variant="ghost">{t('navigation.history')}</Button>
             </Link>
             <Link href="/jogo">
               <Gamepad2 className="h-4 w-4" />
               <Button variant="ghost">Jogos & Diversão</Button>
             </Link>
             <Link href="/reports">
-              <Button variant="ghost">Relatórios</Button>
+              <Button variant="ghost">{t('navigation.reports')}</Button>
             </Link>
             <Link href="/blacklist">
-              <Button variant="ghost">Lista Negra</Button>
+              <Button variant="ghost">{t('navigation.blacklist')}</Button>
             </Link>
+
+            <LanguageSelector />
 
             {username ? (
               <div className="flex items-center gap-3">
                 <span className="text-sm text-gray-600">Olá, {username}</span>
                 <Button variant="outline" size="sm" onClick={handleLogout}>
                   <LogOut className="h-4 w-4 mr-2" />
-                  Sair
+                  {t('navigation.logout')}
                 </Button>
               </div>
             ) : (
               <Link href="/login">
-                <Button>Entrar</Button>
+                <Button>{t('navigation.login')}</Button>
               </Link>
             )}
           </nav>
