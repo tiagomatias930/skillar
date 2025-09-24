@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { joinCompetition } from "@/lib/database"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     console.log("[v0] Join competition API called")

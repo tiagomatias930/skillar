@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { mockTeams, addTeam } from '@/lib/mock-teams'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     // Transformar os dados para o formato esperado pelo frontend

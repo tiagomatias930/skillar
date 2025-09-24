@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createCompetition } from "@/lib/database"
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const { title, description, creatorUsername, durationType, durationValue, durationMinutes, customEndDate } = await request.json()
