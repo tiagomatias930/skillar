@@ -12,7 +12,7 @@ import Link from "next/link"
 async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
     console.log("Starting OAuth callback processing with code:", code.substring(0, 10) + "...")
-    
+
     // Try the existing callback API endpoint
     console.log("Attempting OAuth callback...")
     const response = await fetch("/api/auth/callback/42", {  // Updated to match your current path
@@ -24,7 +24,7 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     })
 
     console.log("Callback response status:", response.status)
-    
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => null)
       console.error("Callback API error:", response.status, errorData)
@@ -33,7 +33,7 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
 
     const data = await response.json()
     console.log("Callback response:", data)
-    
+
     if (!data.success) {
       throw new Error(data.error || "Authentication failed")
     }
@@ -43,11 +43,11 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     // Store user data
     localStorage.setItem("skillar_username", data.username)
     localStorage.setItem("skillar_access_token", data.access_token)
-    
+
     // Clear the processed code to prevent reuse
     localStorage.removeItem('last_processed_code')
-    
-        try {
+
+    try {
       const response1 = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -71,7 +71,7 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     //router.replace("/competitions")    
   } catch (error: unknown) {
     console.error("OAuth processing error:", error)
-    
+
     let errorMessage = "Falha na autenticação. "
     if (error instanceof Error) {
       if (error.message.includes("Failed to fetch")) {
@@ -84,9 +84,9 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
         errorMessage += error.message
       }
     }
-    
+
     alert(errorMessage)
-    
+
     // Clear OAuth parameters
     const currentUrl = new URL(window.location.href)
     currentUrl.searchParams.delete('code')
@@ -115,22 +115,22 @@ export default function LoginPage() {
   useEffect(() => {
     const code = searchParams.get('code')
     const error = searchParams.get('error')
-    
+
     console.log('OAuth callback detected:', { code: code?.substring(0, 10), error })
-    
+
     if (error) {
       setError(`OAuth error: ${error}`)
       router.replace('/login')
       return
     }
-    
+
     // Prevent multiple processing of the same code
     if (code && !isProcessingOAuth && code !== localStorage.getItem('last_processed_code')) {
       console.log('Processing OAuth code...')
       localStorage.setItem('last_processed_code', code) // Prevent reprocessing
       setIsProcessingOAuth(true)
       setIsLoading(true)
-      
+
       login42(code, router).finally(() => {
         setIsLoading(false)
         setIsProcessingOAuth(false)
@@ -180,13 +180,13 @@ export default function LoginPage() {
   const handle42Login = () => {
     setIsLoading(true)
     setError(null)
-    
+
     // Use environment variables for OAuth config (you should move these to env vars)
     const clientId = process.env.NEXT_PUBLIC_42_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
     const redirectUri = process.env.NEXT_PUBLIC_42_REDIRECT_URI || 'https://42skillar.vercel.app/login'
-    
+
     const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=public`
-    
+
     window.location.href = authUrl
   }
 
@@ -209,8 +209,8 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle className="text-2xl text-center">Entrar no 42Skillar</CardTitle>
             <CardDescription className="text-center">
-              {isProcessingOAuth 
-                ? "Processando login da 42..." 
+              {isProcessingOAuth
+                ? "Processando login da 42..."
                 : "Digite seu username para participar das competições"
               }
             </CardDescription>
@@ -249,7 +249,7 @@ export default function LoginPage() {
                         <span className="w-full border-t" />
                       </div>
                       <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
+                        <span className="px-2">
                           Ou entre com
                         </span>
                       </div>
@@ -266,7 +266,7 @@ export default function LoginPage() {
                         alt="42 Logo"
                         className="h-5 w-5 mr-2"
                       />
-                      {isLoading ? "Redirecionando..." : "Entrar com a 42"}
+                      {isLoading ? "Redirecionando..." : "Entrar com o intra.42.fr"}
                     </Button>
                   </div>
                 </form>
@@ -291,7 +291,7 @@ export default function LoginPage() {
             )}
 
             <div className="mt-6 text-center text-sm text-gray-600">
-              <p>Entre com sua conta da 42 para participar das competições!</p>
+              <p>Arena dos Campeões</p>
             </div>
           </CardContent>
         </Card>
