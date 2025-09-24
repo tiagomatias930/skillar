@@ -1,7 +1,30 @@
 // app/api/auth/callback/route.ts
 import { NextRequest, NextResponse } from "next/server"
 
+// Configuração de CORS
+const allowedOrigins = ['https://42skillar.vercel.app', 'http://localhost:3000', 'http://localhost:5000']
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Max-Age': '86400', // 24 horas
+}
+
+// Handler para OPTIONS (preflight requests)
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders })
+}
+
 export async function POST(request: NextRequest) {
+  // Verificar a origem da requisição
+  const origin = request.headers.get('origin') || ''
+  const allowedOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0]
+  
+  // Atualizar o header de CORS com a origem permitida
+  const headers = {
+    ...corsHeaders,
+    'Access-Control-Allow-Origin': allowedOrigin,
+  }
   try {
     const { code } = await request.json()
 
@@ -33,7 +56,7 @@ export async function POST(request: NextRequest) {
       console.error("42 API token error:", errorData)
       return NextResponse.json(
         { error: errorData.error_description || errorData.error || "Failed to get access token" },
-        { status: 400 }
+        { status: 400, headers }
       )
     }
 
@@ -50,7 +73,7 @@ export async function POST(request: NextRequest) {
       console.error("Failed to get user info from 42 API")
       return NextResponse.json(
         { error: 'Failed to get user info from 42 API' },
-        { status: 400 }
+        { status: 400, headers }
       )
     }
 
@@ -70,13 +93,13 @@ export async function POST(request: NextRequest) {
         image: userData.image,
         campus: userData.campus?.[0]?.name || null
       }
-    })
+    }, { headers })
 
   } catch (error) {
     console.error("OAuth callback error:", error)
     return NextResponse.json(
       { error: "Internal server error during OAuth callback" },
-      { status: 500 }
+      { status: 500, headers }
     )
   }
 }
@@ -85,6 +108,6 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json(
     { error: "This endpoint only accepts POST requests" },
-    { status: 405 }
+    { status: 405, headers: corsHeaders }
   )
 }
