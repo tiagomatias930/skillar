@@ -47,6 +47,28 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     // Clear the processed code to prevent reuse
     localStorage.removeItem('last_processed_code')
     
+        try {
+      const response1 = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: data.username.trim() }),
+      })
+
+      const data1 = await response1.json()
+
+      if (!response1.ok) {
+        throw new Error(data1.error || "Erro ao fazer login")
+      }
+
+      
+      router.push("/competitions")
+    } catch (error: unknown) {
+      console.error("Guest login error:", error)
+      // setError(error instanceof Error ? error.message : "Erro desconhecido")
+    } finally {
+      // setIsLoading(false)
+    }
+
     console.log("Login successful, redirecting to competitions")
     router.push("/competitions")
     
@@ -101,7 +123,6 @@ export default function LoginPage() {
     
     if (error) {
       setError(`OAuth error: ${error}`)
-      // Clean up URL parameters
       router.replace('/login')
       return
     }
