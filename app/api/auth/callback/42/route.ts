@@ -1,23 +1,15 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
-import router from "next/dist/shared/lib/router/router"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import Link from "next/link"
-export const dynamic = 'force-dynamic'
-export const runtime = 'edge'
+// app/api/auth/callback/route.ts
+import { NextRequest, NextResponse } from "next/server"
 
-export async function GET(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const code = searchParams.get('code')
+    const { code } = await request.json()
 
     if (!code) {
-      throw new Error('No authorization code provided')
+      return NextResponse.json(
+        { error: "Authorization code is required" },
+        { status: 400 }
+      )
     }
 
     // Exchange code for access token
@@ -29,21 +21,23 @@ export async function GET(request: Request) {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        client_id: 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
-        client_secret: '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',
+        client_id: process.env.FORTY_TWO_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
+        client_secret: process.env.FORTY_TWO_CLIENT_SECRET || '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',
         code: code,
-        redirect_uri: 'https://42skillar.vercel.app/competitions' // Must match exactly what's registered in 42 OAuth app
+        redirect_uri: process.env.FORTY_TWO_REDIRECT_URI || 'https://42skillar.vercel.app/login'
       }).toString()
     })
 
-    console.log("Token response status:", tokenResponse.status)
-    const tokenData = await tokenResponse.json()
-    console.log("Token response body:", JSON.stringify(tokenData, null, 2))
-
     if (!tokenResponse.ok) {
-      console.error("Token error:", tokenData)
-      throw new Error(tokenData.error_description || tokenData.error || "Failed to get access token")
+      const errorData = await tokenResponse.json()
+      console.error("42 API token error:", errorData)
+      return NextResponse.json(
+        { error: errorData.error_description || errorData.error || "Failed to get access token" },
+        { status: 400 }
+      )
     }
+
+    const tokenData = await tokenResponse.json()
 
     // Get user info from 42 API
     const userResponse = await fetch("https://api.intra.42.fr/v2/me", {
@@ -53,136 +47,44 @@ export async function GET(request: Request) {
     })
 
     if (!userResponse.ok) {
-      throw new Error('Failed to get user info')
+      console.error("Failed to get user info from 42 API")
+      return NextResponse.json(
+        { error: 'Failed to get user info from 42 API' },
+        { status: 400 }
+      )
     }
 
     const userData = await userResponse.json()
 
-    let primaryCampus = userData.campus_users?.[0]?.campus?.name || "Unknown Campus"
-    console.log("Detected primary campus:", primaryCampus)
-
-    // Prepare user data
-    const userInfo = {
-      username: userData.login,
-      intra_id: userData.id,
-      email: userData.email,
-      avatar_url: userData.image?.link,
-      campus: primaryCampus,
-      displayname: `${userData.login} - ${primaryCampus}`,
-      first_name: userData.first_name,
-      last_name: userData.last_name,
-      phone: userData.phone,
-      location: userData.location,
-      correction_points: userData.correction_point || 0,
-      wallet: userData.wallet || 0,
-      is_staff: Boolean(userData.staff),
-      updated_at: new Date().toISOString()
-    }
+    // Here you can save the user to your database or perform other operations
+    // For now, we'll just return the user data
     
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: userData.login.trim() }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || "Erro ao fazer login")
+    return NextResponse.json({
+      success: true,
+      username: userData.login.trim(),
+      access_token: tokenData.access_token,
+      user_data: {
+        id: userData.id,
+        email: userData.email,
+        displayname: userData.displayname,
+        image: userData.image,
+        campus: userData.campus?.[0]?.name || null
       }
+    })
 
-      // Store username in localStorage for simple session management
-      localStorage.setItem("skillar_username", userData.login.trim())
-      return NextResponse.redirect("https://42skillar.vercel.app/competitions")
-    } catch (error: unknown) {
-      alert("Login failed: " + (error instanceof Error ? error.message : "Unknown error"))
-      console.error("Login API error: ++++", error)
-    } finally {
-      console.log("Finished OAuth callback processing ++++")
-      alert("Finished OAuth callback processing ++++")  
-      // No loading state to set in server-side code
-    }
-  
   } catch (error) {
     console.error("OAuth callback error:", error)
-    return NextResponse.redirect(
-      `https://42skillar.vercel.app/login?error=${encodeURIComponent((error as Error).message)}`
+    return NextResponse.json(
+      { error: "Internal server error during OAuth callback" },
+      { status: 500 }
     )
   }
 }
 
-export async function login42(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const code = searchParams.get('code')
-
-    if (!code) {
-      throw new Error('No authorization code provided')
-    }
-
-    // Exchange code for access token
-    const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
-      },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
-        client_secret: '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',
-        code: code,
-        redirect_uri: 'https://42skillar.vercel.app/competitions' // Must match exactly what's registered in 42 OAuth app
-      }).toString()
-    })
-
-    const tokenData = await tokenResponse.json()
-
-    if (!tokenResponse.ok) {
-      console.error("Token error:", tokenData)
-      throw new Error(tokenData.error_description || tokenData.error || "Failed to get access token")
-    }
-
-    // Get user info from 42 API
-    const userResponse = await fetch("https://api.intra.42.fr/v2/me", {
-      headers: {
-        Authorization: `Bearer ${tokenData.access_token}`
-      }
-    })
-
-    if (!userResponse.ok) {
-      throw new Error('Failed to get user info')
-    }
-
-    const userData = await userResponse.json()
-
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: userData.login.trim() }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || "Erro ao fazer login")
-      }
-
-      // Store username in localStorage for simple session management
-      localStorage.setItem("skillar_username", userData.login.trim())
-      return NextResponse.redirect("https://42skillar.vercel.app/competitions")
-    } catch (error: unknown) {
-      alert("Login failed: " + (error instanceof Error ? error.message : "Unknown error"))
-      console.error("Login API error: ++++", error)
-    } finally {
-      console.log("Finished OAuth callback processing ++++")
-      alert("Finished OAuth callback processing ++++")  
-      // No loading state to set in server-side code
-    }
-  
-  } catch (error) {
-    console.error("OAuth callback error:", error)
-  }
+// Handle GET requests (in case someone tries to access this endpoint directly)
+export async function GET() {
+  return NextResponse.json(
+    { error: "This endpoint only accepts POST requests" },
+    { status: 405 }
+  )
 }

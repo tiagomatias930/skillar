@@ -11,61 +11,43 @@ import Link from "next/link"
 
 async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
-    // Exchange code for access token
-    const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
-      },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229',
-        client_secret: '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',
-        code: code,
-        redirect_uri: 'https://42skillar.vercel.app/login' // Atualizado para redirecionar para a página de login
-      }).toString()
-    })
-
-    const tokenData = await tokenResponse.json()
-
-    if (!tokenResponse.ok) {
-      console.error("Token error:", tokenData)
-      throw new Error(tokenData.error_description || tokenData.error || "Failed to get access token")
-    }
-
-    // Get user info from 42 API
-    const userResponse = await fetch("https://api.intra.42.fr/v2/me", {
-      headers: {
-        Authorization: `Bearer ${tokenData.access_token}`
-      }
-    })
-
-    if (!userResponse.ok) {
-      throw new Error('Failed to get user info')
-    }
-
-    const userData = await userResponse.json()
-
-    // Enviar dados do usuário para a API de login
-    const response = await fetch("/api/auth/login", {
+    // Send the authorization code to your backend API instead of calling 42 API directly
+    const response = await fetch("/api/auth/callback", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: userData.login.trim() }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ code }),
     })
 
     const data = await response.json()
 
     if (!response.ok) {
-      throw new Error(data.error || "Erro ao fazer login")
+      throw new Error(data.error || "Failed to authenticate with 42")
     }
 
     // Store username in localStorage for simple session management
-    localStorage.setItem("skillar_username", userData.login.trim())
+    localStorage.setItem("skillar_username", data.username)
+    localStorage.setItem("skillar_access_token", data.access_token) // Store token if needed
+    
     router.push("/competitions")
   } catch (error: unknown) {
-    alert("Login failed: " + (error instanceof Error ? error.message : "Unknown error"))
     console.error("Login API error:", error)
+    
+    // More user-friendly error handling
+    let errorMessage = "Login failed. Please try again."
+    if (error instanceof Error) {
+      if (error.message.includes("fetch")) {
+        errorMessage = "Connection error. Please check your internet connection and try again."
+      } else {
+        errorMessage = error.message
+      }
+    }
+    
+    alert(errorMessage)
+    
+    // Redirect to login page on error to allow retry
+    router.push("/login")
   } finally {
     console.log("Finished OAuth callback processing")
   }
@@ -75,17 +57,31 @@ export default function LoginPage() {
   const [username, setUsername] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isProcessingOAuth, setIsProcessingOAuth] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  // Verificar se há um parâmetro 'code' na URL e chamar login42
+  // Check for OAuth callback code
   useEffect(() => {
     const code = searchParams.get('code')
-    if (code) {
-      setIsLoading(true)
-      login42(code, router).finally(() => setIsLoading(false))
+    const error = searchParams.get('error')
+    
+    if (error) {
+      setError(`OAuth error: ${error}`)
+      // Clean up URL parameters
+      router.replace('/login')
+      return
     }
-  }, [searchParams, router])
+    
+    if (code && !isProcessingOAuth) {
+      setIsProcessingOAuth(true)
+      setIsLoading(true)
+      login42(code, router).finally(() => {
+        setIsLoading(false)
+        setIsProcessingOAuth(false)
+      })
+    }
+  }, [searchParams, router, isProcessingOAuth])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -114,10 +110,24 @@ export default function LoginPage() {
       localStorage.setItem("skillar_username", username.trim())
       router.push("/competitions")
     } catch (error: unknown) {
+      console.error("Guest login error:", error)
       setError(error instanceof Error ? error.message : "Erro desconhecido")
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handle42Login = () => {
+    setIsLoading(true)
+    setError(null)
+    
+    // Use environment variables for OAuth config (you should move these to env vars)
+    const clientId = process.env.NEXT_PUBLIC_42_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
+    const redirectUri = process.env.NEXT_PUBLIC_42_REDIRECT_URI || 'https://42skillar.vercel.app/login'
+    
+    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=public`
+    
+    window.location.href = authUrl
   }
 
   return (
@@ -139,60 +149,74 @@ export default function LoginPage() {
           <CardHeader>
             <CardTitle className="text-2xl text-center">Entrar no 42Skillar</CardTitle>
             <CardDescription className="text-center">
-              Digite seu username para participar das competições
+              {isProcessingOAuth 
+                ? "Processando login da 42..." 
+                : "Digite seu username para participar das competições"
+              }
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin}>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="username" className="mb-1">Username</Label>
-                  <Input
-                    id="username"
-                    type="text"
-                    placeholder="Seu username único"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    maxLength={50}
-                  />
-                </div>
-
-                {error && <p className="text-sm text-red-500">{error}</p>}
-
-                <Button type="submit" className="w-full mb-4" disabled={isLoading}>
-                  {isLoading ? "Entrando..." : "Entrar como Visitante"}
-                </Button>
-
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
+            {!isProcessingOAuth && (
+              <form onSubmit={handleLogin}>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="username" className="mb-1">Username</Label>
+                    <Input
+                      id="username"
+                      type="text"
+                      placeholder="Seu username único"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                      maxLength={50}
+                      disabled={isLoading}
+                    />
                   </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      Ou entre com
-                    </span>
-                  </div>
-                </div>
 
-                <Button
-                  type="button"
-                  className="w-full mt-4 bg-[#00BABC] hover:bg-[#00BABC]/90"
-                  onClick={() => {
-                    setIsLoading(true)
-                    window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https://42skillar.vercel.app/login&response_type=code`
-                  }}
-                  disabled={isLoading}
-                >
-                  <img
-                    src="https://api.intra.42.fr/assets/42_logo-7dfc9110a5319a308863b96bda33cea995046d1731cebb735e41b16255106c12.svg"
-                    alt="42 Logo"
-                    className="h-5 w-5 mr-2"
-                  />
-                  Entrar com a 42
-                </Button>
+                  {error && (
+                    <div className="p-3 text-sm text-red-700 bg-red-100 border border-red-300 rounded">
+                      {error}
+                    </div>
+                  )}
+
+                  <Button type="submit" className="w-full mb-4" disabled={isLoading}>
+                    {isLoading ? "Entrando..." : "Entrar como Visitante"}
+                  </Button>
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Ou entre com
+                      </span>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="button"
+                    className="w-full mt-4 bg-[#00BABC] hover:bg-[#00BABC]/90"
+                    onClick={handle42Login}
+                    disabled={isLoading}
+                  >
+                    <img
+                      src="https://api.intra.42.fr/assets/42_logo-7dfc9110a5319a308863b96bda33cea995046d1731cebb735e41b16255106c12.svg"
+                      alt="42 Logo"
+                      className="h-5 w-5 mr-2"
+                    />
+                    {isLoading ? "Redirecionando..." : "Entrar com a 42"}
+                  </Button>
+                </div>
+              </form>
+            )}
+
+            {isProcessingOAuth && (
+              <div className="text-center p-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00BABC] mx-auto mb-4"></div>
+                <p>Autenticando com a 42...</p>
               </div>
-            </form>
+            )}
 
             <div className="mt-6 text-center text-sm text-gray-600">
               <p>Entre com sua conta da 42 para participar das competições!</p>
