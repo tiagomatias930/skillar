@@ -15,7 +15,7 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     
     // Try the new callback API endpoint
     console.log("Attempting OAuth callback...")
-    const response = await fetch("/api/callback", {
+    const response = await fetch("/api/callback/42", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
