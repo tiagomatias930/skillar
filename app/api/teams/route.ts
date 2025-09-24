@@ -1,34 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { mockTeams, addTeam } from '@/lib/mock-teams'
 
 export async function GET() {
   try {
-    const supabase = createClient()
-
-    // Buscar todas as equipas com seus membros
-    const { data: teams, error } = await supabase
-      .from('teams')
-      .select(`
-        *,
-        team_members (
-          user_id,
-          role,
-          joined_at,
-          users (
-            username,
-            total_points
-          )
-        )
-      `)
-      .order('total_points', { ascending: false })
-
-    if (error) {
-      console.error('Error fetching teams:', error)
-      return NextResponse.json({ error: 'Failed to fetch teams' }, { status: 500 })
-    }
-
     // Transformar os dados para o formato esperado pelo frontend
-    const formattedTeams = teams?.map(team => ({
+    const formattedTeams = mockTeams.map(team => ({
       id: team.id,
       name: team.name,
       description: team.description,
@@ -41,7 +17,7 @@ export async function GET() {
         points: member.users?.total_points || 0,
         role: member.role
       })) || []
-    })) || []
+    }))
 
     return NextResponse.json(formattedTeams)
   } catch (error) {
@@ -52,56 +28,42 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient()
-    const { name, description, maxMembers = 5 } = await request.json()
+    const { name, description, maxMembers = 5, username } = await request.json()
 
-    // Verificar se o usuário está logado
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!username) {
+      return NextResponse.json({ error: 'Username is required' }, { status: 400 })
     }
 
     // Verificar se o usuário já pertence a uma equipa
-    const { data: existingMember } = await supabase
-      .from('team_members')
-      .select('team_id')
-      .eq('user_id', user.id)
-      .single()
+    const existingMember = mockTeams.find(team => 
+      team.team_members.some((member: any) => member.user_id === username)
+    )
 
     if (existingMember) {
       return NextResponse.json({ error: 'User already belongs to a team' }, { status: 400 })
     }
 
     // Criar nova equipa
-    const { data: newTeam, error: teamError } = await supabase
-      .from('teams')
-      .insert({
-        name,
-        description,
-        max_members: maxMembers,
-        total_points: 0
-      })
-      .select()
-      .single()
-
-    if (teamError) {
-      console.error('Error creating team:', teamError)
-      return NextResponse.json({ error: 'Failed to create team' }, { status: 500 })
+    const newTeam = {
+      id: Date.now().toString(),
+      name,
+      description,
+      total_points: 0,
+      max_members: maxMembers,
+      created_at: new Date().toISOString().split('T')[0],
+      team_members: [
+        {
+          user_id: username,
+          role: 'leader',
+          users: {
+            username: username,
+            total_points: 0
+          }
+        }
+      ]
     }
 
-    // Adicionar o criador como líder da equipa
-    const { error: memberError } = await supabase
-      .from('team_members')
-      .insert({
-        team_id: newTeam.id,
-        user_id: user.id,
-        role: 'leader'
-      })
-
-    if (memberError) {
-      console.error('Error adding team leader:', memberError)
-      return NextResponse.json({ error: 'Failed to add team leader' }, { status: 500 })
-    }
+    addTeam(newTeam)
 
     return NextResponse.json(newTeam, { status: 201 })
   } catch (error) {

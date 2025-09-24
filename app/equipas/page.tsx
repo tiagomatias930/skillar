@@ -33,6 +33,7 @@ export default function EquipasPage() {
   const [newTeamName, setNewTeamName] = useState("")
   const [newTeamDescription, setNewTeamDescription] = useState("")
   const [userTeam, setUserTeam] = useState<Team | null>(null)
+  const [loading, setLoading] = useState(false)
   const [username] = useUsername()
 
   useEffect(() => {
@@ -62,8 +63,9 @@ export default function EquipasPage() {
   }
 
   const createTeam = async () => {
-    if (!newTeamName.trim() || !username) return
+    if (!newTeamName.trim() || !username || loading) return
 
+    setLoading(true)
     try {
       const response = await fetch('/api/teams', {
         method: 'POST',
@@ -73,7 +75,8 @@ export default function EquipasPage() {
         body: JSON.stringify({
           name: newTeamName,
           description: newTeamDescription,
-          maxMembers: 5
+          maxMembers: 5,
+          username: username
         }),
       })
 
@@ -85,10 +88,13 @@ export default function EquipasPage() {
       } else {
         const errorData = await response.json()
         console.error('Error creating team:', errorData.error)
-        // Aqui você pode adicionar uma notificação de erro para o usuário
+        alert(`Erro ao criar equipa: ${errorData.error}`)
       }
     } catch (error) {
       console.error('Error creating team:', error)
+      alert('Erro ao criar equipa. Tente novamente.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -98,6 +104,12 @@ export default function EquipasPage() {
     try {
       const response = await fetch(`/api/teams/${teamId}`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username
+        }),
       })
 
       if (response.ok) {
@@ -105,10 +117,11 @@ export default function EquipasPage() {
       } else {
         const errorData = await response.json()
         console.error('Error joining team:', errorData.error)
-        // Aqui você pode adicionar uma notificação de erro para o usuário
+        alert(`Erro ao entrar na equipa: ${errorData.error}`)
       }
     } catch (error) {
       console.error('Error joining team:', error)
+      alert('Erro ao entrar na equipa. Tente novamente.')
     }
   }
 
@@ -118,6 +131,12 @@ export default function EquipasPage() {
     try {
       const response = await fetch(`/api/teams/${teamId}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username
+        }),
       })
 
       if (response.ok) {
@@ -126,10 +145,11 @@ export default function EquipasPage() {
       } else {
         const errorData = await response.json()
         console.error('Error leaving team:', errorData.error)
-        // Aqui você pode adicionar uma notificação de erro para o usuário
+        alert(`Erro ao sair da equipa: ${errorData.error}`)
       }
     } catch (error) {
       console.error('Error leaving team:', error)
+      alert('Erro ao sair da equipa. Tente novamente.')
     }
   }
 
@@ -248,10 +268,10 @@ export default function EquipasPage() {
                 />
               </div>
               <div className="flex gap-2">
-                <Button onClick={createTeam} disabled={!newTeamName.trim()}>
-                  Criar Equipa
+                <Button onClick={createTeam} disabled={!newTeamName.trim() || loading}>
+                  {loading ? 'Criando...' : 'Criar Equipa'}
                 </Button>
-                <Button variant="outline" onClick={() => setShowCreateForm(false)}>
+                <Button variant="outline" onClick={() => setShowCreateForm(false)} disabled={loading}>
                   Cancelar
                 </Button>
               </div>

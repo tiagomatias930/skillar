@@ -1,39 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { mockTeams, updateTeam, removeTeam } from '@/lib/mock-teams'
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient()
     const teamId = params.id
+    const { username } = await request.json()
 
-    // Verificar se o usuário está logado
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!username) {
+      return NextResponse.json({ error: 'Username is required' }, { status: 400 })
     }
 
     // Verificar se o usuário já pertence a uma equipa
-    const { data: existingMember } = await supabase
-      .from('team_members')
-      .select('team_id')
-      .eq('user_id', user.id)
-      .single()
+    const existingMember = mockTeams.find(team => 
+      team.team_members.some((member: any) => member.user_id === username)
+    )
 
     if (existingMember) {
       return NextResponse.json({ error: 'User already belongs to a team' }, { status: 400 })
     }
 
-    // Verificar se a equipa existe e tem vagas disponíveis
-    const { data: team, error: teamError } = await supabase
-      .from('teams')
-      .select('*, team_members(*)')
-      .eq('id', teamId)
-      .single()
-
-    if (teamError || !team) {
+    // Encontrar a equipa
+    const team = mockTeams.find(team => team.id === teamId)
+    
+    if (!team) {
       return NextResponse.json({ error: 'Team not found' }, { status: 404 })
     }
 
@@ -42,18 +34,22 @@ export async function POST(
     }
 
     // Adicionar o usuário à equipa
-    const { error: memberError } = await supabase
-      .from('team_members')
-      .insert({
-        team_id: teamId,
-        user_id: user.id,
-        role: 'member'
-      })
-
-    if (memberError) {
-      console.error('Error joining team:', memberError)
-      return NextResponse.json({ error: 'Failed to join team' }, { status: 500 })
+    const updatedTeam = {
+      ...team,
+      team_members: [
+        ...team.team_members,
+        {
+          user_id: username,
+          role: 'member',
+          users: {
+            username: username,
+            total_points: 0
+          }
+        }
+      ]
     }
+
+    updateTeam(teamId, updatedTeam)
 
     return NextResponse.json({ message: 'Successfully joined team' })
   } catch (error) {
@@ -67,38 +63,32 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient()
     const teamId = params.id
+    const { username } = await request.json()
 
-    // Verificar se o usuário está logado
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!username) {
+      return NextResponse.json({ error: 'Username is required' }, { status: 400 })
+    }
+
+    // Encontrar a equipa
+    const team = mockTeams.find(team => team.id === teamId)
+    
+    if (!team) {
+      return NextResponse.json({ error: 'Team not found' }, { status: 404 })
     }
 
     // Remover o usuário da equipa
-    const { error: memberError } = await supabase
-      .from('team_members')
-      .delete()
-      .eq('team_id', teamId)
-      .eq('user_id', user.id)
+    const updatedMembers = team.team_members.filter((member: any) => member.user_id !== username)
 
-    if (memberError) {
-      console.error('Error leaving team:', memberError)
-      return NextResponse.json({ error: 'Failed to leave team' }, { status: 500 })
-    }
-
-    // Verificar se não restam membros na equipa e deletá-la se necessário
-    const { data: remainingMembers } = await supabase
-      .from('team_members')
-      .select('*')
-      .eq('team_id', teamId)
-
-    if (!remainingMembers || remainingMembers.length === 0) {
-      await supabase
-        .from('teams')
-        .delete()
-        .eq('id', teamId)
+    // Se não restam membros, remover a equipa
+    if (updatedMembers.length === 0) {
+      removeTeam(teamId)
+    } else {
+      const updatedTeam = {
+        ...team,
+        team_members: updatedMembers
+      }
+      updateTeam(teamId, updatedTeam)
     }
 
     return NextResponse.json({ message: 'Successfully left team' })
