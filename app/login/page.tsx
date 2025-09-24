@@ -13,9 +13,9 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
     console.log("Starting OAuth callback processing with code:", code.substring(0, 10) + "...")
     
-    // Try the new callback API endpoint
+    // Try the existing callback API endpoint
     console.log("Attempting OAuth callback...")
-    const response = await fetch("/api/auth/callback/42", {
+    const response = await fetch("/api/auth/callback/42", {  // Updated to match your current path
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,6 +44,9 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     localStorage.setItem("skillar_username", data.username)
     localStorage.setItem("skillar_access_token", data.access_token)
     
+    // Clear the processed code to prevent reuse
+    localStorage.removeItem('last_processed_code')
+    
     console.log("Login successful, redirecting to competitions")
     router.push("/competitions")
     
@@ -54,6 +57,10 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     if (error instanceof Error) {
       if (error.message.includes("Failed to fetch")) {
         errorMessage += "Erro de conexão. Verifique sua internet."
+      } else if (error.message.includes("invalid_grant")) {
+        errorMessage += "Código de autorização expirado ou já usado. Tente fazer login novamente."
+        // Clear the invalid code
+        localStorage.removeItem('last_processed_code')
       } else {
         errorMessage += error.message
       }
@@ -99,13 +106,21 @@ export default function LoginPage() {
       return
     }
     
-    if (code && !isProcessingOAuth) {
+    // Prevent multiple processing of the same code
+    if (code && !isProcessingOAuth && code !== localStorage.getItem('last_processed_code')) {
       console.log('Processing OAuth code...')
+      localStorage.setItem('last_processed_code', code) // Prevent reprocessing
       setIsProcessingOAuth(true)
       setIsLoading(true)
+      
       login42(code, router).finally(() => {
         setIsLoading(false)
         setIsProcessingOAuth(false)
+        // Clean up URL after processing
+        const currentUrl = new URL(window.location.href)
+        currentUrl.searchParams.delete('code')
+        currentUrl.searchParams.delete('state')
+        window.history.replaceState({}, '', currentUrl.toString())
       })
     }
   }, [searchParams, router, isProcessingOAuth])

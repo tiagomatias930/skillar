@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 
+// Store used codes temporarily (in production, use a database or Redis)
+const usedCodes = new Set<string>()
+
 export async function POST(request: NextRequest) {
-  console.log("OAuth callback API called")
+  console.log("=== OAuth Callback API Called ===")
   
   try {
     const body = await request.json()
@@ -10,17 +13,38 @@ export async function POST(request: NextRequest) {
     console.log("Received code:", code ? code.substring(0, 10) + "..." : "null")
 
     if (!code) {
-      console.log("No code provided")
+      console.log("❌ No code provided")
       return NextResponse.json(
-        { error: "Authorization code is required" },
+        { 
+          success: false, 
+          error: "Authorization code is required" 
+        },
         { status: 400 }
       )
     }
+
+    // Check if code was already used
+    if (usedCodes.has(code)) {
+      console.log("❌ Code already used:", code.substring(0, 10) + "...")
+      return NextResponse.json(
+        { 
+          success: false,
+          error: "Authorization code has already been used"
+        },
+        { status: 400 }
+      )
+    }
+
+    // Mark code as used
+    usedCodes.add(code)
+    console.log("✅ Code marked as used")
 
     // OAuth credentials
     const clientId = 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
     const clientSecret = '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'
     const redirectUri = 'https://42skillar.vercel.app/login'
+
+    console.log("🔄 Exchanging code for token...")
 
     // Exchange code for access token
     const tokenParams = new URLSearchParams({
@@ -31,8 +55,6 @@ export async function POST(request: NextRequest) {
       redirect_uri: redirectUri
     })
 
-    console.log("Making token request to 42 API...")
-    
     const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
       method: 'POST',
       headers: {
@@ -43,15 +65,19 @@ export async function POST(request: NextRequest) {
       body: tokenParams.toString()
     })
 
-    console.log("Token response status:", tokenResponse.status)
-    console.log("Token response headers:", Object.fromEntries(tokenResponse.headers.entries()))
+    console.log("📡 Token response status:", tokenResponse.status)
 
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text()
-      console.error("42 API token error:", tokenResponse.status, errorText)
+      console.error("❌ Token exchange failed:", tokenResponse.status, errorText)
+      
+      // Remove code from used set if token exchange failed
+      usedCodes.delete(code)
+      
       return NextResponse.json(
         { 
-          error: `Failed to get access token from 42 API`,
+          success: false,
+          error: "Failed to get access token from 42 API",
           details: errorText,
           status: tokenResponse.status
         },
@@ -60,10 +86,10 @@ export async function POST(request: NextRequest) {
     }
 
     const tokenData = await tokenResponse.json()
-    console.log("Token received, access_token length:", tokenData.access_token?.length)
+    console.log("✅ Token received, access_token length:", tokenData.access_token?.length)
 
     // Get user info from 42 API
-    console.log("Making user info request...")
+    console.log("👤 Fetching user data...")
     const userResponse = await fetch("https://api.intra.42.fr/v2/me", {
       headers: {
         'Authorization': `Bearer ${tokenData.access_token}`,
@@ -72,13 +98,14 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    console.log("User response status:", userResponse.status)
+    console.log("👤 User response status:", userResponse.status)
 
     if (!userResponse.ok) {
       const errorText = await userResponse.text()
-      console.error("Failed to get user info:", userResponse.status, errorText)
+      console.error("❌ User info failed:", errorText)
       return NextResponse.json(
         { 
+          success: false,
           error: 'Failed to get user info from 42 API',
           details: errorText,
           status: userResponse.status
@@ -88,7 +115,7 @@ export async function POST(request: NextRequest) {
     }
 
     const userData = await userResponse.json()
-    console.log("User data received for:", userData.login)
+    console.log("✅ User authenticated:", userData.login)
 
     const result = {
       success: true,
@@ -103,13 +130,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log("Returning success response")
+    console.log("🎉 Authentication successful!")
     return NextResponse.json(result)
 
   } catch (error) {
-    console.error("OAuth callback error:", error)
+    console.error("💥 OAuth callback error:", error)
     return NextResponse.json(
       { 
+        success: false,
         error: "Internal server error during OAuth callback",
         details: error instanceof Error ? error.message : "Unknown error"
       },
@@ -119,9 +147,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  console.log("GET request to callback API - returning method not allowed")
   return NextResponse.json(
-    { error: "This endpoint only accepts POST requests", timestamp: new Date().toISOString() },
+    { 
+      error: "This endpoint only accepts POST requests",
+      timestamp: new Date().toISOString(),
+      status: "API is running"
+    },
     { status: 405 }
   )
 }
