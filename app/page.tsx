@@ -93,8 +93,8 @@ export default function HomePage() {
             Como Funciona
           </h3>
           <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
+          <div className="flex justify-center items-center min-h-screen bg-[#06224A] dark:bg-[#06224A] px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-[#06224A] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
               <iframe
                 width="100%"
                 height="100%"
@@ -106,7 +106,7 @@ export default function HomePage() {
                 className="w-full h-full"
               />
             </div>
-            <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
+            <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-[#06224A] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
               <iframe
                 width="100%"
                 height="100%"
@@ -123,7 +123,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
             <Card className="text-center p-4 sm:p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-2 sm:pb-4">
-                <Target className="h-10 w-10 sm:h-12 sm:w-12 text-[#052A5F] mx-auto mb-2 sm:mb-4" />
+                <Target className="h-8 w-8 sm:h-7 sm:w-7 text-white mx-auto mb-2 sm:mb-4" />
                 <CardTitle className="text-lg sm:text-xl font-semibold text-white">
                   Crie ou Participe
                 </CardTitle>
@@ -137,7 +137,7 @@ export default function HomePage() {
 
             <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-4">
-                <Users className="h-12 w-12 text-[#052A5F] mx-auto mb-4" />
+                <Users className="h-8 w-8 text-white mx-auto mb-4" />
                 <CardTitle className="text-xl font-semibold text-white">
                   Compete e Pontue
                 </CardTitle>
@@ -151,7 +151,7 @@ export default function HomePage() {
 
             <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-4">
-                <Award className="h-12 w-12 text-[#052A5F] mx-auto mb-4" />
+                <Award className="h-8 w-8 text-white mx-auto mb-4" />
                 <CardTitle className="text-xl font-semibold text-white">
                   Conquiste Posições
                 </CardTitle>
