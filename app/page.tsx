@@ -86,12 +86,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Demo Video Section */}
-      <section className="py-10 sm:py-16 bg-gray-50">
+      {/* Features */}
+      <section className="py-10 sm:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-6 sm:mb-8">
-            Veja Como Funciona
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8 sm:mb-12">
+            Como Funciona
           </h3>
+          <div className="container mx-auto px-4">
           <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
               <iframe
@@ -119,14 +120,6 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-10 sm:py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8 sm:mb-12">
-            Como Funciona
-          </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
             <Card className="text-center p-4 sm:p-6 hover:shadow-lg transition-shadow">
               <CardHeader className="pb-2 sm:pb-4">
