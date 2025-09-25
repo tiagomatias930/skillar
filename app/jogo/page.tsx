@@ -47,7 +47,7 @@ export default function JogoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] flex flex-col">
       {/* Header da aplicação */}
-      <header className="w-full border-b bg-white/95 backdrop-blur-sm shadow-sm z-10">
+      <header className="w-full border-b border-blue-900 bg-transparent shadow-sm z-10">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -56,8 +56,8 @@ export default function JogoPage() {
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-3xl font-bold text-gray-900">Skillar</h1>
-              <p className="text-center text-lg text-gray-500">Arena dos Campeões</p>
+              <h1 className="text-3xl font-bold text-white">Skillar</h1>
+              <p className="text-center text-lg text-gray-300">Arena dos Campeões</p>
             </div>
             <nav className="flex items-center gap-3">
               <Link href="/">
