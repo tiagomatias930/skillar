@@ -6,25 +6,18 @@ export const dynamic = 'force-dynamic'
 export async function POST(request: NextRequest) {
   try {
     console.log("[v0] Join competition API called")
-    const { competitionId, username, participationType, teamId } = await request.json()
-    console.log("[v0] Request data:", { competitionId, username, participationType, teamId })
+    const { competitionId, username } = await request.json()
+    console.log("[v0] Request data:", { competitionId, username })
 
-    if (!competitionId || !username || !participationType) {
+    if (!competitionId || !username) {
       console.log("[v0] Missing required data")
       return NextResponse.json({ error: "Dados obrigatórios não fornecidos" }, { status: 400 })
-    }
-
-    // Validar se participação em equipa tem teamId
-    if (participationType === 'team' && !teamId) {
-      return NextResponse.json({ error: "ID da equipa é obrigatório para participação em equipa" }, { status: 400 })
     }
 
     console.log("[v0] Calling joinCompetition function")
     const { success, supabaseError } = await joinCompetition(
       competitionId, 
-      username, 
-      participationType,
-      teamId
+      username
     )
     console.log("[v0] joinCompetition result:", success, supabaseError)
 

@@ -33,10 +33,7 @@ export function Navigation() {
              <Trophy className="h-4 w-4 mr-1" />
               <Button variant="ghost">{t('navigation.competitions')}</Button>
             </Link>
-                <Link href="/equipas">
-                  <Users className="h-4 w-4 mr-1" />
-                  <Button variant="ghost">{t('navigation.teams')}</Button>
-                </Link>
+
             <Link href="/ranking">
               <BarChart3 className="h-4 w-4" />
               <Button variant="ghost">{t('navigation.ranking')}</Button>

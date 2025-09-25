@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/toast"
-import { JoinCompetitionModal } from "@/components/join-competition-modal"
 
 interface JoinCompetitionButtonProps {
   competitionId: string
@@ -17,12 +16,8 @@ export function JoinCompetitionButton({
   competitionTitle = "Competição",
   disabled = false 
 }: JoinCompetitionButtonProps) {
-  const [participationInfo, setParticipationInfo] = useState<{
-    isParticipating: boolean
-    participationType?: string
-    teamName?: string
-  }>({ isParticipating: false })
-  const [showModal, setShowModal] = useState(false)
+  const [isParticipating, setIsParticipating] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const { showToast, ToastContainer } = useToast()
 
@@ -35,11 +30,7 @@ export function JoinCompetitionButton({
         `/api/competitions/check-participation?competitionId=${competitionId}&username=${encodeURIComponent(username)}`
       )
       const data = await response.json()
-      setParticipationInfo({
-        isParticipating: data.isParticipating,
-        participationType: data.participationType,
-        teamName: data.teamName
-      })
+      setIsParticipating(data.isParticipating)
     } catch (error) {
       console.error("Error checking participation:", error)
     }
@@ -49,7 +40,7 @@ export function JoinCompetitionButton({
     checkParticipation()
   }, [competitionId])
 
-  const handleJoin = () => {
+  const handleJoin = async () => {
     const username = typeof window !== 'undefined' ? localStorage.getItem("skillar_username") : null
     
     if (!username) {
@@ -57,19 +48,35 @@ export function JoinCompetitionButton({
       return
     }
 
-    setShowModal(true)
+    setIsLoading(true)
+    try {
+      const response = await fetch("/api/competitions/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ competitionId, username }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        showToast("Inscrição confirmada!", "success")
+        setIsParticipating(true)
+        router.refresh()
+      } else {
+        showToast(data.error || "Erro ao participar da competição", "error")
+      }
+    } catch (error) {
+      console.error("Error joining competition:", error)
+      showToast("Erro ao participar da competição", "error")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const getButtonText = () => {
     if (disabled) return "Encerrada"
-    
-    if (participationInfo.isParticipating) {
-      if (participationInfo.participationType === 'team' && participationInfo.teamName) {
-        return `Participa (${participationInfo.teamName})`
-      }
-      return "Já Participa"
-    }
-    
+    if (isLoading) return "A processar..."
+    if (isParticipating) return "Já Participa"
     return "Participar"
   }
 
@@ -78,19 +85,11 @@ export function JoinCompetitionButton({
       <ToastContainer />
       <Button 
         onClick={handleJoin} 
-        disabled={disabled || participationInfo.isParticipating} 
-        className={`${participationInfo.isParticipating ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-700'}`}
+        disabled={disabled || isParticipating || isLoading} 
+        className={`${isParticipating ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-700'}`}
       >
         {getButtonText()}
       </Button>
-
-      <JoinCompetitionModal
-        competitionId={competitionId}
-        competitionTitle={competitionTitle}
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onSuccess={checkParticipation}
-      />
     </>
   )
 }

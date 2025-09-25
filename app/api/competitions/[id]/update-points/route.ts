@@ -46,7 +46,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   // Buscar competição ativa para obter o criador
   const competitions = await import('@/lib/database').then(m => m.getActiveCompetitions());
   const comp = competitions.find((c: any) => c.id === participant.competition_id);
-  const creatorUsername = comp?.creator?.username || "";
+   const creatorUsername = comp?.creator?.username || "";
   const ok = await updateParticipantPoints(participant.id, points, creatorUsername);
       if (!ok) {
         return NextResponse.json({ error: "Erro ao atualizar pontos" }, { status: 500 });

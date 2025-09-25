@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient()
     const { data, error } = await supabase
       .from("participants")
-      .select("*, participation_type, team_id, team_name")
+      .select("id")
       .eq("competition_id", competitionId)
       .eq("user_id", user.id)
       .single()
@@ -32,10 +32,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ 
-      isParticipating: !!data,
-      participationType: data?.participation_type || null,
-      teamId: data?.team_id || null,
-      teamName: data?.team_name || null
+      isParticipating: !!data
     })
   } catch (error) {
     console.error("Check participation error:", error)

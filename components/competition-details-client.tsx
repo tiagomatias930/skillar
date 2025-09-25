@@ -11,8 +11,7 @@ import { JoinCompetitionButton } from "@/components/join-competition-button"
 
 export default function CompetitionDetailsClient({ 
   competition, 
-  participants, 
-  participantsWithTeams 
+  participants
 }: any) {
 
   const now = new Date()
@@ -169,82 +168,6 @@ export default function CompetitionDetailsClient({
           )}
         </CardContent>
       </Card>
-
-      {/* Equipas Participantes */}
-      {participantsWithTeams && participantsWithTeams.some((p: any) => p.participation_type === 'team') && (
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  Equipas Participantes
-                </CardTitle>
-                <CardDescription>
-                  Equipas inscritas nesta competição
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {/* Group participants by team */}
-              {Object.entries(
-                participantsWithTeams
-                  .filter((p: any) => p.participation_type === 'team')
-                  .reduce((acc: any, participant: any) => {
-                    const teamKey = participant.team_id || 'unknown'
-                    if (!acc[teamKey]) {
-                      acc[teamKey] = {
-                        teamName: participant.team_name || 'Equipa Desconhecida',
-                        teamId: participant.team_id,
-                        members: [],
-                        totalPoints: 0
-                      }
-                    }
-                    acc[teamKey].members.push(participant)
-                    acc[teamKey].totalPoints += participant.points || 0
-                    return acc
-                  }, {})
-              )
-                .sort(([,a]: any, [,b]: any) => b.totalPoints - a.totalPoints)
-                .map(([teamKey, team]: any, index: number) => (
-                  <div
-                    key={teamKey}
-                    className="border rounded-lg p-4 bg-gradient-to-r from-blue-50 to-white"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
-                          <span className="text-lg font-bold text-blue-600">#{index + 1}</span>
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{team.teamName}</h3>
-                          <p className="text-sm text-gray-600">
-                            {team.members.length} {team.members.length === 1 ? 'membro' : 'membros'}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-xl font-bold text-blue-600">{team.totalPoints}</div>
-                        <div className="text-sm text-gray-600">pontos</div>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {team.members.map((member: any) => (
-                        <div key={member.id} className="flex items-center justify-between p-2 bg-white rounded border">
-                          <span className="text-sm font-medium">{member.user?.username}</span>
-                          <Badge variant="secondary">{member.points || 0} pts</Badge>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </main>
   )
 }
