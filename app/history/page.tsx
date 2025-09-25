@@ -80,7 +80,7 @@ export default async function HistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <Navigation />
 
       <main className="container mx-auto px-4 py-8">
