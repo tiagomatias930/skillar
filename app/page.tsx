@@ -7,9 +7,9 @@ import { LanguageSelector } from "@/components/language-selector"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm">
+      <header className="border-b bg-black/80 backdrop-blur-sm border-[#073266]">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
             <div className="flex items-center gap-2">
@@ -18,7 +18,7 @@ export default function HomePage() {
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-3xl font-bold text-gray-900">Skillar</h1>
+              <h1 className="text-3xl font-bold text-white">Skillar</h1>
               <h4></h4>
               <p className="hidden sm:block text-center text-lg font-italic text-gray-300">Arena dos Campeões</p>
             </div>
@@ -64,15 +64,15 @@ export default function HomePage() {
       <section className="py-12 sm:py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 text-balance">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 text-balance">
               Compete, Evolua e Conquiste
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 text-pretty px-2">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 text-pretty px-2">
               Participe de competições semanais, desafie outros usuários e prove suas habilidades no 42Skillar.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <Link href="/competitions" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700">
+                <Button size="lg" className="w-full sm:w-auto bg-[#052A5F] hover:bg-[#073266] text-white">
                   Ver Competições
                 </Button>
               </Link>
@@ -87,9 +87,9 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="py-10 sm:py-16 bg-white">
+      <section className="py-10 sm:py-16 bg-[#06224A]">
         <div className="container mx-auto px-4">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8 sm:mb-12">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-8 sm:mb-12">
             Como Funciona
           </h3>
           <div className="container mx-auto px-4">
@@ -121,43 +121,43 @@ export default function HomePage() {
           </div>
         </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-            <Card className="text-center p-4 sm:p-6 hover:shadow-lg transition-shadow">
+            <Card className="text-center p-4 sm:p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-2 sm:pb-4">
-                <Target className="h-10 w-10 sm:h-12 sm:w-12 text-blue-600 mx-auto mb-2 sm:mb-4" />
-                <CardTitle className="text-lg sm:text-xl font-semibold">
+                <Target className="h-10 w-10 sm:h-12 sm:w-12 text-[#052A5F] mx-auto mb-2 sm:mb-4" />
+                <CardTitle className="text-lg sm:text-xl font-semibold text-white">
                   Crie ou Participe
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base text-gray-300 leading-relaxed">
                   Qualquer usuário pode criar uma competição ou participar das existentes. Basta escolher um username único.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-4">
-                <Users className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold">
+                <Users className="h-12 w-12 text-[#052A5F] mx-auto mb-4" />
+                <CardTitle className="text-xl font-semibold text-white">
                   Compete e Pontue
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600 leading-relaxed">
+                <CardDescription className="text-gray-300 leading-relaxed">
                   O criador da competição atribui pontos aos participantes. Acompanhe o ranking em tempo real.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-4">
-                <Award className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold">
+                <Award className="h-12 w-12 text-[#052A5F] mx-auto mb-4" />
+                <CardTitle className="text-xl font-semibold text-white">
                   Conquiste Posições
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-600 leading-relaxed">
+                <CardDescription className="text-gray-300 leading-relaxed">
                   Torne-se Presidente (1º lugar), Vice-presidente (2º lugar) ou Diretor (3º lugar) e entre para o histórico.
                 </CardDescription>
               </CardContent>
@@ -167,13 +167,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section
-        className="py-16 text-white"
-        style={{
-          background: "linear-gradient(to right, #2563eb, #9333ea)",
-          backgroundColor: "#2563eb", // fallback
-        }}
-      >
+      <section className="py-16 text-white bg-gradient-to-r from-[#052A5F] to-[#073266]">
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-3xl font-bold mb-4 text-white">
             Pronto para Começar?
@@ -182,7 +176,7 @@ export default function HomePage() {
             Entre no 42Skillar agora e mostre suas habilidades!
           </p>
           <Link href="/login">
-            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
+            <Button size="lg" className="bg-white text-[#052A5F] hover:bg-gray-100">
               Começar Agora
             </Button>
           </Link>
@@ -190,7 +184,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6 sm:py-8">
+      <footer className="bg-[#041a3a] text-white py-6 sm:py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <img

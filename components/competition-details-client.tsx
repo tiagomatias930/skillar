@@ -47,13 +47,13 @@ export default function CompetitionDetailsClient({
   const getRankBadgeColor = (position: number) => {
     switch (position) {
       case 1:
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+        return "bg-[#052A5F] text-white border-[#073266]"
       case 2:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-[#073266] text-white border-[#052A5F]"
       case 3:
-        return "bg-amber-100 text-amber-800 border-amber-200"
+        return "bg-[#06224A] text-white border-[#073266]"
       default:
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-[#041a3a] text-white border-[#052A5F]"
     }
   }
 
@@ -63,9 +63,9 @@ export default function CompetitionDetailsClient({
       <div className="mb-8">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{competition.title}</h1>
-            <p className="text-gray-600 mb-4">{competition.description}</p>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
+            <h1 className="text-3xl font-bold text-white mb-2">{competition.title}</h1>
+            <p className="text-gray-300 mb-4">{competition.description}</p>
+            <div className="flex items-center gap-4 text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
                 <span>Criado por {competition.creator?.username}</span>
@@ -77,14 +77,14 @@ export default function CompetitionDetailsClient({
               <CountdownTimer endDate={competition.custom_end_date || competition.end_date} />
               {competition.duration_type && competition.duration_value && (
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-blue-700">Duração:</span>
+                  <span className="font-semibold text-[#052A5F]">Duração:</span>
                   <span>{competition.duration_value} {competition.duration_type}</span>
                 </div>
               )}
             </div>
           </div>
           <div className="flex gap-2">
-            <Badge variant={competition.is_active ? "default" : "secondary"}>
+            <Badge variant={competition.is_active ? "default" : "secondary"} className="bg-[#052A5F] text-white">
               {competition.is_active ? "Ativa" : "Encerrada"}
             </Badge>
           </div>
@@ -106,15 +106,15 @@ export default function CompetitionDetailsClient({
       </div>
 
       {/* Ranking */}
-      <Card>
+      <Card className="bg-[#073266] border-[#052A5F]">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-blue-600" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Trophy className="h-5 w-5 text-[#052A5F]" />
                 Ranking em Tempo Real
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 {participants.length === 0
                   ? "Nenhum participante ainda"
                   : `${participants.length} ${participants.length > 1 ? "participantes" : "participante"}`}
@@ -126,9 +126,9 @@ export default function CompetitionDetailsClient({
         <CardContent>
           {participants.length === 0 ? (
             <div className="text-center py-8">
-              <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Nenhum participante ainda</h3>
-              <p className="text-gray-600">Seja o primeiro a participar desta competição!</p>
+              <Users className="h-16 w-16 text-[#052A5F] mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-white mb-2">Nenhum participante ainda</h3>
+              <p className="text-gray-300">Seja o primeiro a participar desta competição!</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -138,28 +138,28 @@ export default function CompetitionDetailsClient({
                   <div
                     key={participant.id}
                     className={`flex items-center justify-between p-4 rounded-lg border ${
-                      position <= 3 ? "bg-gradient-to-r from-white to-gray-50" : "bg-white"
-                    }`}
+                      position <= 3 ? "bg-[#052A5F]" : "bg-[#06224A]"
+                    } border-[#073266]`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100">
+                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#073266]">
                         {getRankIcon(position)}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-gray-900">{participant.user?.username}</h3>
-                          <Badge variant="outline" className={getRankBadgeColor(position)}>
+                          <h3 className="font-semibold text-white">{participant.user?.username}</h3>
+                          <Badge variant="outline" className={`border-[#052A5F] ${getRankBadgeColor(position)}`}>
                             {getRankTitle(position)}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-300">
                           Participando desde {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-blue-600">{participant.points || 0}</div>
-                      <div className="text-sm text-gray-600">pontos</div>
+                      <div className="text-2xl font-bold text-[#052A5F]">{participant.points || 0}</div>
+                      <div className="text-sm text-gray-300">pontos</div>
                     </div>
                   </div>
                 )

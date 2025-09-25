@@ -19,13 +19,13 @@ export function Navigation() {
   }
 
   return (
-    <header className="border-b bg-white/80 backdrop-blur-sm">
+    <header className="border-b bg-black/80 backdrop-blur-sm border-[#073266]">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <img src="/42skillar.png" alt="42Skillar Logo" className="h-12 w-12 object-contain" />
-            <h1 className="text-3xl font-bold text-gray-900">Skillar</h1>
-            <p className="text-center text-lg text-italic text-gray-300">Arena dos Campeões</p>
+            <h1 className="text-3xl font-bold text-white">Skillar</h1>
+            <p className="text-center text-lg text-gray-300">Arena dos Campeões</p>
           </Link>
 
           <nav className="flex items-center gap-4">
@@ -57,15 +57,15 @@ export function Navigation() {
 
             {username ? (
               <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-600">Olá, {username}</span>
-                <Button variant="outline" size="sm" onClick={handleLogout}>
+                <span className="text-sm text-gray-300">Olá, {username}</span>
+                <Button variant="outline" size="sm" onClick={handleLogout} className="border-[#073266] text-white hover:bg-[#052A5F]">
                   <LogOut className="h-4 w-4 mr-2" />
                   {t('navigation.logout')}
                 </Button>
               </div>
             ) : (
               <Link href="/login">
-                <Button>{t('navigation.login')}</Button>
+                <Button className="bg-[#052A5F] hover:bg-[#073266] text-white">{t('navigation.login')}</Button>
               </Link>
             )}
           </nav>
