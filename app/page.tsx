@@ -105,6 +105,18 @@ export default function HomePage() {
                 className="w-full h-full"
               />
             </div>
+            <div className="w-full max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/8QpxUibAz8I?si=BoKZr97mn5IdySgk"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="w-full h-full mr-6"
+              />
+            </div>
           </div>
         </div>
       </section>
