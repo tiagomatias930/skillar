@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Users, Target, Award, Trophy, History, BarChart3, Gamepad2 } from "lucide-react"
 import Link from "next/link"
+import { LanguageSelector } from "@/components/language-selector"
 
 export default function HomePage() {
   return (
@@ -46,6 +47,8 @@ export default function HomePage() {
                   <span>Jogo</span>
                 </Button>
               </Link>
+                          <LanguageSelector />
+  
               <Link href="/login">
                 <Button className="flex items-center gap-2">
                   <Award className="h-4 w-4" />
