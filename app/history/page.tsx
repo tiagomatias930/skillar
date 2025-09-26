@@ -1,44 +1,79 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Trophy, Crown, Medal, Award, Calendar, Users, TrendingUp } from "lucide-react"
 import { Navigation } from "@/components/navigation"
-import { getCompetitionHistory } from "@/lib/database"
-import { createClient } from "@/lib/supabase/server"
+import { useTranslation } from "@/hooks/use-translation"
+import { createClient } from "@/lib/supabase/client"
 
-export default async function HistoryPage() {
-  const supabase = await createClient()
-  const history = await getCompetitionHistory()
-
-  // Get analytics data
-  const { data: totalCompetitions } = await supabase.from("competitions").select("id", { count: "exact" })
-
-  const { data: totalUsers } = await supabase.from("users").select("id", { count: "exact" })
-
-  const { data: activeCompetitions } = await supabase
-    .from("competitions")
-    .select("id", { count: "exact" })
-    .eq("is_active", true)
-
-  const { data: totalParticipations } = await supabase.from("participants").select("id", { count: "exact" })
-
-  // Get most successful users (winners count)
-  const { data: winnerStats } = await supabase.from("competition_history").select(`
-      winner_id,
-      winner:users!competition_history_winner_id_fkey(username)
-    `)
-
-  const winnerCounts: Record<string, { username: string; wins: number }> = {}
-  winnerStats?.forEach((stat) => {
-    const username = Array.isArray(stat.winner) && stat.winner.length > 0 ? stat.winner[0].username : "Desconhecido"
-    if (!winnerCounts[stat.winner_id]) {
-      winnerCounts[stat.winner_id] = { username, wins: 0 }
-    }
-    winnerCounts[stat.winner_id].wins += 1
+export default function HistoryPage() {
+  const { t } = useTranslation()
+  const [history, setHistory] = useState<any[]>([])
+  const [stats, setStats] = useState({
+    totalCompetitions: 0,
+    totalUsers: 0,
+    activeCompetitions: 0,
+    totalParticipations: 0,
+    topWinners: [] as Array<{ username: string; wins: number }>
   })
 
-  const topWinners = Object.values(winnerCounts)
-    .sort((a, b) => b.wins - a.wins)
-    .slice(0, 5)
+  useEffect(() => {
+    fetchHistoryData()
+  }, [])
+
+  async function fetchHistoryData() {
+    const supabase = createClient()
+
+    // Get competition history directly
+    const { data: competitionHistory } = await supabase
+      .from("competitions")
+      .select("*")
+      .eq("is_active", false)
+      .order("created_at", { ascending: false })
+
+    setHistory(competitionHistory || [])
+
+    // Get analytics data
+    const { data: totalCompetitions } = await supabase.from("competitions").select("id", { count: "exact" })
+
+    const { data: totalUsers } = await supabase.from("users").select("id", { count: "exact" })
+
+    const { data: activeCompetitions } = await supabase
+      .from("competitions")
+      .select("id", { count: "exact" })
+      .eq("is_active", true)
+
+    const { data: totalParticipations } = await supabase.from("participants").select("id", { count: "exact" })
+
+    // Get most successful users (winners count)
+    const { data: winnerStats } = await supabase.from("competition_history").select(`
+        winner_id,
+        winner:users!competition_history_winner_id_fkey(username)
+      `)
+
+    const winnerCounts: Record<string, { username: string; wins: number }> = {}
+    winnerStats?.forEach((stat: any) => {
+      const username = Array.isArray(stat.winner) && stat.winner.length > 0 ? stat.winner[0].username : t("history.unknown")
+      if (!winnerCounts[stat.winner_id]) {
+        winnerCounts[stat.winner_id] = { username, wins: 0 }
+      }
+      winnerCounts[stat.winner_id].wins += 1
+    })
+
+    const topWinners = Object.values(winnerCounts)
+      .sort((a, b) => b.wins - a.wins)
+      .slice(0, 5)
+
+    setStats({
+      totalCompetitions: totalCompetitions?.length || 0,
+      totalUsers: totalUsers?.length || 0,
+      activeCompetitions: activeCompetitions?.length || 0,
+      totalParticipations: totalParticipations?.length || 0,
+      topWinners
+    })
+  }
 
   const getRankIcon = (position: number) => {
     switch (position) {
@@ -56,13 +91,13 @@ export default async function HistoryPage() {
   const getRankTitle = (position: number) => {
     switch (position) {
       case 1:
-        return "Presidente"
+        return t("history.president")
       case 2:
-        return "Vice-presidente"
+        return t("history.vicePresident")
       case 3:
-        return "Diretor"
+        return t("history.director")
       default:
-        return `${position}º Lugar`
+        return `${position}${t("history.position")}`
     }
   }
 
@@ -85,39 +120,39 @@ export default async function HistoryPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Histórico e Estatísticas</h1>
-          <p className="text-gray-600">Acompanhe o desempenho da comunidade e vencedores das competições</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("history.title")}</h1>
+          <p className="text-gray-600">{t("history.description")}</p>
         </div>
 
         {/* Analytics Cards */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total de Competições</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">{t("history.totalCompetitions")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{totalCompetitions?.length || 0}</div>
-              <p className="text-xs text-gray-600">Criadas até agora</p>
+              <div className="text-2xl font-bold text-blue-600">{stats.totalCompetitions}</div>
+              <p className="text-xs text-gray-600">{t("history.createdSoFar")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total de Usuários</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">{t("history.totalUsers")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{totalUsers?.length || 0}</div>
-              <p className="text-xs text-gray-600">Registrados</p>
+              <div className="text-2xl font-bold text-purple-600">{stats.totalUsers}</div>
+              <p className="text-xs text-gray-600">{t("history.registered")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Participações</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">{t("history.participations")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-orange-600">{totalParticipations?.length || 0}</div>
-              <p className="text-xs text-gray-600">Total de inscrições</p>
+              <div className="text-2xl font-bold text-orange-600">{stats.totalParticipations}</div>
+              <p className="text-xs text-gray-600">{t("history.totalRegistrations")}</p>
             </CardContent>
           </Card>
         </div>
@@ -127,49 +162,49 @@ export default async function HistoryPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-purple-600" />
-              Resumo da Atividade
+              {t("history.activitySummary")}
             </CardTitle>
-            <CardDescription>Estatísticas gerais da plataforma 42Skillar</CardDescription>
+            <CardDescription>{t("history.platformStats")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Estatísticas Gerais</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">{t("history.generalStats")}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Competições criadas:</span>
-                    <span className="font-medium">{totalCompetitions?.length || 0}</span>
+                    <span className="text-gray-600">{t("history.competitionsCreated")}</span>
+                    <span className="font-medium">{stats.totalCompetitions}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Competições ativas:</span>
-                    <span className="font-medium text-green-600">{activeCompetitions?.length || 0}</span>
+                    <span className="text-gray-600">{t("history.activeCompetitions")}</span>
+                    <span className="font-medium text-green-600">{stats.activeCompetitions}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Competições finalizadas:</span>
+                    <span className="text-gray-600">{t("history.finishedCompetitions")}</span>
                     <span className="font-medium">{history.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Total de participações:</span>
-                    <span className="font-medium">{totalParticipations?.length || 0}</span>
+                    <span className="text-gray-600">{t("history.totalParticipations")}</span>
+                    <span className="font-medium">{stats.totalParticipations}</span>
                   </div>
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Comunidade</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">{t("history.community")}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Usuários registrados:</span>
-                    <span className="font-medium">{totalUsers?.length || 0}</span>
+                    <span className="text-gray-600">{t("history.registeredUsers")}</span>
+                    <span className="font-medium">{stats.totalUsers}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Usuários com vitórias:</span>
-                    <span className="font-medium">{topWinners.length}</span>
+                    <span className="text-gray-600">{t("history.usersWithWins")}</span>
+                    <span className="font-medium">{stats.topWinners.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Média de participações:</span>
+                    <span className="text-gray-600">{t("history.avgParticipations")}</span>
                     <span className="font-medium">
-                      {totalUsers?.length && totalParticipations?.length
-                        ? Math.round((totalParticipations.length / totalUsers.length) * 10) / 10
+                      {stats.totalUsers && stats.totalParticipations
+                        ? Math.round((stats.totalParticipations / stats.totalUsers) * 10) / 10
                         : 0}
                     </span>
                   </div>

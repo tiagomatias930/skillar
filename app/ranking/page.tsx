@@ -1,72 +1,96 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Trophy, Crown, Medal, Award, Users } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { RefreshButton } from "@/components/refresh-button"
-import { createClient } from "@/lib/supabase/server"
+import { useTranslation } from "@/hooks/use-translation"
+import { createClient } from "@/lib/supabase/client"
 
-export default async function RankingPage() {
-  const supabase = await createClient()
+type UserRanking = {
+  userId: string
+  username: string
+  totalPoints: number
+  competitions: number
+}
 
-  // Get global ranking across all active competitions
-  const { data: globalRanking } = await supabase
-    .from("participants")
-    .select(`
-      user_id,
-      points,
-      user:users!participants_user_id_fkey(*),
-      competition:competitions!participants_competition_id_fkey(title, is_active)
-    `)
-    .eq("competition.is_active", true)
+export default function RankingPage() {
+  const { t } = useTranslation()
+  const [sortedRanking, setSortedRanking] = useState<UserRanking[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Aggregate points by user
-  const userPoints: Record<string, { username: string; totalPoints: number; competitions: number }> = {}
+  useEffect(() => {
+    fetchRankingData()
+  }, [])
 
-  type Participant = {
-    user_id: string
-    points: number
-    user:
-      | { username?: string }[]
-      | { username?: string }
-      | null
-    competition: { title: string; is_active: boolean }
-  }
+  async function fetchRankingData() {
+    const supabase = createClient()
 
-  globalRanking?.forEach((participant) => {
-    // Map the participant to the expected Participant type
-    const mappedParticipant: Participant = {
-      user_id: participant.user_id,
-      points: participant.points,
-      user: participant.user,
-      competition: Array.isArray(participant.competition)
-        ? participant.competition[0]
-        : participant.competition,
+    // Get global ranking across all active competitions
+    const { data: globalRanking } = await supabase
+      .from("participants")
+      .select(`
+        user_id,
+        points,
+        user:users!participants_user_id_fkey(*),
+        competition:competitions!participants_competition_id_fkey(title, is_active)
+      `)
+      .eq("competition.is_active", true)
+
+    // Aggregate points by user
+    const userPoints: Record<string, { username: string; totalPoints: number; competitions: number }> = {}
+
+    type Participant = {
+      user_id: string
+      points: number
+      user:
+        | { username?: string }[]
+        | { username?: string }
+        | null
+      competition: { title: string; is_active: boolean }
     }
 
-    const userId = mappedParticipant.user_id
-    const username = Array.isArray(mappedParticipant.user)
-      ? mappedParticipant.user[0]?.username || "Usuário Desconhecido"
-      : mappedParticipant.user?.username || "Usuário Desconhecido"
-
-    if (!userPoints[userId]) {
-      userPoints[userId] = {
-        username,
-        totalPoints: 0,
-        competitions: 0,
+    globalRanking?.forEach((participant) => {
+      // Map the participant to the expected Participant type
+      const mappedParticipant: Participant = {
+        user_id: participant.user_id,
+        points: participant.points,
+        user: participant.user,
+        competition: Array.isArray(participant.competition)
+          ? participant.competition[0]
+          : participant.competition,
       }
-    }
 
-    userPoints[userId].totalPoints += mappedParticipant.points
-    userPoints[userId].competitions += 1
-  })
+      const userId = mappedParticipant.user_id
+      const username = Array.isArray(mappedParticipant.user)
+        ? mappedParticipant.user[0]?.username || t("ranking.unknownUser")
+        : mappedParticipant.user?.username || t("ranking.unknownUser")
 
-  // Convert to array and sort by total points
-  const sortedRanking = Object.entries(userPoints)
-    .map(([userId, data]) => ({
-      userId,
-      ...data,
-    }))
-    .sort((a, b) => b.totalPoints - a.totalPoints)
+      if (!userPoints[userId]) {
+        userPoints[userId] = {
+          username,
+          totalPoints: 0,
+          competitions: 0,
+        }
+      }
+
+      userPoints[userId].totalPoints += mappedParticipant.points
+      userPoints[userId].competitions += 1
+    })
+
+    // Convert to array and sort by total points
+    const ranking = Object.entries(userPoints)
+      .map(([userId, data]) => ({
+        userId,
+        ...data,
+      }))
+      .sort((a, b) => b.totalPoints - a.totalPoints)
+
+    setSortedRanking(ranking)
+    setLoading(false)
+  }
 
   const getRankIcon = (position: number) => {
     switch (position) {
@@ -88,13 +112,13 @@ export default async function RankingPage() {
   const getRankTitle = (position: number) => {
     switch (position) {
       case 1:
-        return "Presidente Geral"
+        return t("ranking.generalPresident")
       case 2:
-        return "Vice-presidente Geral"
+        return t("ranking.generalVicePresident")
       case 3:
-        return "Diretor Geral"
+        return t("ranking.generalDirector")
       default:
-        return `${position}º Lugar Geral`
+        return `${position}${t("ranking.generalPosition")}`
     }
   }
 
@@ -117,8 +141,8 @@ export default async function RankingPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Ranking Geral</h1>
-          <p className="text-gray-600">Classificação baseada na soma de pontos de todas as competições ativas</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("ranking.title")}</h1>
+          <p className="text-gray-600">{t("ranking.description")}</p>
         </div>
 
         <Card>
@@ -127,12 +151,14 @@ export default async function RankingPage() {
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <Trophy className="h-5 w-5 text-blue-600" />
-                  Ranking Global
+                  {t("ranking.globalRanking")}
                 </CardTitle>
                 <CardDescription>
                   {sortedRanking.length === 0
-                    ? "Nenhum participante ainda"
-                    : `${sortedRanking.length} participante${sortedRanking.length > 1 ? "s" : ""} no ranking`}
+                    ? t("ranking.noParticipants")
+                    : `${sortedRanking.length} ${
+                        sortedRanking.length > 1 ? t("ranking.participantsCountPlural") : t("ranking.participantsCount")
+                      }`}
                 </CardDescription>
               </div>
               <RefreshButton />
@@ -142,8 +168,8 @@ export default async function RankingPage() {
             {sortedRanking.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Nenhum participante ainda</h3>
-                <p className="text-gray-600">Participe de competições para aparecer no ranking!</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("ranking.noParticipants")}</h3>
+                <p className="text-gray-600">{t("ranking.joinCompetitions")}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -170,13 +196,13 @@ export default async function RankingPage() {
                             </Badge>
                           </div>
                           <p className="text-sm text-gray-600">
-                            Participando de {user.competitions} competição{user.competitions > 1 ? "ões" : ""}
+                            {t("ranking.participatingIn")} {user.competitions} {user.competitions > 1 ? t("ranking.competitions") : t("ranking.competition")}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="text-3xl font-bold text-blue-600">{user.totalPoints}</div>
-                        <div className="text-sm text-gray-600">pontos totais</div>
+                        <div className="text-sm text-gray-600">{t("ranking.totalPoints")}</div>
                       </div>
                     </div>
                   )
@@ -189,7 +215,7 @@ export default async function RankingPage() {
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Pódio Atual</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("ranking.currentPodium")}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
@@ -211,7 +237,7 @@ export default async function RankingPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="text-2xl font-bold text-blue-600 mb-2">{user.totalPoints}</div>
-                      <div className="text-sm text-gray-600">pontos totais</div>
+                      <div className="text-sm text-gray-600">{t("ranking.totalPoints")}</div>
                     </CardContent>
                   </Card>
                 )

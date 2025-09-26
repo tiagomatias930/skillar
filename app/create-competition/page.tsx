@@ -11,8 +11,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { AiChallengeGenerator } from "@/components/ai-challenge-generator"
 import { Navigation } from "@/components/navigation"
+import { useTranslation } from "@/hooks/use-translation"
 
 export default function CreateCompetitionPage() {
+  const { t } = useTranslation()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [durationType, setDurationType] = useState<"dias" | "horas">("dias")
@@ -33,7 +35,7 @@ export default function CreateCompetitionPage() {
     }
 
     if (!title.trim() || !description.trim()) {
-      setError("Título e descrição são obrigatórios")
+      setError(t("competitions.titleRequired"))
       return
     }
 
@@ -58,12 +60,12 @@ export default function CreateCompetitionPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao criar competição")
+        throw new Error(data.error || t("competitions.createError"))
       }
 
       router.push(`/competitions/${data.competition.id}`)
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "Erro desconhecido")
+      setError(error instanceof Error ? error.message : t("competitions.unknownError"))
     } finally {
       setIsLoading(false)
     }
@@ -76,8 +78,8 @@ export default function CreateCompetitionPage() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Criar Nova Competição</h1>
-            <p className="text-gray-600">Defina os detalhes da sua competição semanal</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("competitions.createNew")}</h1>
+            <p className="text-gray-600">{t("competitions.defineDetails")}</p>
           </div>
 
           <AiChallengeGenerator onChallengeGenerated={(challenge) => {
@@ -87,17 +89,17 @@ export default function CreateCompetitionPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Detalhes da Competição</CardTitle>
-              <CardDescription>Sua competição será ativa por 8 dias a partir da criação</CardDescription>
+              <CardTitle>{t("competitions.competitionDetails")}</CardTitle>
+              <CardDescription>{t("competitions.activeFor8Days")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="title">Título da Competição</Label>
+                  <Label htmlFor="title">{t("competitions.competitionTitle")}</Label>
                   <Input
                     id="title"
                     type="text"
-                    placeholder="Ex: Desafio de Programação Semanal"
+                    placeholder={t("competitions.titlePlaceholder")}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
@@ -106,10 +108,10 @@ export default function CreateCompetitionPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="description">Descrição</Label>
+                  <Label htmlFor="description">{t("competitions.description")}</Label>
                   <Textarea
                     id="description"
-                    placeholder="Descreva os objetivos, regras e critérios de avaliação da competição..."
+                    placeholder={t("competitions.descriptionPlaceholder")}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
@@ -119,15 +121,15 @@ export default function CreateCompetitionPage() {
 
 
                 <div>
-                  <Label>Duração do Desafio</Label>
+                  <Label>{t("competitions.challengeDuration")}</Label>
                   <div className="flex items-center gap-4 mt-2">
                     <select
                       className="border rounded px-2 py-1"
                       value={durationType}
                       onChange={e => setDurationType(e.target.value as "dias" | "horas")}
                     >
-                      <option value="dias">Dias</option>
-                      <option value="horas">Horas</option>
+                      <option value="dias">{t("competitions.days")}</option>
+                      <option value="horas">{t("competitions.hours")}</option>
                     </select>
                     <Input
                       type="number"
@@ -137,7 +139,7 @@ export default function CreateCompetitionPage() {
                       onChange={e => setDurationValue(Number(e.target.value))}
                       className="w-20"
                     />
-                    <span>{durationType === "dias" ? "dias" : "horas"}</span>
+                    <span>{durationType === "dias" ? t("competitions.days") : t("competitions.hours")}</span>
                     <Input
                       type="number"
                       min={0}
@@ -146,13 +148,13 @@ export default function CreateCompetitionPage() {
                       onChange={e => setDurationMinutes(Number(e.target.value))}
                       className="w-20"
                     />
-                    <span>minutos</span>
+                    <span>{t("competitions.minutes")}</span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">Escolha se a duração será em dias, horas e minutos.</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("competitions.durationHelper")}</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="customEndDate">Data e hora de término (opcional)</Label>
+                  <Label htmlFor="customEndDate">{t("competitions.customEndDate")}</Label>
                   <Input
                     id="customEndDate"
                     type="datetime-local"
@@ -160,17 +162,17 @@ export default function CreateCompetitionPage() {
                     onChange={e => setCustomEndDate(e.target.value)}
                     className="w-64"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Se preenchido, esta data terá prioridade sobre a duração.</p>
+                  <p className="text-xs text-gray-500 mt-1">{t("competitions.endDateHelper")}</p>
                 </div>
 
                 {error && <p className="text-sm text-red-500">{error}</p>}
 
                 <div className="flex gap-4">
                   <Button type="button" variant="outline" onClick={() => router.back()} className="flex-1">
-                    Cancelar
+                    {t("common.cancel")}
                   </Button>
                   <Button type="submit" disabled={isLoading} className="flex-1">
-                    {isLoading ? "Criando..." : "Criar Competição"}
+                    {isLoading ? t("competitions.creating") : t("competitions.createCompetition")}
                   </Button>
                 </div>
               </form>
