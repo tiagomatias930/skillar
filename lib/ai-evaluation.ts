@@ -53,6 +53,7 @@ export type ChallengeGenerationResponse = {
   dificuldade: string;
   tecnologias_sugeridas: string[];
   tempo_estimado: string;
+  prompts_aceitos: string;
 };
 
 export type ChallengeGenerationError = {
@@ -91,7 +92,7 @@ Por favor, retorne APENAS um objeto JSON válido com a seguinte estrutura:
   "dificuldade": "${request.dificuldade || "medio"}",
   "tecnologias_sugeridas": ["Tecnologia 1", "Tecnologia 2", "Tecnologia 3"],
   "tempo_estimado": "X horas/dias",
-  "permissao_uso": "Poder usar até 5 prompt de IA para ajudar na resolução do desafio"
+  "prompts_aceitos": "Poder usar até X números de prompt de IA para ajudar na resolução do desafio"
 }
 
 IMPORTANTE:
@@ -100,7 +101,7 @@ IMPORTANTE:
 - Os critérios devem cobrir aspectos técnicos, criatividade, documentação, etc.
 - As tecnologias sugeridas devem ser relevantes para o desafio
 - O tempo estimado deve ser realista baseado na dificuldade
-- Inclua uma seção sobre permissão de uso de IA na resolução do desafio`;
+- Inclua uma seção sobre quantos prompts de IA podem ser usados na resolução do desafio`;
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
       method: "POST",
@@ -154,7 +155,8 @@ IMPORTANTE:
       criterios_avaliacao: Array.isArray(challengeData.criterios_avaliacao) ? challengeData.criterios_avaliacao : [],
       dificuldade: challengeData.dificuldade || request.dificuldade || "medio",
       tecnologias_sugeridas: Array.isArray(challengeData.tecnologias_sugeridas) ? challengeData.tecnologias_sugeridas : [],
-      tempo_estimado: challengeData.tempo_estimado || "Não especificado"
+      tempo_estimado: challengeData.tempo_estimado || "Não especificado",
+      prompts_aceitos: challengeData.prompts_aceitos || "Poder usar até 5 números de prompt de IA para ajudar na resolução do desafio"
     };
 
   } catch (err: any) {

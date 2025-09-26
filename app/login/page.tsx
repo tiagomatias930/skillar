@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { loadBindings } from "next/dist/build/swc"
 
 async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
@@ -34,7 +33,6 @@ async function login42(code: string, router: ReturnType<typeof useRouter>) {
     }
 
     // Store user data
-    localStorage.setItem("skillar_user_id", data.user_id)
     localStorage.setItem("skillar_username", data.username)
     localStorage.setItem("skillar_access_token", data.access_token)
 
