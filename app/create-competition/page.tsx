@@ -88,7 +88,7 @@ export default function CreateCompetitionPage() {
           <Card>
             <CardHeader>
               <CardTitle>Detalhes da Competição</CardTitle>
-              <CardDescription>Sua competição será ativa por 7 dias a partir da criação</CardDescription>
+              <CardDescription>Sua competição será ativa por 8 dias a partir da criação</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
