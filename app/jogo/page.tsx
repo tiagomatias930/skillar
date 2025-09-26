@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ExternalLink, Home, Trophy, History, LogIn, BarChart3, Users } from "lucide-react"
 
 export default function JogoPage() {
-  const [currentUrl, setCurrentUrl] = useState("https://poki.com/") // https://www.onlinegames.io/ ;  ; https://playgama.com/
+  const [currentUrl, setCurrentUrl] = useState("https://playgama.com/") // https://www.onlinegames.io/ ;
   const [customUrl, setCustomUrl] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
