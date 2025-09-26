@@ -140,7 +140,7 @@ export default function ReportsPage() {
               <h1 className="text-3xl font-bold text-white-900">Sistema de Relatórios</h1>
               <a
                 href="/evaluation-criteria"
-                className="text-sm px-3 py-1 rounded bg-blue-100 text-white-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
+                className="text-sm px-3 py-1 rounded bg-blue-100 text-gray-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
                 title="Ver critérios de avaliação"
                 target="_blank"
                 rel="noopener noreferrer"
