@@ -120,39 +120,39 @@ export default function HistoryPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("history.title")}</h1>
-          <p className="text-gray-600">{t("history.description")}</p>
+          <h1 className="text-3xl font-bold text-white-900 mb-2">{t("history.title")}</h1>
+          <p className="text-white-600">{t("history.description")}</p>
         </div>
 
         {/* Analytics Cards */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">{t("history.totalCompetitions")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-white-600">{t("history.totalCompetitions")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600">{stats.totalCompetitions}</div>
-              <p className="text-xs text-gray-600">{t("history.createdSoFar")}</p>
+              <p className="text-xs text-white-600">{t("history.createdSoFar")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">{t("history.totalUsers")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-white-600">{t("history.totalUsers")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-purple-600">{stats.totalUsers}</div>
-              <p className="text-xs text-gray-600">{t("history.registered")}</p>
+              <p className="text-xs text-white-600">{t("history.registered")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">{t("history.participations")}</CardTitle>
+              <CardTitle className="text-sm font-medium text-white-600">{t("history.participations")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">{stats.totalParticipations}</div>
-              <p className="text-xs text-gray-600">{t("history.totalRegistrations")}</p>
+              <p className="text-xs text-white-600">{t("history.totalRegistrations")}</p>
             </CardContent>
           </Card>
         </div>
@@ -169,39 +169,39 @@ export default function HistoryPage() {
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">{t("history.generalStats")}</h4>
+                <h4 className="font-semibold text-white-900 mb-3">{t("history.generalStats")}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.competitionsCreated")}</span>
+                    <span className="text-white-600">{t("history.competitionsCreated")}</span>
                     <span className="font-medium">{stats.totalCompetitions}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.activeCompetitions")}</span>
+                    <span className="text-white-600">{t("history.activeCompetitions")}</span>
                     <span className="font-medium text-green-600">{stats.activeCompetitions}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.finishedCompetitions")}</span>
+                    <span className="text-white-600">{t("history.finishedCompetitions")}</span>
                     <span className="font-medium">{history.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.totalParticipations")}</span>
+                    <span className="text-white-600">{t("history.totalParticipations")}</span>
                     <span className="font-medium">{stats.totalParticipations}</span>
                   </div>
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">{t("history.community")}</h4>
+                <h4 className="font-semibold text-white-900 mb-3">{t("history.community")}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.registeredUsers")}</span>
+                    <span className="text-white-600">{t("history.registeredUsers")}</span>
                     <span className="font-medium">{stats.totalUsers}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.usersWithWins")}</span>
+                    <span className="text-white-600">{t("history.usersWithWins")}</span>
                     <span className="font-medium">{stats.topWinners.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">{t("history.avgParticipations")}</span>
+                    <span className="text-white-600">{t("history.avgParticipations")}</span>
                     <span className="font-medium">
                       {stats.totalUsers && stats.totalParticipations
                         ? Math.round((stats.totalParticipations / stats.totalUsers) * 10) / 10

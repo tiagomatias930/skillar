@@ -72,14 +72,14 @@ export default function CreateCompetitionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("competitions.createNew")}</h1>
-            <p className="text-gray-600">{t("competitions.defineDetails")}</p>
+            <h1 className="text-3xl font-bold text-white mb-2">{t("competitions.createNew")}</h1>
+            <p className="text-gray-300">{t("competitions.defineDetails")}</p>
           </div>
 
           <AiChallengeGenerator onChallengeGenerated={(challenge) => {
@@ -87,15 +87,15 @@ export default function CreateCompetitionPage() {
             setDescription(challenge.descricao)
           }} />
 
-          <Card>
+          <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
             <CardHeader>
-              <CardTitle>{t("competitions.competitionDetails")}</CardTitle>
-              <CardDescription>{t("competitions.activeFor8Days")}</CardDescription>
+              <CardTitle className="text-white">{t("competitions.competitionDetails")}</CardTitle>
+              <CardDescription className="text-gray-300">{t("competitions.activeFor8Days")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="title">{t("competitions.competitionTitle")}</Label>
+                  <Label htmlFor="title" className="text-gray-200">{t("competitions.competitionTitle")}</Label>
                   <Input
                     id="title"
                     type="text"
@@ -104,11 +104,12 @@ export default function CreateCompetitionPage() {
                     onChange={(e) => setTitle(e.target.value)}
                     required
                     maxLength={200}
+                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-gray-400"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="description">{t("competitions.description")}</Label>
+                  <Label htmlFor="description" className="text-gray-200">{t("competitions.description")}</Label>
                   <Textarea
                     id="description"
                     placeholder={t("competitions.descriptionPlaceholder")}
@@ -116,15 +117,16 @@ export default function CreateCompetitionPage() {
                     onChange={(e) => setDescription(e.target.value)}
                     required
                     rows={4}
+                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-gray-400"
                   />
                 </div>
 
 
                 <div>
-                  <Label>{t("competitions.challengeDuration")}</Label>
+                  <Label className="text-gray-200">{t("competitions.challengeDuration")}</Label>
                   <div className="flex items-center gap-4 mt-2">
                     <select
-                      className="border rounded px-2 py-1"
+                      className="border rounded px-2 py-1 bg-[#052A5F] border-[#073266] text-white"
                       value={durationType}
                       onChange={e => setDurationType(e.target.value as "dias" | "horas")}
                     >
@@ -137,41 +139,41 @@ export default function CreateCompetitionPage() {
                       max={durationType === "dias" ? 30 : 168}
                       value={durationValue}
                       onChange={e => setDurationValue(Number(e.target.value))}
-                      className="w-20"
+                      className="w-20 bg-[#052A5F] border-[#073266] text-white"
                     />
-                    <span>{durationType === "dias" ? t("competitions.days") : t("competitions.hours")}</span>
+                    <span className="text-gray-200">{durationType === "dias" ? t("competitions.days") : t("competitions.hours")}</span>
                     <Input
                       type="number"
                       min={0}
                       max={59}
                       value={durationMinutes}
                       onChange={e => setDurationMinutes(Number(e.target.value))}
-                      className="w-20"
+                      className="w-20 bg-[#052A5F] border-[#073266] text-white"
                     />
-                    <span>{t("competitions.minutes")}</span>
+                    <span className="text-gray-200">{t("competitions.minutes")}</span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">{t("competitions.durationHelper")}</p>
+                  <p className="text-xs text-gray-400 mt-1">{t("competitions.durationHelper")}</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="customEndDate">{t("competitions.customEndDate")}</Label>
+                  <Label htmlFor="customEndDate" className="text-gray-200">{t("competitions.customEndDate")}</Label>
                   <Input
                     id="customEndDate"
                     type="datetime-local"
                     value={customEndDate}
                     onChange={e => setCustomEndDate(e.target.value)}
-                    className="w-64"
+                    className="w-64 bg-[#052A5F] border-[#073266] text-white"
                   />
-                  <p className="text-xs text-gray-500 mt-1">{t("competitions.endDateHelper")}</p>
+                  <p className="text-xs text-gray-400 mt-1">{t("competitions.endDateHelper")}</p>
                 </div>
 
-                {error && <p className="text-sm text-red-500">{error}</p>}
+                {error && <p className="text-sm text-red-400">{error}</p>}
 
                 <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={() => router.back()} className="flex-1">
+                  <Button type="button" variant="outline" onClick={() => router.back()} className="flex-1 border-[#073266] text-gray-300 hover:bg-[#052A5F] hover:text-white">
                     {t("common.cancel")}
                   </Button>
-                  <Button type="submit" disabled={isLoading} className="flex-1">
+                  <Button type="submit" disabled={isLoading} className="flex-1 bg-[#052A5F] hover:bg-[#073266] text-white">
                     {isLoading ? t("competitions.creating") : t("competitions.createCompetition")}
                   </Button>
                 </div>

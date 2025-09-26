@@ -33,8 +33,8 @@ export default async function BlacklistPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Lista Negra</h1>
-          <p className="text-gray-600">Usuários que violaram as regras da comunidade</p>
+          <h1 className="text-3xl font-bold text-white-900 mb-2">Lista Negra</h1>
+          <p className="text-white-600">Usuários que violaram as regras da comunidade</p>
         </div>
 
         <Card>
@@ -52,9 +52,9 @@ export default async function BlacklistPage() {
           <CardContent>
             {blacklist.length === 0 ? (
               <div className="text-center py-12">
-                <Shield className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Lista negra vazia</h3>
-                <p className="text-gray-600">Todos os usuários estão seguindo as regras da comunidade!</p>
+                <Shield className="h-16 w-16 text-white-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white-900 mb-2">Lista negra vazia</h3>
+                <p className="text-white-600">Todos os usuários estão seguindo as regras da comunidade!</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -67,17 +67,17 @@ export default async function BlacklistPage() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-2">
-                            <h3 className="font-semibold text-gray-900">{entry.user?.username}</h3>
+                            <h3 className="font-semibold text-white-900">{entry.user?.username}</h3>
                             <Badge variant="destructive">Banido</Badge>
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                          <div className="flex items-center gap-4 text-sm text-white-600 mb-2">
                             <div className="flex items-center gap-1">
                               <Calendar className="h-4 w-4" />
                               <span>Banido em {new Date(entry.blacklisted_at).toLocaleDateString("pt-BR")}</span>
                             </div>
                           </div>
                           {entry.reason && (
-                            <p className="text-sm text-gray-700 bg-gray-50 p-2 rounded">
+                            <p className="text-sm text-white-700 bg-gray-50 p-2 rounded">
                               <strong>Motivo:</strong> {entry.reason}
                             </p>
                           )}

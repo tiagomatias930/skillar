@@ -30,20 +30,16 @@ export function Navigation() {
 
           <nav className="flex items-center gap-4">
             <Link href="/competitions">
-             <Trophy className="h-4 w-4 mr-1" />
               <Button variant="ghost">{t('navigation.competitions')}</Button>
             </Link>
 
             <Link href="/ranking">
-              <BarChart3 className="h-4 w-4" />
               <Button variant="ghost">{t('navigation.ranking')}</Button>
             </Link>
             <Link href="/history">
-               <History className="h-4 w-4 mr-1" />
               <Button variant="ghost">{t('navigation.history')}</Button>
             </Link>
             <Link href="/jogo">
-              <Gamepad2 className="h-4 w-4" />
               <Button variant="ghost">Jogos & Diversão</Button>
             </Link>
             <Link href="/reports">

@@ -90,7 +90,8 @@ Por favor, retorne APENAS um objeto JSON válido com a seguinte estrutura:
   "criterios_avaliacao": ["Critério 1", "Critério 2", "Critério 3", "Critério 4", "Critério 5"],
   "dificuldade": "${request.dificuldade || "medio"}",
   "tecnologias_sugeridas": ["Tecnologia 1", "Tecnologia 2", "Tecnologia 3"],
-  "tempo_estimado": "X horas/dias"
+  "tempo_estimado": "X horas/dias",
+  "permissao_uso": "Poder usar até 5 prompt de IA para ajudar na resolução do desafio"
 }
 
 IMPORTANTE:
@@ -98,9 +99,10 @@ IMPORTANTE:
 - A descrição deve ser clara e detalhada
 - Os critérios devem cobrir aspectos técnicos, criatividade, documentação, etc.
 - As tecnologias sugeridas devem ser relevantes para o desafio
-- O tempo estimado deve ser realista baseado na dificuldade`;
+- O tempo estimado deve ser realista baseado na dificuldade
+- Inclua uma seção sobre permissão de uso de IA na resolução do desafio`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

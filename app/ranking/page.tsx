@@ -141,8 +141,8 @@ export default function RankingPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("ranking.title")}</h1>
-          <p className="text-gray-600">{t("ranking.description")}</p>
+          <h1 className="text-3xl font-bold text-white-900 mb-2">{t("ranking.title")}</h1>
+          <p className="text-white-600">{t("ranking.description")}</p>
         </div>
 
         <Card>
@@ -150,7 +150,7 @@ export default function RankingPage() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-blue-600" />
+                  <Trophy className="h-5 w-5 text-white-600" />
                   {t("ranking.globalRanking")}
                 </CardTitle>
                 <CardDescription>
@@ -167,9 +167,9 @@ export default function RankingPage() {
           <CardContent>
             {sortedRanking.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("ranking.noParticipants")}</h3>
-                <p className="text-gray-600">{t("ranking.joinCompetitions")}</p>
+                <Users className="h-16 w-16 text-white-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white-900 mb-2">{t("ranking.noParticipants")}</h3>
+                <p className="text-white-600">{t("ranking.joinCompetitions")}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -190,19 +190,19 @@ export default function RankingPage() {
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold text-gray-900">{user.username}</h3>
+                            <h3 className="text-xl font-bold text-white-900">{user.username}</h3>
                             <Badge variant="outline" className={getRankBadgeColor(position)}>
                               {getRankTitle(position)}
                             </Badge>
                           </div>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-white-600">
                             {t("ranking.participatingIn")} {user.competitions} {user.competitions > 1 ? t("ranking.competitions") : t("ranking.competition")}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-3xl font-bold text-blue-600">{user.totalPoints}</div>
-                        <div className="text-sm text-gray-600">{t("ranking.totalPoints")}</div>
+                        <div className="text-3xl font-bold text-white-600">{user.totalPoints}</div>
+                        <div className="text-sm text-white-600">{t("ranking.totalPoints")}</div>
                       </div>
                     </div>
                   )
@@ -215,7 +215,7 @@ export default function RankingPage() {
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t("ranking.currentPodium")}</h2>
+            <h2 className="text-2xl font-bold text-white-900 mb-6 text-center">{t("ranking.currentPodium")}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
@@ -236,8 +236,8 @@ export default function RankingPage() {
                       <CardDescription>{getRankTitle(position)}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-blue-600 mb-2">{user.totalPoints}</div>
-                      <div className="text-sm text-gray-600">{t("ranking.totalPoints")}</div>
+                      <div className="text-2xl font-bold text-white-600 mb-2">{user.totalPoints}</div>
+                      <div className="text-sm text-white-600">{t("ranking.totalPoints")}</div>
                     </CardContent>
                   </Card>
                 )

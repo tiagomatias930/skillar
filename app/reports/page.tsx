@@ -137,10 +137,10 @@ export default function ReportsPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">Sistema de Relatórios</h1>
+              <h1 className="text-3xl font-bold text-white-900">Sistema de Relatórios</h1>
               <a
                 href="/evaluation-criteria"
-                className="text-sm px-3 py-1 rounded bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
+                className="text-sm px-3 py-1 rounded bg-blue-100 text-white-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
                 title="Ver critérios de avaliação"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -148,7 +148,7 @@ export default function ReportsPage() {
                 Critérios de Avaliação
               </a>
             </div>
-            <p className="text-gray-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
+            <p className="text-white-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
           </div>
           <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700">
             <Plus className="h-4 w-4 mr-2" />
@@ -213,7 +213,7 @@ export default function ReportsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-blue-600" />
+              <Shield className="h-5 w-5 text-white-600" />
               Relatórios da Comunidade
             </CardTitle>
             <CardDescription>
@@ -225,9 +225,9 @@ export default function ReportsPage() {
           <CardContent>
             {reports.length === 0 ? (
               <div className="text-center py-12">
-                <Shield className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Nenhum relatório ainda</h3>
-                <p className="text-gray-600">A comunidade está segura por enquanto!</p>
+                <Shield className="h-16 w-16 text-white-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white-900 mb-2">Nenhum relatório ainda</h3>
+                <p className="text-white-600">A comunidade está segura por enquanto!</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -241,9 +241,9 @@ export default function ReportsPage() {
                         <div>
                           <div className="flex items-center gap-2">
                             <Badge variant="destructive">Relatório</Badge>
-                            <span className="text-sm text-gray-600">#{report.id.slice(0, 8)}</span>
+                            <span className="text-sm text-white-600">#{report.id.slice(0, 8)}</span>
                           </div>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
+                          <div className="flex items-center gap-4 mt-1 text-sm text-white-600">
                             <div className="flex items-center gap-1">
                               <User className="h-4 w-4" />
                               <span>Reportado: {report.reported_user?.username}</span>
@@ -257,8 +257,8 @@ export default function ReportsPage() {
                       </div>
                     </div>
                     <div className="ml-13">
-                      <p className="text-gray-900 mb-2">{report.reason}</p>
-                      <p className="text-sm text-gray-600">Reportado por: {report.reporter_user?.username}</p>
+                      <p className="text-white-900 mb-2">{report.reason}</p>
+                      <p className="text-sm text-white-600">Reportado por: {report.reporter_user?.username}</p>
                     </div>
                   </div>
                 ))}

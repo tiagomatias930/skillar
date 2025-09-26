@@ -62,26 +62,22 @@ export default function JogoPage() {
             <nav className="flex items-center gap-3">
               <Link href="/">
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                  <Home className="h-4 w-4" />
                   <span>Início</span>
                 </Button>
               </Link>
               <Link href="/competitions">
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                  <Trophy className="h-4 w-4" />
                   <span>Competições</span>
                 </Button>
               </Link>
 
               <Link href="/ranking">
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                  <BarChart3 className="h-4 w-4" />
                   <span>Ranking</span>
                 </Button>
               </Link>
               <Link href="/history">
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                  <History className="h-4 w-4" />
                   <span>Histórico</span>
                 </Button>
               </Link>

@@ -42,12 +42,15 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
   }
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 bg-[#073266] border-[#052A5F] shadow-xl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-purple-600" />
-          Gerar Desafio com IA
+        <CardTitle className="flex items-center gap-2 text-white">
+          <Sparkles className="h-5 w-5 text-blue-400" />
+          Gerador de Desafio IA
         </CardTitle>
+        <p className="text-sm text-gray-300 mt-1">
+          Use IA para criar desafios personalizados automaticamente
+        </p>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
