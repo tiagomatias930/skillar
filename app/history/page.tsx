@@ -29,7 +29,7 @@ export default async function HistoryPage() {
 
   const winnerCounts: Record<string, { username: string; wins: number }> = {}
   winnerStats?.forEach((stat) => {
-    const username = stat.winner?.username || "Desconhecido"
+    const username = Array.isArray(stat.winner) && stat.winner.length > 0 ? stat.winner[0].username : "Desconhecido"
     if (!winnerCounts[stat.winner_id]) {
       winnerCounts[stat.winner_id] = { username, wins: 0 }
     }

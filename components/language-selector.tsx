@@ -62,7 +62,7 @@ export function LanguageSelector() {
       </Button>
       
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-40 bg-white border rounded-md shadow-lg z-50 animate-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 top-full mt-1 w-40 bg-[#06224A] border rounded-md shadow-lg z-50 animate-in slide-in-from-top-2 duration-200">
           {languages.map((lang) => (
             <button
               key={lang.code}
@@ -74,22 +74,13 @@ export function LanguageSelector() {
               <span>{lang.flag}</span>
               <span>{lang.name}</span>
               {lang.code === language && (
-                <span className="ml-auto text-blue-600">✓</span>
+                <span className="ml-auto text-black-600">✓</span>
               )}
             </button>
           ))}
         </div>
       )}
       
-      {/* Loading overlay */}
-      {isChanging && (
-        <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-4 shadow-lg flex items-center gap-2">
-            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <span>Changing language...</span>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

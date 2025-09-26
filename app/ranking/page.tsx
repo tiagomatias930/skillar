@@ -22,9 +22,31 @@ export default async function RankingPage() {
   // Aggregate points by user
   const userPoints: Record<string, { username: string; totalPoints: number; competitions: number }> = {}
 
+  type Participant = {
+    user_id: string
+    points: number
+    user:
+      | { username?: string }[]
+      | { username?: string }
+      | null
+    competition: { title: string; is_active: boolean }
+  }
+
   globalRanking?.forEach((participant) => {
-    const userId = participant.user_id
-    const username = participant.user?.username || "Usuário Desconhecido"
+    // Map the participant to the expected Participant type
+    const mappedParticipant: Participant = {
+      user_id: participant.user_id,
+      points: participant.points,
+      user: participant.user,
+      competition: Array.isArray(participant.competition)
+        ? participant.competition[0]
+        : participant.competition,
+    }
+
+    const userId = mappedParticipant.user_id
+    const username = Array.isArray(mappedParticipant.user)
+      ? mappedParticipant.user[0]?.username || "Usuário Desconhecido"
+      : mappedParticipant.user?.username || "Usuário Desconhecido"
 
     if (!userPoints[userId]) {
       userPoints[userId] = {
@@ -34,7 +56,7 @@ export default async function RankingPage() {
       }
     }
 
-    userPoints[userId].totalPoints += participant.points
+    userPoints[userId].totalPoints += mappedParticipant.points
     userPoints[userId].competitions += 1
   })
 
