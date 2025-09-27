@@ -127,7 +127,7 @@ export default function RankingPage() {
       case 1:
         return "bg-yellow-100 text-yellow-800 border-yellow-200"
       case 2:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-blue-100 text-blue-800 border-blue-200"
       case 3:
         return "bg-amber-100 text-amber-800 border-amber-200"
       default:
@@ -141,7 +141,7 @@ export default function RankingPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white-900 mb-2">{t("ranking.title")}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("ranking.title")}</h1>
           <p className="text-white-600">{t("ranking.description")}</p>
         </div>
 
@@ -153,7 +153,7 @@ export default function RankingPage() {
                   <Trophy className="h-5 w-5 text-white-600" />
                   {t("ranking.globalRanking")}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="bg-[#052A5F] p-1 rounded inline-block mt-1 text-white-600">
                   {sortedRanking.length === 0
                     ? t("ranking.noParticipants")
                     : `${sortedRanking.length} ${
@@ -181,7 +181,7 @@ export default function RankingPage() {
                       className={`flex items-center justify-between p-6 rounded-lg border transition-all hover:shadow-md ${
                         position <= 3
                           ? "bg-gradient-to-r from-white to-gray-50 border-gray-200"
-                          : "bg-white hover:bg-gray-50"
+                          : "bg-[#052A5F] hover:bg-gray-50"
                       }`}
                     >
                       <div className="flex items-center gap-6">
