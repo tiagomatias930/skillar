@@ -134,14 +134,14 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
                 <CardContent className="space-y-4">
                   <div>
                     <h4 className="font-semibold mb-2">Descrição:</h4>
-                    <p className="text-gray-700">{result.descricao}</p>
+                    <p className="text-white-700">{result.descricao}</p>
                   </div>
 
                   <div>
                     <h4 className="font-semibold mb-2">Critérios de Avaliação:</h4>
                     <ul className="list-disc list-inside space-y-1">
                       {result.criterios_avaliacao.map((criterio, index) => (
-                        <li key={index} className="text-gray-700">{criterio}</li>
+                        <li key={index} className="text-white-700">{criterio}</li>
                       ))}
                     </ul>
                   </div>
