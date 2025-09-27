@@ -90,12 +90,12 @@ export default function CreateCompetitionPage() {
           <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
             <CardHeader>
               <CardTitle className="text-white">{t("competitions.competitionDetails")}</CardTitle>
-              <CardDescription className="text-gray-300">{t("competitions.activeFor8Days")}</CardDescription>
+              <CardDescription className="text-white-300">{t("competitions.activeFor8Days")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="title" className="text-gray-200">{t("competitions.competitionTitle")}</Label>
+                  <Label htmlFor="title" className="text-white-200">{t("competitions.competitionTitle")}</Label>
                   <Input
                     id="title"
                     type="text"
@@ -104,12 +104,12 @@ export default function CreateCompetitionPage() {
                     onChange={(e) => setTitle(e.target.value)}
                     required
                     maxLength={200}
-                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-gray-400"
+                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-blue-400"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="description" className="text-gray-200">{t("competitions.description")}</Label>
+                  <Label htmlFor="description" className="text-white-200">{t("competitions.description")}</Label>
                   <Textarea
                     id="description"
                     placeholder={t("competitions.descriptionPlaceholder")}
@@ -117,7 +117,7 @@ export default function CreateCompetitionPage() {
                     onChange={(e) => setDescription(e.target.value)}
                     required
                     rows={4}
-                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-gray-400"
+                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-blue-400"
                   />
                 </div>
 
@@ -141,7 +141,7 @@ export default function CreateCompetitionPage() {
                       onChange={e => setDurationValue(Number(e.target.value))}
                       className="w-20 bg-[#052A5F] border-[#073266] text-white"
                     />
-                    <span className="text-gray-200">{durationType === "dias" ? t("competitions.days") : t("competitions.hours")}</span>
+                    <span className="text-white-200">{durationType === "dias" ? t("competitions.days") : t("competitions.hours")}</span>
                     <Input
                       type="number"
                       min={0}
@@ -150,13 +150,13 @@ export default function CreateCompetitionPage() {
                       onChange={e => setDurationMinutes(Number(e.target.value))}
                       className="w-20 bg-[#052A5F] border-[#073266] text-white"
                     />
-                    <span className="text-gray-200">{t("competitions.minutes")}</span>
+                    <span className="text-white-200">{t("competitions.minutes")}</span>
                   </div>
-                  <p className="text-xs text-gray-400 mt-1">{t("competitions.durationHelper")}</p>
+                  <p className="text-xs text-white-400 mt-1">{t("competitions.durationHelper")}</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="customEndDate" className="text-gray-200">{t("competitions.customEndDate")}</Label>
+                  <Label htmlFor="customEndDate" className="text-white-200">{t("competitions.customEndDate")}</Label>
                   <Input
                     id="customEndDate"
                     type="datetime-local"
@@ -164,7 +164,7 @@ export default function CreateCompetitionPage() {
                     onChange={e => setCustomEndDate(e.target.value)}
                     className="w-64 bg-[#052A5F] border-[#073266] text-white"
                   />
-                  <p className="text-xs text-gray-400 mt-1">{t("competitions.endDateHelper")}</p>
+                  <p className="text-xs text-white-400 mt-1">{t("competitions.endDateHelper")}</p>
                 </div>
 
                 {error && <p className="text-sm text-red-400">{error}</p>}
