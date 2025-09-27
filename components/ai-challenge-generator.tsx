@@ -48,7 +48,7 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
           <Sparkles className="h-5 w-5 text-blue-400" />
           Gerador de Desafio IA
         </CardTitle>
-        <p className="text-sm text-gray-300 mt-1">
+        <p className="text-sm text-white-300 mt-1">
           Use IA para criar desafios personalizados automaticamente
         </p>
       </CardHeader>
@@ -79,7 +79,7 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
               <Label htmlFor="dificuldade">Dificuldade</Label>
               <select
                 id="dificuldade"
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={form.dificuldade}
                 onChange={(e) => setForm(f => ({ ...f, dificuldade: e.target.value as "facil" | "medio" | "dificil" }))}
               >
@@ -93,7 +93,7 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
               <Label htmlFor="tipo">Tipo de Desafio</Label>
               <select
                 id="tipo"
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={form.tipo}
                 onChange={(e) => setForm(f => ({ ...f, tipo: e.target.value as "programacao" | "design" | "analise" | "outro" }))}
               >
