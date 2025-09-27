@@ -79,13 +79,13 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
               <Label htmlFor="dificuldade">Dificuldade</Label>
               <select
                 id="dificuldade"
-                className="w-full border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-[#052A5F] border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={form.dificuldade}
                 onChange={(e) => setForm(f => ({ ...f, dificuldade: e.target.value as "facil" | "medio" | "dificil" }))}
               >
-                <option value="facil">Fácil</option>
-                <option value="medio">Médio</option>
-                <option value="dificil">Difícil</option>
+                <option value="facil" className="bg-[#052A5F]">Fácil</option>
+                <option value="medio" className="bg-[#052A5F]">Médio</option>
+                <option value="dificil" className="bg-[#052A5F]">Difícil</option>
               </select>
             </div>
 
@@ -93,14 +93,14 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
               <Label htmlFor="tipo">Tipo de Desafio</Label>
               <select
                 id="tipo"
-                className="w-full border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border bg-[#052A5F] border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={form.tipo}
                 onChange={(e) => setForm(f => ({ ...f, tipo: e.target.value as "programacao" | "design" | "analise" | "outro" }))}
               >
-                <option value="programacao">Programação</option>
-                <option value="design">Design</option>
-                <option value="analise">Análise</option>
-                <option value="outro">Outro</option>
+                <option value="programacao" className="bg-[#052A5F]">Programação</option>
+                <option value="design" className="bg-[#052A5F]">Design</option>
+                <option value="analise" className="bg-[#052A5F]">Análise</option>
+                <option value="outro" className="bg-[#052A5F]">Outro</option>
               </select>
             </div>
           </div>
