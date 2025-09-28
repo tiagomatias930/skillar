@@ -180,7 +180,7 @@ export default function RankingPage() {
                       key={user.userId}
                       className={`flex items-center justify-between p-6 rounded-lg border transition-all hover:shadow-md ${
                         position <= 3
-                          ? "bg-gradient-to-r from-white to-gray-50 border-gray-200"
+                          ? "bg-[#052A5F]-to-r from-white to-gray-50 border-gray-200"
                           : "bg-[#052A5F] hover:bg-gray-50"
                       }`}
                     >
