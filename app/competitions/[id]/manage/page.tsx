@@ -253,12 +253,12 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                     return (
                       <div
                         key={participant.id}
-                        className={`flex items-center justify-between p-4 rounded-lg border bg-[#052A5F] border-[#073266] ${
+                        className={`flex items-center justify-between p-4 rounded-lg border bg-white border-[#073266] ${
                           position <= 3 ? "ring-2 ring-blue-400/50" : ""
                         }`}
                       >
                         <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#073266]">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white">
                             {getRankIcon(position)}
                           </div>
                           <div>
