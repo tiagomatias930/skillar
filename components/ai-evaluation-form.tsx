@@ -57,7 +57,7 @@ export default function AiEvaluationForm() {
       <input className="w-full border p-2 rounded text-white" required placeholder="Descrição do desafio" value={form.desc_desafio} onChange={e => setForm(f => ({ ...f, desc_desafio: e.target.value }))} />
       <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50" disabled={loading}>{loading ? "Avaliando..." : "Submeter"}</button>
       {result && (
-        <div className="mt-4 p-3 border rounded bg-gray-50">
+        <div className="mt-4 p-3 border rounded bg-[#052A5F]">
           {"error" in result ? (
             <span className="text-red-600">Erro: {result.error}</span>
           ) : (
