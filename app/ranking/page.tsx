@@ -215,7 +215,7 @@ export default function RankingPage() {
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold text-white-900 mb-6 text-center">{t("ranking.currentPodium")}</h2>
+            <h2 className="text-lg font-bold text-white-900 mb-6 text-center">{t("ranking.currentPodium")}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
@@ -236,7 +236,7 @@ export default function RankingPage() {
                       <CardDescription>{getRankTitle(position)}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold text-white-600 mb-2">{user.totalPoints}</div>
+                      <div className="text-lg font-bold text-white-600 mb-2">{user.totalPoints}</div>
                       <div className="text-sm text-white-600">{t("ranking.totalPoints")}</div>
                     </CardContent>
                   </Card>
