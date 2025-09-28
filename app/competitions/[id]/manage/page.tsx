@@ -270,7 +270,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-gray-200">
+                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-white font-semibold block mb-1">
                               Pontos
                             </Label>
                             <Input
@@ -279,7 +279,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                               min="0"
                               value={currentPoints}
                               onChange={(e) => handlePointsChange(participant.id, Number.parseInt(e.target.value) || 0)}
-                              className="w-20 text-center bg-[#06224A] border-[#073266] text-white font-bold"
+                              className="w-20 text-center bg-white border-2 border-blue-400 text-black font-bold text-lg shadow-lg focus:ring-2 focus:ring-blue-300"
                             />
                           </div>
                         </div>
