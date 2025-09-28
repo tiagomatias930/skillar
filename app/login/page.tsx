@@ -195,7 +195,7 @@ export default function LoginPage() {
             <CardDescription className="text-center">
               {isProcessingOAuth
                 ? "Processando login da 42..."
-                : "Digite seu username para participar das competições"
+                : "Inicia sessão com a conta do Intra."
               }
             </CardDescription>
           </CardHeader>
