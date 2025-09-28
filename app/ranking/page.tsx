@@ -102,8 +102,8 @@ export default function RankingPage() {
         return <Award className="h-8 w-8 text-amber-600" />
       default:
         return (
-          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-            <span className="text-sm font-bold text-gray-600">#{position}</span>
+          <div className="w-8 h-8 rounded-full bg-[#06224A] flex items-center justify-center">
+            <span className="text-sm font-bold text-white">#{position}</span>
           </div>
         )
     }
@@ -141,19 +141,19 @@ export default function RankingPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("ranking.title")}</h1>
-          <p className="text-white-600">{t("ranking.description")}</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t("ranking.title")}</h1>
+          <p className="text-gray-300">{t("ranking.description")}</p>
         </div>
 
-        <Card>
+        <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-white-600" />
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <Trophy className="h-5 w-5 text-blue-400" />
                   {t("ranking.globalRanking")}
                 </CardTitle>
-                <CardDescription className="bg-[#052A5F] p-1 rounded inline-block mt-1 text-white-600">
+                <CardDescription className="text-gray-300">
                   {sortedRanking.length === 0
                     ? t("ranking.noParticipants")
                     : `${sortedRanking.length} ${
@@ -167,9 +167,9 @@ export default function RankingPage() {
           <CardContent>
             {sortedRanking.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="h-16 w-16 text-white-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white-900 mb-2">{t("ranking.noParticipants")}</h3>
-                <p className="text-white-600">{t("ranking.joinCompetitions")}</p>
+                <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">{t("ranking.noParticipants")}</h3>
+                <p className="text-gray-300">{t("ranking.joinCompetitions")}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -178,31 +178,31 @@ export default function RankingPage() {
                   return (
                     <div
                       key={user.userId}
-                      className={`flex items-center justify-between p-6 rounded-lg border transition-all hover:shadow-md ${
+                      className={`flex items-center justify-between p-6 rounded-lg border transition-all hover:shadow-md bg-[#052A5F] border-[#073266] ${
                         position <= 3
-                          ? "bg-[#052A5F]-to-r from-white to-gray-50 border-gray-200"
-                          : "bg-[#052A5F] hover:bg-gray-50"
+                          ? "ring-2 ring-blue-400/50"
+                          : ""
                       }`}
                     >
                       <div className="flex items-center gap-6">
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
+                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#073266]">
                           {getRankIcon(position)}
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold text-white-900">{user.username}</h3>
+                            <h3 className="text-xl font-bold text-white">{user.username}</h3>
                             <Badge variant="outline" className={getRankBadgeColor(position)}>
                               {getRankTitle(position)}
                             </Badge>
                           </div>
-                          <p className="text-sm text-white-600">
+                          <p className="text-sm text-gray-300">
                             {t("ranking.participatingIn")} {user.competitions} {user.competitions > 1 ? t("ranking.competitions") : t("ranking.competition")}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-3xl font-bold text-white-600">{user.totalPoints}</div>
-                        <div className="text-sm text-white-600">{t("ranking.totalPoints")}</div>
+                        <div className="text-3xl font-bold text-white">{user.totalPoints}</div>
+                        <div className="text-sm text-gray-300">{t("ranking.totalPoints")}</div>
                       </div>
                     </div>
                   )
@@ -215,29 +215,29 @@ export default function RankingPage() {
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
           <div className="mt-8">
-            <h2 className="text-lg font-bold text-white-900 mb-6 text-center">{t("ranking.currentPodium")}</h2>
+            <h2 className="text-2xl font-bold text-white mb-6 text-center">{t("ranking.currentPodium")}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
                 return (
                   <Card
                     key={user.userId}
-                    className={`text-center ${
+                    className={`text-center bg-[#073266] border-[#052A5F] ${
                       position === 1
-                        ? "ring-2 ring-yellow-200 bg-gradient-to-b from-yellow-50 to-white"
+                        ? "ring-2 ring-yellow-400/50"
                         : position === 2
-                          ? "ring-2 ring-gray-200 bg-gradient-to-b from-gray-50 to-white"
-                          : "ring-2 ring-amber-200 bg-gradient-to-b from-amber-50 to-white"
+                          ? "ring-2 ring-gray-400/50"
+                          : "ring-2 ring-amber-400/50"
                     }`}
                   >
                     <CardHeader>
                       <div className="flex justify-center mb-4">{getRankIcon(position)}</div>
-                      <CardTitle className="text-lg">{user.username}</CardTitle>
-                      <CardDescription>{getRankTitle(position)}</CardDescription>
+                      <CardTitle className="text-lg text-white">{user.username}</CardTitle>
+                      <CardDescription className="text-gray-300">{getRankTitle(position)}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-lg font-bold text-white-600 mb-2">{user.totalPoints}</div>
-                      <div className="text-sm text-white-600">{t("ranking.totalPoints")}</div>
+                      <div className="text-2xl font-bold text-white mb-2">{user.totalPoints}</div>
+                      <div className="text-sm text-gray-300">{t("ranking.totalPoints")}</div>
                     </CardContent>
                   </Card>
                 )

@@ -8,11 +8,13 @@ import { CountdownTimer } from "@/components/countdown-timer"
 import { RefreshButton } from "@/components/refresh-button"
 import Link from "next/link"
 import { JoinCompetitionButton } from "@/components/join-competition-button"
+import { useTranslation } from "@/hooks/use-translation"
 
 export default function CompetitionDetailsClient({ 
   competition, 
   participants
 }: any) {
+  const { t } = useTranslation()
 
   const now = new Date()
   const endDate = new Date(competition.custom_end_date || competition.end_date)
@@ -34,13 +36,13 @@ export default function CompetitionDetailsClient({
   const getRankTitle = (position: number) => {
     switch (position) {
       case 1:
-        return "Presidente"
+        return t('competitionDetail.president')
       case 2:
-        return "Vice-presidente"
+        return t('competitionDetail.vicePresident')
       case 3:
-        return "Diretor"
+        return t('competitionDetail.director')
       default:
-        return `${position}º Lugar`
+        return `${position}${t('competitionDetail.position')}`
     }
   }
 
@@ -58,7 +60,7 @@ export default function CompetitionDetailsClient({
   }
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] container mx-auto px-4 py-8">
       {/* Competition Header */}
       <div className="mb-8">
         <div className="flex items-start justify-between mb-4">
@@ -68,16 +70,16 @@ export default function CompetitionDetailsClient({
             <div className="flex items-center gap-4 text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span>Criado por {competition.creator?.username}</span>
+                <span>{t('competitionDetail.createdBy')} {competition.creator?.username}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span>Termina em {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
+                <span>{t('competitionDetail.endsOn')} {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
               </div>
               <CountdownTimer endDate={competition.custom_end_date || competition.end_date} />
               {competition.duration_type && competition.duration_value && (
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#052A5F]">Duração:</span>
+                  <span className="font-semibold text-[#052A5F]">{t('competitionDetail.duration')}</span>
                   <span>{competition.duration_value} {competition.duration_type}</span>
                 </div>
               )}
@@ -85,7 +87,7 @@ export default function CompetitionDetailsClient({
           </div>
           <div className="flex gap-2">
             <Badge variant={competition.is_active ? "default" : "secondary"} className="bg-[#052A5F] text-white">
-              {competition.is_active ? "Ativa" : "Encerrada"}
+              {competition.is_active ? t('competitionDetail.active') : t('competitionDetail.finished')}
             </Badge>
           </div>
         </div>
@@ -99,7 +101,7 @@ export default function CompetitionDetailsClient({
           <Link href={`/competitions/${competition.id}/manage`}>
             <Button variant="outline">
               <Edit className="h-4 w-4 mr-2" />
-              Gerenciar
+              {t('competitionDetail.manage')}
             </Button>
           </Link>
         </div>
@@ -112,12 +114,12 @@ export default function CompetitionDetailsClient({
             <div>
               <CardTitle className="flex items-center gap-2 text-white">
                 <Trophy className="h-5 w-5 text-[#052A5F]" />
-                Ranking em Tempo Real
+                {t('competitionDetail.realtimeRanking')}
               </CardTitle>
               <CardDescription className="text-gray-300">
                 {participants.length === 0
-                  ? "Nenhum participante ainda"
-                  : `${participants.length} ${participants.length > 1 ? "participantes" : "participante"}`}
+                  ? t('competitionDetail.noParticipants')
+                  : `${participants.length} ${participants.length > 1 ? t('competitionDetail.participants') : t('competitionDetail.participant')}`}
               </CardDescription>
             </div>
             <RefreshButton />
@@ -127,8 +129,8 @@ export default function CompetitionDetailsClient({
           {participants.length === 0 ? (
             <div className="text-center py-8">
               <Users className="h-16 w-16 text-[#052A5F] mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Nenhum participante ainda</h3>
-              <p className="text-gray-300">Seja o primeiro a participar desta competição!</p>
+              <h3 className="text-lg font-semibold text-white mb-2">{t('competitionDetail.noParticipants')}</h3>
+              <p className="text-gray-300">{t('competitionDetail.noParticipantsDesc')}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -153,13 +155,13 @@ export default function CompetitionDetailsClient({
                           </Badge>
                         </div>
                         <p className="text-sm text-gray-300">
-                          Participando desde {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
+                          {t('competitionDetail.participatingSince')} {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-[#052A5F]">{participant.points || 0}</div>
-                      <div className="text-sm text-gray-300">pontos</div>
+                      <div className="text-2xl font-bold text-white">{participant.points || 0}</div>
+                      <div className="text-sm text-gray-300">{t('competitionDetail.points')}</div>
                     </div>
                   </div>
                 )

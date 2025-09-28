@@ -81,6 +81,25 @@ const translations = {
       creating: "Criando...",
       createCompetition: "Criar Competição"
     },
+    competitionDetail: {
+      createdBy: "Criado por",
+      endsOn: "Termina em",
+      duration: "Duração:",
+      active: "Ativa",
+      finished: "Encerrada",
+      manage: "Gerenciar",
+      realtimeRanking: "Ranking em Tempo Real",
+      noParticipants: "Nenhum participante ainda",
+      noParticipantsDesc: "Seja o primeiro a participar desta competição!",
+      participant: "participante",
+      participants: "participantes",
+      participatingSince: "Participando desde",
+      points: "pontos",
+      president: "Presidente",
+      vicePresident: "Vice-presidente",
+      director: "Diretor",
+      position: "º Lugar"
+    },
     common: {
       search: "Procurar",
       cancel: "Cancelar",
@@ -221,6 +240,25 @@ const translations = {
       creating: "Creating...",
       createCompetition: "Create Competition"
     },
+    competitionDetail: {
+      createdBy: "Created by",
+      endsOn: "Ends on",
+      duration: "Duration:",
+      active: "Active",
+      finished: "Finished",
+      manage: "Manage",
+      realtimeRanking: "Real-time Ranking",
+      noParticipants: "No participants yet",
+      noParticipantsDesc: "Be the first to participate in this competition!",
+      participant: "participant",
+      participants: "participants",
+      participatingSince: "Participating since",
+      points: "points",
+      president: "President",
+      vicePresident: "Vice-President",
+      director: "Director",
+      position: " Place"
+    },
     common: {
       search: "Search",
       cancel: "Cancel",
@@ -360,6 +398,25 @@ const translations = {
       unknownError: "Erreur inconnue",
       creating: "Création...",
       createCompetition: "Créer une Compétition"
+    },
+    competitionDetail: {
+      createdBy: "Créé par",
+      endsOn: "Se termine le",
+      duration: "Durée:",
+      active: "Active",
+      finished: "Terminée",
+      manage: "Gérer",
+      realtimeRanking: "Classement en Temps Réel",
+      noParticipants: "Aucun participant encore",
+      noParticipantsDesc: "Soyez le premier à participer à cette compétition!",
+      participant: "participant",
+      participants: "participants",
+      participatingSince: "Participant depuis",
+      points: "points",
+      president: "Président",
+      vicePresident: "Vice-Président",
+      director: "Directeur",
+      position: "e Place"
     },
     common: {
       search: "Rechercher",
