@@ -112,10 +112,6 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
       return
     }
 
-    console.log("[v0] Username found:", username)
-    console.log("[v0] Current pointsUpdates:", pointsUpdates)
-    console.log("[v0] Competition ID:", competition?.id)
-
   setIsSaving(true)
   setError(null)
 
@@ -273,8 +269,8 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
-                          <div className="text-right">
-                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-white-600">
+                          <div className="text-right text-white">
+                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-white">
                               Pontos
                             </Label>
                             <Input
@@ -283,7 +279,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                               min="0"
                               value={currentPoints}
                               onChange={(e) => handlePointsChange(participant.id, Number.parseInt(e.target.value) || 0)}
-                              className="w-20 text-center"
+                              className="w-20 text-center text-white"
                             />
                           </div>
                         </div>
