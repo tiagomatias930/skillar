@@ -232,7 +232,7 @@ export default function ReportsPage() {
             ) : (
               <div className="space-y-4">
                 {reports.map((report) => (
-                  <div key={report.id} className="border rounded-lg p-4 bg-[#052A5F] hover:bg-gray-50 transition-colors">
+                  <div key={report.id} className="border rounded-lg p-4 bg-[#052A5F] transition-colors">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
