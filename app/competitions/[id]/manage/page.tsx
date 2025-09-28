@@ -274,7 +274,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-gray-600">
+                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-white-600">
                               Pontos
                             </Label>
                             <Input
