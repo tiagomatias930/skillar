@@ -25,33 +25,28 @@ export default function HomePage() {
             <nav className="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
               <Link href="/competitions">
                 <Button variant="ghost" className="flex items-center gap-2 text-sm sm:text-base">
-                  <Trophy className="h-4 w-4" />
                   <span>Competições</span>
                 </Button>
               </Link>
               <Link href="/ranking">
                 <Button variant="ghost" className="flex items-center gap-2">
-                  <BarChart3 className="h-4 w-4" />
                   <span>Ranking</span>
                 </Button>
               </Link>
               <Link href="/history">
                 <Button variant="ghost" className="flex items-center gap-2">
-                  <History className="h-4 w-4" />
                   <span>Histórico</span>
                 </Button>
               </Link>
               <Link href="/jogo">
                 <Button variant="ghost" className="flex items-center gap-2">
-                  <Gamepad2 className="h-4 w-4" />
                   <span>Jogo</span>
                 </Button>
               </Link>
-                          <LanguageSelector />
+              <LanguageSelector />
   
               <Link href="/login">
-                <Button className="flex items-center gap-2">
-                  <Award className="h-4 w-4" />
+                <Button className="flex items-center gap-2">               
                   <span>Entrar</span>
                 </Button>
               </Link>

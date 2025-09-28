@@ -95,9 +95,9 @@ export default function RankingPage() {
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <Crown className="h-8 w-8 text-yellow-500" />
+        return <img className="h-8 w-8 text-yellow-500" src="/laurel-wreath.png" alt="Crown" />
       case 2:
-        return <Medal className="h-8 w-8 text-gray-400" />
+        return <img className="h-8 w-8 text-gray-400" src="/medal.png" alt="Medal" />
       case 3:
         return <Award className="h-8 w-8 text-amber-600" />
       default:
