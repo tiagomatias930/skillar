@@ -180,10 +180,10 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <Navigation />
         <main className="container mx-auto px-4 py-8">
-          <div className="text-center text-white">Carregando...</div>
+          <div className="text-center">Carregando...</div>
         </main>
       </div>
     )
@@ -191,13 +191,13 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <Navigation />
         <main className="container mx-auto px-4 py-8">
-          <Card className="text-center py-12 bg-[#073266] border-[#052A5F]">
+          <Card className="text-center py-12">
             <CardContent>
-              <h3 className="text-xl font-semibold text-white mb-2">Erro</h3>
-              <p className="text-red-400 mb-4">{error}</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Erro</h3>
+              <p className="text-red-600 mb-4">{error}</p>
               <Button onClick={() => router.back()}>Voltar</Button>
             </CardContent>
           </Card>
@@ -207,25 +207,25 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navigation />
       <ToastContainer />
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Gerenciar Competição</h1>
-          <p className="text-gray-300">{competition?.title}</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Gerenciar Competição</h1>
+          <p className="text-gray-600">{competition?.title}</p>
         </div>
 
-        <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
+        <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="flex items-center gap-2 text-white">
-                  <Trophy className="h-5 w-5 text-blue-400" />
+                <CardTitle className="flex items-center gap-2">
+                  <Trophy className="h-5 w-5 text-blue-600" />
                   Atribuir Pontos aos Participantes
                 </CardTitle>
-                <CardDescription className="text-gray-300">
+                <CardDescription>
                   Como criador, você pode atribuir pontos aos participantes da competição
                 </CardDescription>
               </div>
@@ -239,11 +239,11 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
             {participants.length === 0 ? (
               <div className="text-center py-8">
                 <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">Nenhum participante ainda</h3>
-                <p className="text-gray-300">Aguarde participantes se inscreverem na competição</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Nenhum participante ainda</h3>
+                <p className="text-gray-600">Aguarde participantes se inscreverem na competição</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-4 text-white-600">
                 {participants
                   .sort((a, b) => (pointsUpdates[b.id] ?? b.points) - (pointsUpdates[a.id] ?? a.points))
                   .map((participant, index) => {
@@ -253,24 +253,24 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                     return (
                       <div
                         key={participant.id}
-                        className={`flex items-center justify-between p-4 rounded-lg border bg-[#052A5F] border-[#073266] ${
-                          position <= 3 ? "ring-2 ring-blue-400/50" : ""
+                        className={`flex items-center justify-between p-4 rounded-lg border ${
+                          position <= 3 ? "bg-gradient-to-r from-white to-gray-50" : "bg-white"
                         }`}
                       >
                         <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#073266]">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100">
                             {getRankIcon(position)}
                           </div>
                           <div>
-                            <h3 className="font-semibold text-white">{participant.user?.username}</h3>
-                            <p className="text-sm text-gray-300">
+                            <h3 className="font-semibold text-gray-900">{participant.user?.username}</h3>
+                            <p className="text-sm text-gray-600">
                               Participando desde {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-gray-200">
+                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-gray-600">
                               Pontos
                             </Label>
                             <Input
@@ -279,7 +279,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                               min="0"
                               value={currentPoints}
                               onChange={(e) => handlePointsChange(participant.id, Number.parseInt(e.target.value) || 0)}
-                              className="w-20 text-center bg-[#06224A] border-[#073266] text-white"
+                              className="w-20 text-center"
                             />
                           </div>
                         </div>
