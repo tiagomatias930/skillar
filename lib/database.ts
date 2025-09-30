@@ -257,6 +257,7 @@ export async function getCompetitionRanking(competitionId: string): Promise<Part
       username: participant.user?.username,
       points: participant.points,
       pointsType: typeof participant.points,
+      
     })
   })
 

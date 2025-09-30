@@ -95,11 +95,11 @@ export default function RankingPage() {
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <img className="h-8 w-8 text-yellow-500" src="/rank-1.png" alt="rank1" />
+        return <img className="h-12 w-12 text-yellow-500" src="/rank-1.png" alt="rank1" />
       case 2:
-        return <img className="h-8 w-8 text-gray-400" src="/rank-2.png" alt="rank2" />
+        return <img className="h-12 w-12 text-gray-400" src="/rank-2.png" alt="rank2" />
       case 3:
-        return <img className="h-8 w-8 text-amber-600" src="/rank-3.png" alt="rank3" />
+        return <img className="h-12 w-12 text-amber-600" src="/rank-3.png" alt="rank3" />
       default:
         return (
           <div className="w-8 h-8 rounded-full bg-[#06224A] flex items-center justify-center">
