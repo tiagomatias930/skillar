@@ -165,7 +165,6 @@ export default function LoginPage() {
     setIsLoading(true)
     setError(null)
 
-    // Use environment variables for OAuth config (you should move these to env vars)
     const clientId = process.env.INTRA42_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
     const redirectUri = process.env.NEXT_PUBLIC_42_REDIRECT_URI || 'https://42skillar.vercel.app/login'
 
@@ -198,12 +197,47 @@ export default function LoginPage() {
                 : "Escolha um método para entrar"
               }
             </CardDescription>
-          </CardHeader>
+                   </CardHeader>
           <CardContent>
             {!isProcessingOAuth && (
               <div>
                 <form onSubmit={handleLogin}>
-                  <div className="space-y-4">                     
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="username" className="mb-1">Username</Label>
+                      <Input
+                        id="username"
+                        type="text"
+                        placeholder="Seu username único"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        maxLength={50}
+                        disabled={isLoading}
+                      />
+                    </div>
+
+                    {error && (
+                      <div className="p-3 text-sm text-red-700 bg-red-100 border border-red-300 rounded">
+                        {error}
+                      </div>
+                    )}
+
+                    <Button type="submit" className="w-full mb-4" disabled={isLoading}>
+                      {isLoading ? "Entrando..." : "Entrar como Visitante"}
+                    </Button>
+
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="px-2">
+                          Ou entre com
+                        </span>
+                      </div>
+                    </div>
+                
                     <Button
                       type="button"
                       className="w-full mt-4 bg-[#00BABC] hover:bg-[#00BABC]/90"

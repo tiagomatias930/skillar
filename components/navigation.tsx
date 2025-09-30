@@ -4,12 +4,13 @@ import { Trophy, LogOut, History, Gamepad2, BarChart3, Users } from "lucide-reac
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { useUsername } from "@/hooks/use-local-storage"
+import { useUsername, useLocalStorage } from "@/hooks/use-local-storage"
 import { useTranslation } from "@/hooks/use-translation"
 import { LanguageSelector } from "@/components/language-selector"
 
 export function Navigation() {
   const [username, setUsername] = useUsername()
+  const [avatarUrl] = useLocalStorage('skillar_avatar_url')
   const router = useRouter()
   const { t } = useTranslation()
 
@@ -53,6 +54,13 @@ export function Navigation() {
 
             {username ? (
               <div className="flex items-center gap-3">
+                {avatarUrl && (
+                  <img
+                    src={avatarUrl}
+                    alt="Avatar"
+                    className="w-8 h-8 rounded-full border border-[#073266] object-cover"
+                  />
+                )}
                 <span className="text-sm text-gray-300">Olá, {username}</span>
                 <Button variant="outline" size="sm" onClick={handleLogout} className="border-[#073266] text-white hover:bg-[#052A5F]">
                   <LogOut className="h-4 w-4 mr-2" />
