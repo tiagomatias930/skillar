@@ -70,6 +70,13 @@ export default function CompetitionDetailsClient({
             <div className="flex items-center gap-4 text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
+                {competition.creator?.avatar_url && (
+                  <img
+                    src={competition.creator.avatar_url}
+                    alt="Avatar do criador"
+                    className="w-6 h-6 rounded-full border border-[#073266] object-cover"
+                  />
+                )}
                 <span>{t('competitionDetail.createdBy')} {competition.creator?.username}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -149,6 +156,13 @@ export default function CompetitionDetailsClient({
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
+                          {participant.user?.avatar_url && (
+                            <img
+                              src={participant.user.avatar_url}
+                              alt={`Avatar de ${participant.user.username}`}
+                              className="w-6 h-6 rounded-full border border-[#073266] object-cover"
+                            />
+                          )}
                           <h3 className="font-semibold text-white">{participant.user?.username}</h3>
                           <Badge variant="outline" className={`border-[#052A5F] ${getRankBadgeColor(position)}`}>
                             {getRankTitle(position)}

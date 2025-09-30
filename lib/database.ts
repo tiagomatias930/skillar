@@ -5,6 +5,7 @@ export interface User {
   id: string
   username: string
   created_at: string
+  avatar_url?: string
 }
 
 export interface Competition {
@@ -62,13 +63,25 @@ export async function setCurrentUser(username: string) {
 export async function createUser(username: string): Promise<User | null> {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.from("users").insert({ username }).select().single()
+  // Accept avatar_url as optional second argument
+  const { data, error } = await supabase.from("users").insert({ username, avatar_url }).select().single()
 
   if (error) {
     console.error("Error creating user:", error)
     return null
   }
 
+  return data
+}
+
+// Overload to support avatar_url
+export async function createUserWithAvatar(username: string, avatar_url?: string): Promise<User | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.from("users").insert({ username, avatar_url }).select().single()
+  if (error) {
+    console.error("Error creating user with avatar:", error)
+    return null
+  }
   return data
 }
 

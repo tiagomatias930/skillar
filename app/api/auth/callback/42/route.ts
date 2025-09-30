@@ -119,15 +119,21 @@ export async function POST(request: NextRequest) {
     const userData = await userResponse.json()
     console.log("✅ User authenticated:", userData.login)
 
+    // Persist user with avatar_url
+    const { createUserWithAvatar } = await import("@/lib/database")
+    const username = userData.login.trim()
+    const avatar_url = userData.image?.link || userData.image
+    await createUserWithAvatar(username, avatar_url)
+
     const result = {
       success: true,
-      username: userData.login.trim(),
+      username,
       access_token: tokenData.access_token,
       user_data: {
         id: userData.id,
         email: userData.email,
         displayname: userData.displayname,
-        image: userData.image?.link || userData.image,
+        image: avatar_url,
         campus: userData.campus?.[0]?.name || null
       }
     }
