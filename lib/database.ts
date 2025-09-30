@@ -64,7 +64,7 @@ export async function createUser(username: string): Promise<User | null> {
   const supabase = await createClient()
 
   // Accept avatar_url as optional second argument
-  const { data, error } = await supabase.from("users").insert({ username, avatar_url }).select().single()
+  const { data, error } = await supabase.from("users").insert({ username }).select().single()
 
   if (error) {
     console.error("Error creating user:", error)
