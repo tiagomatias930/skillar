@@ -1,5 +1,8 @@
 import { createBrowserClient } from "@supabase/ssr"
 
 export function createClient() {
-  return createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  return createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL! || "https://dgcodvcofzumuauqnaif.supabase.co"!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnY29kdmNvZnp1bXVhdXFuYWlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4MDUzOTYsImV4cCI6MjA3MzM4MTM5Nn0.IbFn3jSU1ImezgSr73mCp65XW1vJe5pCBg4Tp3k_me0"!)
 }
+
+//NEXT_PUBLIC_SUPABASE_URL=https://dgcodvcofzumuauqnaif.supabase.co
+//NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRnY29kdmNvZnp1bXVhdXFuYWlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4MDUzOTYsImV4cCI6MjA3MzM4MTM5Nn0.IbFn3jSU1ImezgSr73mCp65XW1vJe5pCBg4Tp3k_me0

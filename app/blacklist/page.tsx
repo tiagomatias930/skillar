@@ -52,7 +52,7 @@ export default async function BlacklistPage() {
           <CardContent>
             {blacklist.length === 0 ? (
               <div className="text-center py-12">
-                <Shield className="h-16 w-16 text-white-400 mx-auto mb-4" />
+                <img className="h-16 w-16 text-white-400 mx-auto mb-4" src="caution.png" />
                 <h3 className="text-lg font-semibold text-white-900 mb-2">Lista negra vazia</h3>
                 <p className="text-white-600">Todos os usuários estão seguindo as regras da comunidade!</p>
               </div>
@@ -95,7 +95,7 @@ export default async function BlacklistPage() {
         <Card className="mt-8 border-yellow-200 bg-yellow-50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-yellow-800">
-              <Shield className="h-5 w-5" />
+              <img className="h-5 w-5" src="caution.png" alt="Warning" />
               Aviso Importante
             </CardTitle>
           </CardHeader>
