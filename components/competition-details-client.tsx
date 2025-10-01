@@ -23,11 +23,11 @@ export default function CompetitionDetailsClient({
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <img src="/rank-1.png" className="h-6 w-6 text-yellow-500" />
+        return <img src="/rank-1.png" className="h-12 w-12 text-yellow-500" />
       case 2:
-        return <img src="/rank-2.png" className="h-6 w-6 text-gray-400" />
+        return <img src="/rank-2.png" className="h-12 w-12 text-gray-400" />
       case 3:
-        return <img src="/rank-3.png" className="h-6 w-6 text-amber-600" />
+        return <img src="/rank-3.png" className="h-12 w-12 text-amber-600" />
       default:
         return <span className="text-lg font-bold text-gray-500">#{position}</span>
     }
