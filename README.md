@@ -65,3 +65,33 @@ Continue building your app on:
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
+
+## Environment variables
+
+This project uses a server-side token to authenticate requests to the 42 Intra API. Add the token to your local environment and to your production provider (for example, Vercel).
+
+Local (development)
+
+1. Copy `.env.local.example` to `.env.local` in the project root.
+2. Replace the placeholder with your real token:
+
+```env
+INTRA_API_TOKEN=s-your_real_token_here
+```
+
+3. Restart the dev server so Next.js picks up the new env var:
+
+```bash
+npm run dev
+```
+
+Production (Vercel)
+
+1. Go to your project settings on Vercel.
+2. Under Environment Variables, add a new variable named `INTRA_API_TOKEN` and paste the token value.
+3. Redeploy the project.
+
+Security notes:
+
+- Never commit `.env.local` or any secret values to git. `.env.local.example` is safe to commit and contains placeholders.
+- If you suspect a token has been exposed, rotate it immediately.
