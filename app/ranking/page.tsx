@@ -12,6 +12,7 @@ import { createClient } from "@/lib/supabase/client"
 type UserRanking = {
   userId: string
   username: string
+  avatar_url: string | null
   totalPoints: number
   competitions: number
 }
@@ -40,14 +41,14 @@ export default function RankingPage() {
       .eq("competition.is_active", true)
 
     // Aggregate points by user
-    const userPoints: Record<string, { username: string; totalPoints: number; competitions: number }> = {}
+    const userPoints: Record<string, { username: string; avatar_url: string | null; totalPoints: number; competitions: number }> = {}
 
     type Participant = {
       user_id: string
       points: number
       user:
-        | { username?: string }[]
-        | { username?: string }
+        | { username?: string; avatar_url?: string | null }[]
+        | { username?: string; avatar_url?: string | null }
         | null
       competition: { title: string; is_active: boolean }
     }
@@ -67,10 +68,15 @@ export default function RankingPage() {
       const username = Array.isArray(mappedParticipant.user)
         ? mappedParticipant.user[0]?.username || t("ranking.unknownUser")
         : mappedParticipant.user?.username || t("ranking.unknownUser")
+      
+      const avatar_url = Array.isArray(mappedParticipant.user)
+        ? mappedParticipant.user[0]?.avatar_url || null
+        : mappedParticipant.user?.avatar_url || null
 
       if (!userPoints[userId]) {
         userPoints[userId] = {
           username,
+          avatar_url,
           totalPoints: 0,
           competitions: 0,
         }
@@ -84,7 +90,10 @@ export default function RankingPage() {
     const ranking = Object.entries(userPoints)
       .map(([userId, data]) => ({
         userId,
-        ...data,
+        username: data.username,
+        avatar_url: data.avatar_url,
+        totalPoints: data.totalPoints,
+        competitions: data.competitions,
       }))
       .sort((a, b) => b.totalPoints - a.totalPoints)
 
@@ -95,11 +104,11 @@ export default function RankingPage() {
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <img className="h-12 w-12 text-yellow-500" src="/rank-1.png" alt="rank1" />
+        return <img className="h-8 w-8 text-yellow-500" src="/laurel-wreath.png" alt="Crown" />
       case 2:
-        return <img className="h-12 w-12 text-gray-400" src="/rank-2.png" alt="rank2" />
+        return <img className="h-8 w-8 text-gray-400" src="/medal.png" alt="Medal" />
       case 3:
-        return <img className="h-12 w-12 text-amber-600" src="/rank-3.png" alt="rank3" />
+        return <Award className="h-8 w-8 text-amber-600" />
       default:
         return (
           <div className="w-8 h-8 rounded-full bg-[#06224A] flex items-center justify-center">
@@ -190,6 +199,13 @@ export default function RankingPage() {
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-2">
+                            {user.avatar_url && (
+                              <img
+                                src={user.avatar_url}
+                                alt={`Avatar de ${user.username}`}
+                                className="w-12 h-12 rounded-full border border-[#073266] object-cover"
+                              />
+                            )}
                             <h3 className="text-xl font-bold text-white">{user.username}</h3>
                             <Badge variant="outline" className={getRankBadgeColor(position)}>
                               {getRankTitle(position)}
@@ -232,6 +248,15 @@ export default function RankingPage() {
                   >
                     <CardHeader>
                       <div className="flex justify-center mb-4">{getRankIcon(position)}</div>
+                      {user.avatar_url && (
+                        <div className="flex justify-center mb-4">
+                          <img
+                            src={user.avatar_url}
+                            alt={`Avatar de ${user.username}`}
+                            className="w-20 h-20 rounded-full border-2 border-[#073266] object-cover"
+                          />
+                        </div>
+                      )}
                       <CardTitle className="text-lg text-white">{user.username}</CardTitle>
                       <CardDescription className="text-gray-300">{getRankTitle(position)}</CardDescription>
                     </CardHeader>
