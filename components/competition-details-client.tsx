@@ -157,7 +157,7 @@ export default function CompetitionDetailsClient({
                       <div>
                         <div className="flex items-center gap-2">
                           {participant.user?.avatar_url && (
-                            <HoverCard.Root>
+                            <HoverCard.Root openDelay={150} closeDelay={100}>
                               <HoverCard.Trigger asChild>
                                 <img
                                   src={participant.user.avatar_url}
@@ -165,7 +165,7 @@ export default function CompetitionDetailsClient({
                                   className="w-12 h-12 rounded-full border border-[#073266] object-cover cursor-pointer"
                                 />
                               </HoverCard.Trigger>
-                              <HoverCard.Content side="right" align="center" className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded shadow-lg">
+                              <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150">
                                 <div className="flex items-center gap-3">
                                   <img src={participant.user.avatar_url} alt={`Avatar de ${participant.user.username}`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
                                   <div>
