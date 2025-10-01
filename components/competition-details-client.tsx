@@ -23,11 +23,11 @@ export default function CompetitionDetailsClient({
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <Crown className="h-6 w-6 text-yellow-500" />
+        return <img src="/rank-1.png" className="h-6 w-6 text-yellow-500" />
       case 2:
-        return <Medal className="h-6 w-6 text-gray-400" />
+        return <img src="/rank-2.png" className="h-6 w-6 text-gray-400" />
       case 3:
-        return <Award className="h-6 w-6 text-amber-600" />
+        return <img src="/rank-3.png" className="h-6 w-6 text-amber-600" />
       default:
         return <span className="text-lg font-bold text-gray-500">#{position}</span>
     }
@@ -69,12 +69,11 @@ export default function CompetitionDetailsClient({
             <p className="text-gray-300 mb-4">{competition.description}</p>
             <div className="flex items-center gap-4 text-sm text-gray-300">
               <div className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
                 {competition.creator?.avatar_url && (
                   <img
                     src={competition.creator.avatar_url}
                     alt="Avatar do criador"
-                    className="w-6 h-6 rounded-full border border-[#073266] object-cover"
+                    className="w-12 h-12 rounded-full border border-[#073266] object-cover"
                   />
                 )}
                 <span>{t('competitionDetail.createdBy')} {competition.creator?.username}</span>
@@ -160,7 +159,7 @@ export default function CompetitionDetailsClient({
                             <img
                               src={participant.user.avatar_url}
                               alt={`Avatar de ${participant.user.username}`}
-                              className="w-6 h-6 rounded-full border border-[#073266] object-cover"
+                              className="w-12 h-12 rounded-full border border-[#073266] object-cover"
                             />
                           )}
                           <h3 className="font-semibold text-white">{participant.user?.username}</h3>
