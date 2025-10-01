@@ -72,7 +72,7 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
       {profile.avatar ? (
         <img src={profile.avatar} alt={`${profile.username} avatar`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
       ) : (
-        <div className="w-16 h-16 rounded-full bg-[#052A5F] flex items-center justify-center text-white">{profile.username?.[0]?.toUpperCase() || '?'}</div>
+        <div className="w-16 h-16 rounded-full bg-[#00BABC96] flex items-center justify-center text-white">{profile.username?.[0]?.toUpperCase() || '?'}</div>
       )}
 
       <div className="min-w-[220px]">
