@@ -55,7 +55,7 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
         )}
         <div>
           <div className="text-white font-semibold">{username}</div>
-          <div className="text-sm text-gray-300">Dados públicos indisponíveis</div>
+          <div className="text-sm text-gray-300">{username}</div>
         </div>
       </div>
     )
