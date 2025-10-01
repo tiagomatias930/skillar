@@ -6,12 +6,16 @@ export async function GET(request: NextRequest, { params }: { params: { username
   const { username } = params
 
   try {
+    const token = process.env.INTRA_API_TOKEN
+    const baseHeaders: Record<string,string> = {
+      Accept: 'application/json',
+      'User-Agent': 'SkillarApp/1.0'
+    }
+    if (!token) console.warn('[v0] INTRA_API_TOKEN not set; requests may be rate-limited or rejected')
+
     const url = `https://api.intra.42.fr/v2/users/${encodeURIComponent(username)}`
     const res = await fetch(url, {
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'SkillarApp/1.0'
-      }
+      headers: token ? { ...baseHeaders, Authorization: `Bearer ${token}` } : baseHeaders
     })
 
     if (!res.ok) {
@@ -40,7 +44,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
     const campusId = data.campus?.[0]?.id
     if (campusId) {
       try {
-        const campusRes = await fetch(`https://api.intra.42.fr/v2/campus/${campusId}`, { headers: { Accept: 'application/json', 'User-Agent': 'SkillarApp/1.0' } })
+  const campusRes = await fetch(`https://api.intra.42.fr/v2/campus/${campusId}`, { headers: token ? { ...baseHeaders, Authorization: `Bearer ${token}` } : baseHeaders })
         if (campusRes.ok) {
           simplified.campus = await campusRes.json()
         } else {
@@ -55,7 +59,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
 
     // Try to fetch coalitions list (public endpoint) and include if available
     try {
-      const coalRes = await fetch('https://api.intra.42.fr/v2/coalitions', { headers: { Accept: 'application/json', 'User-Agent': 'SkillarApp/1.0' } })
+  const coalRes = await fetch('https://api.intra.42.fr/v2/coalitions', { headers: token ? { ...baseHeaders, Authorization: `Bearer ${token}` } : baseHeaders })
       if (coalRes.ok) {
         const c = await coalRes.json()
         simplified.coalitions = c
@@ -68,7 +72,7 @@ export async function GET(request: NextRequest, { params }: { params: { username
 
     // Fetch recent locations and filter by username
     try {
-      const locRes = await fetch('https://api.intra.42.fr/v2/locations', { headers: { Accept: 'application/json', 'User-Agent': 'SkillarApp/1.0' } })
+  const locRes = await fetch('https://api.intra.42.fr/v2/locations', { headers: token ? { ...baseHeaders, Authorization: `Bearer ${token}` } : baseHeaders })
       if (locRes.ok) {
         const locs = await locRes.json()
         simplified.locations = Array.isArray(locs) ? locs.filter((l: any) => l.user?.login === data.login) : []
