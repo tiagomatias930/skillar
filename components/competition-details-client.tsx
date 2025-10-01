@@ -167,7 +167,7 @@ export default function CompetitionDetailsClient({
                                 />
                               </HoverCard.Trigger>
                               <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150">
-                                <IntraProfilePreview username={participant.user.username} />
+                                <IntraProfilePreview username={participant.user.username} avatarUrl={participant.user.avatar_url} />
                               </HoverCard.Content>
                             </HoverCard.Root>
                           )}

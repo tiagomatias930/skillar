@@ -12,7 +12,7 @@ type SimplifiedProfile = {
   skills: { name: string; level: number }[]
 }
 
-export default function IntraProfilePreview({ username }: { username: string }) {
+export default function IntraProfilePreview({ username, avatarUrl }: { username: string; avatarUrl?: string | null }) {
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState<SimplifiedProfile | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -42,7 +42,23 @@ export default function IntraProfilePreview({ username }: { username: string }) 
   }, [username])
 
   if (loading) return <div className="text-gray-300">A carregar...</div>
-  if (error) return <div className="text-red-400">{error}</div>
+  // If API errored, fallback to minimal display using avatarUrl
+  if (error) {
+    return (
+      <div className="flex items-center gap-3">
+        {avatarUrl ? (
+          <img src={avatarUrl} alt={`${username} avatar`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
+        ) : (
+          <div className="w-16 h-16 rounded-full bg-[#052A5F] flex items-center justify-center text-white">{username?.[0]?.toUpperCase() || '?'}</div>
+        )}
+        <div>
+          <div className="text-white font-semibold">{username}</div>
+          <div className="text-sm text-gray-300">Dados públicos indisponíveis</div>
+        </div>
+      </div>
+    )
+  }
+
   if (!profile) return <div className="text-gray-300">Sem dados</div>
 
   const primaryCursus = profile.cursus?.[0]

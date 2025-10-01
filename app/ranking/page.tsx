@@ -211,7 +211,7 @@ export default function RankingPage() {
                                   />
                                 </HoverCard.Trigger>
                                 <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150">
-                                  <IntraProfilePreview username={user.username} />
+                                  <IntraProfilePreview username={user.username} avatarUrl={user.avatar_url} />
                                 </HoverCard.Content>
                               </HoverCard.Root>
                             )}
