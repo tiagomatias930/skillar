@@ -6,10 +6,12 @@ type SimplifiedProfile = {
   username: string
   displayname: string | null
   avatar: string | null
-  campus: string | null
+  campus: any
   wallet: number | null
   cursus: { name: string | null; level: number | null }[]
   skills: { name: string; level: number }[]
+  coalitions?: any[]
+  locations?: any[]
 }
 
 export default function IntraProfilePreview({ username, avatarUrl }: { username: string; avatarUrl?: string | null }) {
@@ -62,6 +64,8 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
   if (!profile) return <div className="text-gray-300">Sem dados</div>
 
   const primaryCursus = profile.cursus?.[0]
+  const coal = profile.coalitions?.slice?.(0,2) || []
+  const locs = profile.locations || []
 
   return (
     <div className="flex items-center gap-3">
@@ -70,12 +74,18 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
       )}
       <div>
         <div className="text-white font-semibold">{profile.displayname || profile.username}</div>
-        {profile.campus && <div className="text-sm text-gray-300">📍 {profile.campus}</div>}
+        {profile.campus && <div className="text-sm text-gray-300">📍 {typeof profile.campus === 'string' ? profile.campus : profile.campus.name}</div>}
         {primaryCursus && (
           <div className="text-sm text-gray-300">🏅 {primaryCursus.name} — Nível {primaryCursus.level?.toFixed?.(2) ?? primaryCursus.level}</div>
         )}
         {profile.wallet !== null && (
           <div className="text-sm text-gray-300">🍄 {profile.wallet} cogumelos</div>
+        )}
+        {coal.length > 0 && (
+          <div className="text-sm text-gray-300">Coalitions: {coal.map((c:any) => c.name).join(', ')}</div>
+        )}
+        {locs.length > 0 && (
+          <div className="text-sm text-gray-300">Localizações recentes: {locs.map((l:any)=> l.host || l.campus_id).slice(0,3).join(', ')}</div>
         )}
         {profile.skills && profile.skills.length > 0 && (
           <div className="mt-1 text-xs text-gray-400">Matérias: {profile.skills.slice(0,3).map(s => s.name).join(', ')}</div>
