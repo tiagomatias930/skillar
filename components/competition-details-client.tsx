@@ -9,6 +9,7 @@ import { RefreshButton } from "@/components/refresh-button"
 import Link from "next/link"
 import { JoinCompetitionButton } from "@/components/join-competition-button"
 import { useTranslation } from "@/hooks/use-translation"
+import * as HoverCard from '@radix-ui/react-hover-card'
 
 export default function CompetitionDetailsClient({ 
   competition, 
@@ -156,11 +157,24 @@ export default function CompetitionDetailsClient({
                       <div>
                         <div className="flex items-center gap-2">
                           {participant.user?.avatar_url && (
-                            <img
-                              src={participant.user.avatar_url}
-                              alt={`Avatar de ${participant.user.username}`}
-                              className="w-12 h-12 rounded-full border border-[#073266] object-cover"
-                            />
+                            <HoverCard.Root>
+                              <HoverCard.Trigger asChild>
+                                <img
+                                  src={participant.user.avatar_url}
+                                  alt={`Avatar de ${participant.user.username}`}
+                                  className="w-12 h-12 rounded-full border border-[#073266] object-cover cursor-pointer"
+                                />
+                              </HoverCard.Trigger>
+                              <HoverCard.Content side="right" align="center" className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded shadow-lg">
+                                <div className="flex items-center gap-3">
+                                  <img src={participant.user.avatar_url} alt={`Avatar de ${participant.user.username}`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
+                                  <div>
+                                    <div className="text-white font-semibold">{participant.user.username}</div>
+                                    <a href={`https://intra.42.fr/users/${participant.user.username}`} target="_blank" rel="noreferrer" className="text-sm text-gray-300 hover:underline">Ver perfil</a>
+                                  </div>
+                                </div>
+                              </HoverCard.Content>
+                            </HoverCard.Root>
                           )}
                           <h3 className="font-semibold text-white">{participant.user?.username}</h3>
                           <Badge variant="outline" className={`border-[#052A5F] ${getRankBadgeColor(position)}`}>

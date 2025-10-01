@@ -8,6 +8,7 @@ import { Navigation } from "@/components/navigation"
 import { RefreshButton } from "@/components/refresh-button"
 import { useTranslation } from "@/hooks/use-translation"
 import { createClient } from "@/lib/supabase/client"
+import * as HoverCard from '@radix-ui/react-hover-card'
 
 type UserRanking = {
   userId: string
@@ -200,11 +201,24 @@ export default function RankingPage() {
                         <div>
                           <div className="flex items-center gap-3 mb-2">
                             {user.avatar_url && (
-                              <img
-                                src={user.avatar_url}
-                                alt={`Avatar de ${user.username}`}
-                                className="w-12 h-12 rounded-full border border-[#073266] object-cover"
-                              />
+                              <HoverCard.Root>
+                                <HoverCard.Trigger asChild>
+                                  <img
+                                    src={user.avatar_url}
+                                    alt={`Avatar de ${user.username}`}
+                                    className="w-12 h-12 rounded-full border border-[#073266] object-cover cursor-pointer"
+                                  />
+                                </HoverCard.Trigger>
+                                <HoverCard.Content side="right" align="center" className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded shadow-lg">
+                                  <div className="flex items-center gap-3">
+                                    <img src={user.avatar_url} alt={`Avatar de ${user.username}`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
+                                    <div>
+                                      <div className="text-white font-semibold">{user.username}</div>
+                                      <a href={`https://intra.42.fr/users/${user.username}`} target="_blank" rel="noreferrer" className="text-sm text-gray-300 hover:underline">Ver perfil</a>
+                                    </div>
+                                  </div>
+                                </HoverCard.Content>
+                              </HoverCard.Root>
                             )}
                             <h3 className="text-xl font-bold text-white">{user.username}</h3>
                             <Badge variant="outline" className={getRankBadgeColor(position)}>
