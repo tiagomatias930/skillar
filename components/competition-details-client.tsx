@@ -10,6 +10,7 @@ import Link from "next/link"
 import { JoinCompetitionButton } from "@/components/join-competition-button"
 import { useTranslation } from "@/hooks/use-translation"
 import * as HoverCard from '@radix-ui/react-hover-card'
+import IntraProfilePreview from '@/components/intra-profile-preview'
 
 export default function CompetitionDetailsClient({ 
   competition, 
@@ -166,13 +167,7 @@ export default function CompetitionDetailsClient({
                                 />
                               </HoverCard.Trigger>
                               <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150">
-                                <div className="flex items-center gap-3">
-                                  <img src={participant.user.avatar_url} alt={`Avatar de ${participant.user.username}`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
-                                  <div>
-                                    <div className="text-white font-semibold">{participant.user.username}</div>
-                                    <a href={`https://intra.42.fr/users/${participant.user.username}`} target="_blank" rel="noreferrer" className="text-sm text-gray-300 hover:underline">Ver perfil</a>
-                                  </div>
-                                </div>
+                                <IntraProfilePreview username={participant.user.username} />
                               </HoverCard.Content>
                             </HoverCard.Root>
                           )}
