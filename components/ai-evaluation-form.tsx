@@ -3,22 +3,31 @@
 import { useState, useEffect } from "react"
 import { evaluateProjectPOST, type EvaluationRequest, type EvaluationResponse, type EvaluationError, atribuirNotaAoUsuario } from "@/lib/ai-evaluation"
 
-export default function AiEvaluationForm() {
+type AiEvaluationFormProps = {
+  initialUser?: string;
+  initialDesafio?: string;
+  initialDescDesafio?: string;
+};
+
+export default function AiEvaluationForm({ initialUser = '', initialDesafio = '', initialDescDesafio = '' }: AiEvaluationFormProps) {
   const [form, setForm] = useState<EvaluationRequest>({
     url: "",
     commit: "",
-    user: "",
-    desafio: "",
-    desc_desafio: ""
+    user: initialUser,
+    desafio: initialDesafio,
+    desc_desafio: initialDescDesafio
   })
   const [result, setResult] = useState<EvaluationResponse | EvaluationError | null>(null)
   const [loading, setLoading] = useState(false)
   const [dbUpdate, setDbUpdate] = useState<{ success: boolean; error?: string } | null>(null)
 
   useEffect(() => {
-    const username = typeof window !== 'undefined' ? localStorage.getItem("skillar_username") || "" : ""
-    setForm(f => ({ ...f, user: username }))
-  }, [])
+    // Se não veio do prop, tenta pegar do localStorage
+    if (!initialUser) {
+      const username = typeof window !== 'undefined' ? localStorage.getItem("skillar_username") || "" : ""
+      setForm(f => ({ ...f, user: username }))
+    }
+  }, [initialUser])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
