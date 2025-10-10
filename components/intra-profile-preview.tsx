@@ -99,7 +99,7 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
           )}
 
           {coal.length > 0 && (
-            <div className="text-gray-300"><span className="text-gray-400">Coalitions:</span> {coal.map((c:any) => c.name).join(', ')}</div>
+            <div className="text-gray-300"><span className="text-gray-400">Coaligations:</span> {coal.map((c:any) => c.name).join(', ')}</div>
           )}
 
           {locs.length > 0 && (
