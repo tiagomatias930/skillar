@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createCompetition } from "@/lib/database"
+import { createCompetition, getActiveCompetitions } from "@/lib/database"
 
 export const dynamic = 'force-dynamic'
 
@@ -45,5 +45,15 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Create competition error:", error)
     return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+  }
+}
+
+export async function GET() {
+  try {
+    const competitions = await getActiveCompetitions()
+    return NextResponse.json({ competitions })
+  } catch (err) {
+    console.error("Error fetching competitions:", err)
+    return NextResponse.json({ competitions: [] })
   }
 }
