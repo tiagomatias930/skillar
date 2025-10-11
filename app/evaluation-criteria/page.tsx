@@ -92,11 +92,11 @@ export default function AvaliacaoForm() {
 				<p className="mb-6 text-gray-600 text-center text-white">
 					Selecione o desafio que está participando, responda o quiz e submeta seu projeto para avaliação automática por IA.
 				</p>
-				<div className="mb-6">
-					<Label htmlFor="competition-select" className="text-black">Escolha o desafio:</Label>
+				<div className="mb-6 bg-blue-100 p-4 rounded border border-blue-200">
+					<Label htmlFor="competition-select" className="text-white">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
-						className="w-full p-2 rounded border mt-1"
+						className="w-full p-2 rounded border mt-1 text-black"
 						value={selectedCompetition?.id || ''}
 						onChange={e => {
 							const comp = competitions.find(c => c.id === e.target.value);
