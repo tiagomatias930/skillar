@@ -17,6 +17,7 @@ export default function AvaliacaoForm() {
 	const [loadingQuiz, setLoadingQuiz] = useState(false);
 	const [quizError, setQuizError] = useState<string | null>(null);
 	const [generatingWithAI, setGeneratingWithAI] = useState(false);
+	const [pointsAdded, setPointsAdded] = useState(false);
 	const [formData, setFormData] = useState({ user: '', desafio: '', desc_desafio: '' });
 
 	// Buscar competições ativas ao carregar
@@ -120,9 +121,30 @@ export default function AvaliacaoForm() {
 				{selectedCompetition && !loadingQuiz && !quizError && questions && questions.length > 0 && !quizDone && (
 					<PreEvaluationQuiz
 						questions={questions}
-						onComplete={(score) => {
+						onComplete={async (score) => {
 							setQuizDone(true);
 							setQuizScore(score);
+							
+							// Add quiz points to participant
+							try {
+								const res = await fetch(`/api/competitions/${selectedCompetition.id}/add-quiz-points`, {
+									method: 'POST',
+									headers: { 'Content-Type': 'application/json' },
+									body: JSON.stringify({ 
+										username: formData.user, 
+										quizScore: score 
+									})
+								});
+								const data = await res.json();
+								if (data.success) {
+									console.log('Quiz points added successfully:', data.points);
+									setPointsAdded(true);
+								} else {
+									console.error('Failed to add quiz points:', data.error);
+								}
+							} catch (err) {
+								console.error('Error adding quiz points:', err);
+							}
 						}}
 					/>
 				)}
@@ -134,7 +156,13 @@ export default function AvaliacaoForm() {
 				)}
 				{selectedCompetition && quizDone && (
 					<>
-
+						{pointsAdded && (
+							<div className="mb-4 p-4 rounded-lg bg-green-500/20 border border-green-500/50 animate-in fade-in slide-in-from-top-2 duration-500">
+								<div className="text-center text-green-300">
+									✅ <b>{quizScore} pontos</b> foram adicionados à sua participação!
+								</div>
+							</div>
+						)}
 						<AiEvaluationForm
 							initialUser={formData.user}
 							initialDesafio={formData.desafio}
