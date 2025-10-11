@@ -42,8 +42,9 @@ export async function POST(request: Request) {
 
     if (!res.ok) {
       const text = await res.text()
-      console.error('[v0] Gemini error:', res.status, text)
-      return NextResponse.json({ success: false, error: 'Gemini API error' }, { status: 502 })
+      const truncated = text?.toString?.().slice(0, 2000)
+      console.error('[v0] Gemini error:', res.status, truncated)
+      return NextResponse.json({ success: false, error: 'Gemini API error', debug: { status: res.status, body: truncated } }, { status: 502 })
     }
 
     const json = await res.json()
@@ -51,16 +52,24 @@ export async function POST(request: Request) {
     // The response format may vary; try to extract text output
     let outputText = ''
     try {
-      // v1beta generateContent returns `candidates` with `output` text
+      // v1beta generateContent often returns `candidates` with nested content
       outputText = json?.candidates?.[0]?.output?.[0]?.content?.[0]?.text || json?.candidates?.[0]?.content || json?.output || ''
+      if (!outputText && json?.candidates?.[0]?.content) {
+        // try to coerce content array to text
+        const content = json.candidates[0].content
+        if (Array.isArray(content)) {
+          outputText = content.map((c:any) => c.text || c).join('\n')
+        }
+      }
     } catch (e) {
       outputText = ''
     }
 
     // Try to find JSON inside outputText
-    let questions = []
+    let questions: any[] = []
+    let parseError: any = null
     try {
-      const maybeJson = outputText.trim()
+      const maybeJson = (outputText || '').trim()
       if (maybeJson.startsWith('{') || maybeJson.startsWith('[')) {
         const parsed = JSON.parse(maybeJson)
         questions = parsed.questions || parsed
@@ -74,7 +83,14 @@ export async function POST(request: Request) {
         }
       }
     } catch (e) {
-      console.error('Failed to parse Gemini output as JSON:', e)
+      parseError = String(e)
+      console.error('[v0] Failed to parse Gemini output as JSON:', e)
+    }
+
+    if (!questions || questions.length === 0) {
+      const safeOutput = (outputText || '').toString().slice(0, 2000)
+      const safeJson = JSON.stringify(json?.candidates ? json.candidates : json).slice(0, 2000)
+      return NextResponse.json({ success: false, error: 'Failed to parse model output as questions', debug: { parseError, outputSnippet: safeOutput, jsonSnippet: safeJson } }, { status: 200 })
     }
 
     return NextResponse.json({ success: true, questions })

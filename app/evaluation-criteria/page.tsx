@@ -66,7 +66,8 @@ export default function AvaliacaoForm() {
 							setQuestions(aiData.questions);
 						} else {
 							setQuestions([]);
-							setQuizError('Nenhuma questão disponível e geração por IA falhou.');
+							const msg = aiData.error || (aiData.debug && (aiData.debug.parseError || aiData.debug.outputSnippet)) || 'Nenhuma questão disponível e geração por IA falhou.'
+							setQuizError(String(msg));
 						}
 					} catch (e) {
 						setQuizError('Erro ao gerar questões por IA.');
@@ -96,7 +97,7 @@ export default function AvaliacaoForm() {
 					<Label htmlFor="competition-select" className="text-white">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
-						className="w-full p-2 rounded border mt-1 text-black"
+						className="w-full p-2 rounded border mt-1 text-052A5F "
 						value={selectedCompetition?.id || ''}
 						onChange={e => {
 							const comp = competitions.find(c => c.id === e.target.value);
