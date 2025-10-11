@@ -111,7 +111,7 @@ export default function AvaliacaoForm() {
 					</select>
 				</div>
 				{selectedCompetition && (
-					<div className="mb-6 p-4 rounded bg-white/10 border border-white/20">
+					<div className="mb-6 p-4 rounded ">
 						<div className="mb-2 text-white"><b>Descrição:</b> {selectedCompetition.description}</div>
 					</div>
 				)}
@@ -134,7 +134,7 @@ export default function AvaliacaoForm() {
 				)}
 				{selectedCompetition && quizDone && (
 					<>
-						<div className="mb-4 text-center text-white">
+						<div className="mb-4 text-center text-black">
 							Pré-avaliação concluída! Sua pontuação: <b>{quizScore}</b>
 						</div>
 						<AiEvaluationForm

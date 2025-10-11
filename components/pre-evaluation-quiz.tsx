@@ -1,4 +1,7 @@
+"use client"
+
 import { useState } from "react";
+import { CheckCircle2, XCircle, Award, Zap } from "lucide-react";
 
 export type QuizQuestion = {
   question: string;
@@ -33,34 +36,148 @@ export default function PreEvaluationQuiz({ questions, onComplete }: QuizProps) 
         setFinished(true);
         onComplete(score + (idx === questions[current].answer ? 1 : -1));
       }
-    }, 800);
+    }, 1200);
   }
 
   if (finished) {
-    return <div className="text-center">Pré-avaliação concluída! Pontuação: <b>{score}</b></div>;
+    return (
+      <div className="mb-6 p-8 rounded-xl bg-gradient-to-br from-green-500/20 to-blue-500/20 border border-green-500/30 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="text-center space-y-4">
+          <Award className="w-16 h-16 mx-auto text-yellow-400 animate-bounce" />
+          <h3 className="text-2xl font-bold text-white">Pré-avaliação Concluída! 🎉</h3>
+          <div className="text-4xl font-bold text-white">{score} pontos</div>
+          <p className="text-gray-300">Pode agora submeter o seu projeto para avaliação.</p>
+        </div>
+      </div>
+    );
   }
 
+  const progress = ((current / questions.length) * 100);
+  const optionLabels = ['A', 'B', 'C', 'D'];
+
   return (
-    <div className="mb-6 p-4 border rounded bg-white/80">
-      <h2 className="font-semibold mb-2">Pré-avaliação: Questão {current + 1} de {questions.length}</h2>
-      <div className="mb-4">{questions[current].question}</div>
-      <div className="flex flex-col gap-2">
-        {questions[current].options.map((opt, idx) => (
-          <button
-            key={idx}
-            className={`p-2 rounded border ${answered === idx ? (idx === questions[current].answer ? 'bg-green-200' : 'bg-red-200') : 'bg-gray-100 hover:bg-gray-200'}`}
-            onClick={() => handleAnswer(idx)}
-            disabled={answered !== null}
-          >
-            {opt}
-          </button>
-        ))}
-      </div>
-      {answered !== null && (
-        <div className="mt-2 text-sm text-gray-700">
-          {answered === questions[current].answer ? 'Correto!' : 'Errado!'}
+    <div className="mb-6 overflow-hidden rounded-xl border border-white/20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-sm shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300">
+      {/* Header com progresso */}
+      <div className="bg-black/30 p-4 border-b border-white/10">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Zap className="w-5 h-5 text-yellow-400" />
+            <h2 className="font-bold text-white text-lg">Pré-Avaliação</h2>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10">
+            <Award className="w-4 h-4 text-yellow-400" />
+            <span className="text-white font-semibold">{score} pts</span>
+          </div>
         </div>
-      )}
+        
+        {/* Barra de progresso */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-300">Questão {current + 1} de {questions.length}</span>
+            <span className="text-gray-300">{Math.round(progress)}%</span>
+          </div>
+          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Conteúdo da questão */}
+      <div className="p-6 space-y-6">
+        {/* Pergunta */}
+        <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+          <p className="text-lg text-white leading-relaxed">{questions[current].question}</p>
+        </div>
+
+        {/* Opções */}
+        <div className="grid gap-3">
+          {questions[current].options.map((opt, idx) => {
+            const isSelected = answered === idx;
+            const isCorrect = idx === questions[current].answer;
+            const showFeedback = answered !== null;
+            
+            let buttonClass = "group relative p-4 rounded-lg border-2 transition-all duration-300 text-left ";
+            
+            if (showFeedback) {
+              if (isSelected && isCorrect) {
+                buttonClass += "bg-green-500/20 border-green-500 shadow-lg shadow-green-500/20";
+              } else if (isSelected && !isCorrect) {
+                buttonClass += "bg-red-500/20 border-red-500 shadow-lg shadow-red-500/20";
+              } else if (!isSelected && isCorrect) {
+                buttonClass += "bg-green-500/10 border-green-500/50";
+              } else {
+                buttonClass += "bg-white/5 border-white/10 opacity-50";
+              }
+            } else {
+              buttonClass += "bg-white/5 border-white/20 hover:bg-white/10 hover:border-white/40 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02] active:scale-[0.98]";
+            }
+
+            return (
+              <button
+                key={idx}
+                className={buttonClass}
+                onClick={() => handleAnswer(idx)}
+                disabled={answered !== null}
+              >
+                <div className="flex items-center gap-3">
+                  {/* Label da opção */}
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold transition-colors ${
+                    showFeedback && isSelected && isCorrect ? 'bg-green-500 text-white' :
+                    showFeedback && isSelected && !isCorrect ? 'bg-red-500 text-white' :
+                    showFeedback && isCorrect ? 'bg-green-500/50 text-white' :
+                    'bg-white/10 text-white group-hover:bg-white/20'
+                  }`}>
+                    {optionLabels[idx]}
+                  </div>
+                  
+                  {/* Texto da opção */}
+                  <span className="flex-1 text-white font-medium">{opt}</span>
+                  
+                  {/* Ícone de feedback */}
+                  {showFeedback && isSelected && (
+                    <div className="flex-shrink-0">
+                      {isCorrect ? (
+                        <CheckCircle2 className="w-6 h-6 text-green-400 animate-in zoom-in duration-300" />
+                      ) : (
+                        <XCircle className="w-6 h-6 text-red-400 animate-in zoom-in duration-300" />
+                      )}
+                    </div>
+                  )}
+                  {showFeedback && !isSelected && isCorrect && (
+                    <CheckCircle2 className="w-6 h-6 text-green-400/50" />
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Feedback */}
+        {answered !== null && (
+          <div className={`p-4 rounded-lg border-2 animate-in slide-in-from-bottom-2 duration-300 ${
+            answered === questions[current].answer
+              ? 'bg-green-500/10 border-green-500/50'
+              : 'bg-red-500/10 border-red-500/50'
+          }`}>
+            <div className="flex items-center gap-2">
+              {answered === questions[current].answer ? (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-green-400" />
+                  <span className="text-green-300 font-semibold">Correto! +1 ponto</span>
+                </>
+              ) : (
+                <>
+                  <XCircle className="w-5 h-5 text-red-400" />
+                  <span className="text-red-300 font-semibold">Incorreto! -1 ponto</span>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
