@@ -16,13 +16,19 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .eq("competition_id", id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      // Log the DB error but return an empty questions array so the UI can fallback to AI generation
+      console.error('[v0] Error fetching pre-eval questions for competition', id, error)
+      return NextResponse.json({ questions: [] })
     }
+
     if (!questions || questions.length === 0) {
-      return NextResponse.json({ questions: [] });
+      return NextResponse.json({ questions: [] })
     }
-    return NextResponse.json({ questions });
+
+    return NextResponse.json({ questions })
   } catch (error) {
-    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 });
+    console.error('[v0] Unexpected error in pre-eval questions route:', error)
+    // Return empty array instead of 500 to avoid breaking the client flow
+    return NextResponse.json({ questions: [] })
   }
 }

@@ -14,7 +14,8 @@ export async function POST(request: Request) {
     const apiKey = process.env.GOOGLE_GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY
 
     if (!apiKey) {
-      return NextResponse.json({ success: false, error: 'GOOGLE_GEMINI_API_KEY not configured' }, { status: 500 })
+      console.error('[v0] GOOGLE_GEMINI_API_KEY not configured')
+      return NextResponse.json({ success: false, error: 'GOOGLE_GEMINI_API_KEY not configured' }, { status: 400 })
     }
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
 
     if (!res.ok) {
       const text = await res.text()
-      console.error('Gemini error:', res.status, text)
+      console.error('[v0] Gemini error:', res.status, text)
       return NextResponse.json({ success: false, error: 'Gemini API error' }, { status: 502 })
     }
 
