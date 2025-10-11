@@ -97,7 +97,7 @@ export default function AvaliacaoForm() {
 					<Label htmlFor="competition-select" className="text-white">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
-						className="w-full p-2 rounded border mt-1 text-052A5F "
+						className="w-full p-2 rounded border mt-1 text-black "
 						value={selectedCompetition?.id || ''}
 						onChange={e => {
 							const comp = competitions.find(c => c.id === e.target.value);
