@@ -18,17 +18,38 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'GOOGLE_GEMINI_API_KEY not configured' }, { status: 400 })
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`
 
     // Build a simple prompt asking Gemini to generate 3 multiple-choice or short answer quiz questions
-    const prompt = `Gere 3 perguntas de pré-avaliação (português) para o desafio a seguir. Cada pergunta deve ter: id curto, enunciado, tipo ("short" ou "mcq"), e se for mcq, 4 opções e a resposta correta (0-3). Retorne apenas JSON com um array "questions": [{...}].\n\nTítulo: ${body.title}\nDescrição: ${body.description}`
+    const prompt = `Gere 3 perguntas de pré-avaliação (português) para o desafio a seguir. Cada pergunta deve ter: question (texto da pergunta), options (array de 4 strings se for múltipla escolha), answer (número 0-3 indicando índice da resposta correta se for múltipla escolha, ou null se for resposta curta).
 
+Retorne APENAS um JSON válido no formato:
+{
+  "questions": [
+    {"question": "...", "options": ["A", "B", "C", "D"], "answer": 0},
+    {"question": "...", "options": ["A", "B", "C", "D"], "answer": 1},
+    {"question": "...", "options": ["A", "B", "C", "D"], "answer": 2}
+  ]
+}
+
+Título do desafio: ${body.title}
+Descrição: ${body.description}`
+
+    // Correct payload structure for Gemini API v1beta
     const payload = {
-      temperature: 0.2,
-      candidateCount: 1,
-      maxOutputTokens: 800,
-      prompt: {
-        text: prompt
+      contents: [
+        {
+          parts: [
+            {
+              text: prompt
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 1000,
+        candidateCount: 1
       }
     }
 
@@ -49,19 +70,19 @@ export async function POST(request: Request) {
 
     const json = await res.json()
 
-    // The response format may vary; try to extract text output
+    // Extract text from Gemini's response structure: candidates[0].content.parts[0].text
     let outputText = ''
     try {
-      // v1beta generateContent often returns `candidates` with nested content
-      outputText = json?.candidates?.[0]?.output?.[0]?.content?.[0]?.text || json?.candidates?.[0]?.content || json?.output || ''
-      if (!outputText && json?.candidates?.[0]?.content) {
-        // try to coerce content array to text
-        const content = json.candidates[0].content
-        if (Array.isArray(content)) {
-          outputText = content.map((c:any) => c.text || c).join('\n')
-        }
+      if (json?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        outputText = json.candidates[0].content.parts[0].text
+      } else if (json?.candidates?.[0]?.content?.parts) {
+        // Concatenate all parts if multiple
+        outputText = json.candidates[0].content.parts
+          .map((part: any) => part.text || '')
+          .join('\n')
       }
     } catch (e) {
+      console.error('[v0] Failed to extract text from Gemini response:', e)
       outputText = ''
     }
 
@@ -69,7 +90,17 @@ export async function POST(request: Request) {
     let questions: any[] = []
     let parseError: any = null
     try {
-      const maybeJson = (outputText || '').trim()
+      let maybeJson = (outputText || '').trim()
+      
+      // Remove markdown code blocks if present
+      if (maybeJson.startsWith('```json')) {
+        maybeJson = maybeJson.replace(/^```json\s*/i, '').replace(/\s*```$/i, '')
+      } else if (maybeJson.startsWith('```')) {
+        maybeJson = maybeJson.replace(/^```\s*/i, '').replace(/\s*```$/i, '')
+      }
+      
+      maybeJson = maybeJson.trim()
+      
       if (maybeJson.startsWith('{') || maybeJson.startsWith('[')) {
         const parsed = JSON.parse(maybeJson)
         questions = parsed.questions || parsed
