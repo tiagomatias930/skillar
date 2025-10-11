@@ -92,7 +92,7 @@ export default function AvaliacaoForm() {
 				<p className="mb-6 text-gray-600 text-center text-white">
 					Selecione o desafio que está participando, responda o quiz e submeta seu projeto para avaliação automática por IA.
 				</p>
-				<div className="mb-6 bg-blue-100 p-4 rounded border border-blue-200">
+				<div className="mb-6">
 					<Label htmlFor="competition-select" className="text-white">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
