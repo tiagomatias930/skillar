@@ -16,6 +16,7 @@ export default function AvaliacaoForm() {
 	const [questions, setQuestions] = useState<QuizQuestion[] | null>(null);
 	const [loadingQuiz, setLoadingQuiz] = useState(false);
 	const [quizError, setQuizError] = useState<string | null>(null);
+	const [generatingWithAI, setGeneratingWithAI] = useState(false);
 	const [formData, setFormData] = useState({ user: '', desafio: '', desc_desafio: '' });
 
 	// Buscar competições ativas ao carregar
@@ -51,7 +52,28 @@ export default function AvaliacaoForm() {
 				if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
 					setQuestions(data.questions);
 				} else {
+					// No questions found: attempt to generate with AI
 					setQuestions([]);
+					try {
+						setGeneratingWithAI(true);
+						const aiRes = await fetch('/api/ai/generate-quiz', {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/json' },
+							body: JSON.stringify({ competitionId: selectedCompetition.id, title: selectedCompetition.title, description: selectedCompetition.description }),
+						});
+						const aiData = await aiRes.json();
+						if (aiData.success && Array.isArray(aiData.questions) && aiData.questions.length > 0) {
+							setQuestions(aiData.questions);
+						} else {
+							setQuestions([]);
+							setQuizError('Nenhuma questão disponível e geração por IA falhou.');
+						}
+					} catch (e) {
+						setQuizError('Erro ao gerar questões por IA.');
+						setQuestions([]);
+					} finally {
+						setGeneratingWithAI(false);
+					}
 				}
 			} catch (e) {
 				setQuizError("Erro ao buscar questões de pré-avaliação.");
@@ -71,7 +93,7 @@ export default function AvaliacaoForm() {
 					Selecione o desafio que está participando, responda o quiz e submeta seu projeto para avaliação automática por IA.
 				</p>
 				<div className="mb-6">
-					<Label htmlFor="competition-select" className="text-white">Escolha o desafio:</Label>
+					<Label htmlFor="competition-select" className="text-black">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
 						className="w-full p-2 rounded border mt-1"
@@ -103,7 +125,10 @@ export default function AvaliacaoForm() {
 						}}
 					/>
 				)}
-				{selectedCompetition && !loadingQuiz && !quizError && questions && questions.length === 0 && (
+				{selectedCompetition && generatingWithAI && (
+					<div className="text-center text-white">Gerando pré-avaliação com IA...</div>
+				)}
+				{selectedCompetition && !loadingQuiz && !quizError && !generatingWithAI && questions && questions.length === 0 && (
 					<div className="text-center text-white">Nenhuma questão de pré-avaliação disponível para esta competição.</div>
 				)}
 				{selectedCompetition && quizDone && (
