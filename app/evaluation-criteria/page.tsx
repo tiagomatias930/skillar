@@ -134,9 +134,7 @@ export default function AvaliacaoForm() {
 				)}
 				{selectedCompetition && quizDone && (
 					<>
-						<div className="mb-4 text-center text-black">
-							Pré-avaliação concluída! Sua pontuação: <b>{quizScore}</b>
-						</div>
+
 						<AiEvaluationForm
 							initialUser={formData.user}
 							initialDesafio={formData.desafio}
