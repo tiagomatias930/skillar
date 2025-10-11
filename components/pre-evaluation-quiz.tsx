@@ -61,11 +61,10 @@ export default function PreEvaluationQuiz({ questions, onComplete }: QuizProps) 
       <div className="bg-black/30 p-4 border-b border-white/10">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <img src="/foto_Implementada_no_centro.png" className="w-5 h-5 text-yellow-400" />
-            <h2 className="font-bold text-white text-lg">Pré-Avaliação</h2>
+            <h2 className="font-bold text-white text-lg">Quem sabe, sabe.</h2>
           </div>
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10">
-            <img src="/42skillar.png" className="w-4 h-4 text-yellow-400" />
+            <img src="/42skillar.png" className="w-6 h-6 text-yellow-400" />
             <span className="text-white font-semibold">{score} pts</span>
           </div>
         </div>
