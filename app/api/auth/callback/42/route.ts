@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
     // OAuth credentials
     const clientId = 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
-    const clientSecret = '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'
+    const clientSecret = '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'
     const redirectUri = 'https://42skillar.vercel.app/login'
 
     console.log("🔄 Exchanging code for token...")
