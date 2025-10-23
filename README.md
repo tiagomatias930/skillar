@@ -95,3 +95,51 @@ Security notes:
 
 - Never commit `.env.local` or any secret values to git. `.env.local.example` is safe to commit and contains placeholders.
 - If you suspect a token has been exposed, rotate it immediately.
+
+## GitHub Repository Integration
+
+When a user joins a competition, a GitHub repository is automatically created for them to host their project code.
+
+### Setup GitHub Token
+
+1. Go to [GitHub Settings → Tokens](https://github.com/settings/tokens)
+2. Click "Generate new token" → "Generate new token (classic)"
+3. Give it a name like "Skillar App"
+4. Select scopes:
+   - ✅ `repo` (Full control of private repositories)
+5. Click "Generate token" and copy it
+
+### Local Setup
+
+Add to `.env.local`:
+```env
+GITHUB_TOKEN=ghp_your_token_here
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Production (Vercel)
+
+1. Go to your Vercel project settings
+2. Add environment variables:
+   - `GITHUB_TOKEN`: your GitHub token
+   - `NEXT_PUBLIC_APP_URL`: your production URL (e.g., `https://42skillar.vercel.app`)
+3. Redeploy
+
+### Features
+
+- Automatic repo creation when joining a competition
+- Repository naming: `skillar-{competition-title}-{username}-{id}`
+- Includes README with competition info and quick start guide
+- Repository link displayed to user after joining
+- Link saved in participant record for future reference
+
+### Database Migration
+
+Run the migration to add the `repository_url` column:
+```sql
+-- Run this in your Supabase SQL editor
+ALTER TABLE participants ADD COLUMN IF NOT EXISTS repository_url TEXT;
+CREATE INDEX IF NOT EXISTS idx_participants_repository_url ON participants(repository_url);
+```
+
+Or use the migration file: `scripts/008_add_repository_url_to_participants.sql`

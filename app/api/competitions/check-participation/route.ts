@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient()
     const { data, error } = await supabase
       .from("participants")
-      .select("id")
+      .select("id, repository_url")
       .eq("competition_id", competitionId)
       .eq("user_id", user.id)
       .single()
@@ -32,7 +32,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ 
-      isParticipating: !!data
+      isParticipating: !!data,
+      repositoryUrl: data?.repository_url || null
     })
   } catch (error) {
     console.error("Check participation error:", error)
