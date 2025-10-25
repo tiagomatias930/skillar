@@ -1,30 +1,34 @@
 "use client"
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Users, Target, Award, Trophy, History, BarChart3, Gamepad2 } from "lucide-react"
+import { Users, Target, Award, Trophy, History, BarChart3, Gamepad2, Menu, X } from "lucide-react"
 import Link from "next/link"
 import { LanguageSelector } from "@/components/language-selector"
 
 export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       {/* Header */}
       <header className="border-b bg-black/80 backdrop-blur-sm border-[#073266]">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <img
                 className="h-12 w-12 object-contain"
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-3xl font-bold text-white">Skillar</h1>
-              <h4></h4>
-              <p className="hidden sm:block text-center text-lg font-italic text-gray-300">Arena dos Campeões</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Skillar</h1>
+              <p className="hidden lg:block text-center text-lg font-italic text-gray-300">Arena dos Campeões</p>
             </div>
-            <nav className="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-4">
               <Link href="/competitions">
-                <Button variant="ghost" className="flex items-center gap-2 text-sm sm:text-base">
+                <Button variant="ghost" className="flex items-center gap-2">
                   <span>Competições</span>
                 </Button>
               </Link>
@@ -44,14 +48,62 @@ export default function HomePage() {
                 </Button>
               </Link>
               <LanguageSelector />
-  
               <Link href="/login">
                 <Button className="flex items-center gap-2">               
                   <span>Entrar</span>
                 </Button>
               </Link>
             </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
+
+          {/* Mobile Navigation Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 animate-in slide-in-from-top-2 duration-200">
+              <nav className="flex flex-col gap-2">
+                <Link href="/competitions" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    <span>Competições</span>
+                  </Button>
+                </Link>
+                <Link href="/ranking" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    <span>Ranking</span>
+                  </Button>
+                </Link>
+                <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    <span>Histórico</span>
+                  </Button>
+                </Link>
+                <Link href="/jogo" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    <span>Jogo</span>
+                  </Button>
+                </Link>
+                <div className="px-3 py-2">
+                  <LanguageSelector />
+                </div>
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full justify-start">               
+                    <span>Entrar</span>
+                  </Button>
+                </Link>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
@@ -84,7 +136,7 @@ export default function HomePage() {
       {/* Features */}
       <section className="py-10 sm:py-16 bg-[#06224A]">
         <div className="container mx-auto px-4">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-2 sm:mb-12">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-2 sm:mb-4">
             Como Funciona
           </h3>
           <div className="container mx-auto px-4">
