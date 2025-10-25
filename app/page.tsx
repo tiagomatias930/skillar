@@ -84,7 +84,7 @@ export default function HomePage() {
       {/* Features */}
       <section className="py-10 sm:py-16 bg-[#06224A]">
         <div className="container mx-auto px-4">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-8 sm:mb-12">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-2 sm:mb-12">
             Como Funciona
           </h3>
           <div className="container mx-auto px-4">
