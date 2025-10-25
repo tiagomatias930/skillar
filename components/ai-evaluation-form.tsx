@@ -48,6 +48,13 @@ export default function AiEvaluationForm({ initialUser = '', initialDesafio = ''
           const dbRes = await atribuirNotaAoUsuario(competitionId, username, points)
           setDbUpdate(dbRes)
         }
+      } else if (res && 'error' in res) {
+        // Check if it's a GitHub authentication error
+        if (res.error.includes('401') && res.error.includes('Unauthorized') && res.error.includes('github.com')) {
+          setResult({ 
+            error: "⚠️ Erro de autenticação no GitHub. O token da API de avaliação expirou ou é inválido. Entre em contato com o administrador para atualizar o GITHUB_TOKEN na API de avaliação (42skillar-aval.vercel.app)." 
+          })
+        }
       }
     } catch (err) {
       setResult({ error: "Erro ao conectar à API." })
@@ -68,9 +75,22 @@ export default function AiEvaluationForm({ initialUser = '', initialDesafio = ''
       {result && (
         <div className="mt-4 p-3 border rounded bg-[#052A5F]">
           {"error" in result ? (
-            <span className="text-red-600">Erro: {result.error}</span>
+            <div className="space-y-2">
+              <span className="text-red-400 block">❌ {result.error}</span>
+              {result.error.includes('github.com') && result.error.includes('401') && (
+                <div className="text-sm text-yellow-300 mt-2 p-2 bg-yellow-900/30 rounded border border-yellow-600/50">
+                  <p className="font-bold mb-1">💡 Como resolver:</p>
+                  <ol className="list-decimal list-inside space-y-1 text-xs">
+                    <li>A API externa de avaliação (42skillar-aval.vercel.app) precisa de um token GitHub válido</li>
+                    <li>Entre em contato com o administrador do sistema de avaliação</li>
+                    <li>Peça para atualizar a variável de ambiente GITHUB_TOKEN no projeto Vercel</li>
+                    <li>O token pode ser gerado em: github.com → Settings → Developer settings → Personal access tokens</li>
+                  </ol>
+                </div>
+              )}
+            </div>
           ) : (
-            <div>
+            <div className="text-white">
               <div><b>Nota:</b> {result.nota_final} ({result.classificacao})</div>
               <div><b>Descrição:</b> {result.descricao}</div>
               <div><b>Commit:</b> {result.commit}</div>
