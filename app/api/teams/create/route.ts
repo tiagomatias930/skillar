@@ -9,37 +9,53 @@ export async function POST(request: NextRequest) {
   try {
     const { teamName, competitionId, username } = await request.json()
 
+    console.log("[TEAMS] Create request received:", { teamName, competitionId, username })
+
     if (!teamName || !competitionId || !username) {
+      console.error("[TEAMS] Missing required fields")
       return NextResponse.json({ 
         error: "Nome da equipe, competição e username são obrigatórios" 
       }, { status: 400 })
     }
 
-    console.log("[v0] Creating team:", { teamName, competitionId, username })
-
     const supabase = await createClient()
+    console.log("[TEAMS] Supabase client created")
     
     // Get user by username
+    console.log("[TEAMS] Getting user by username:", username)
     const user = await getUserByUsername(username)
     if (!user) {
+      console.error("[TEAMS] User not found:", username)
       return NextResponse.json({ error: "Usuário não encontrado" }, { status: 404 })
     }
+    console.log("[TEAMS] User found:", user.id)
 
     // Check if team name already exists in this competition
-    const { data: existingTeam } = await supabase
+    console.log("[TEAMS] Checking for existing team with name:", teamName)
+    const { data: existingTeam, error: checkError } = await supabase
       .from("teams")
       .select("id")
       .eq("competition_id", competitionId)
       .eq("name", teamName)
       .single()
 
+    if (checkError && checkError.code !== 'PGRST116') { // PGRST116 = no rows returned
+      console.error("[TEAMS] Error checking existing team:", checkError)
+      return NextResponse.json({ 
+        error: `Erro ao verificar equipe existente: ${checkError.message}. Certifique-se que a tabela 'teams' existe no banco de dados.`,
+        details: checkError
+      }, { status: 500 })
+    }
+
     if (existingTeam) {
+      console.log("[TEAMS] Team name already exists")
       return NextResponse.json({ 
         error: "Já existe uma equipe com este nome nesta competição" 
       }, { status: 409 })
     }
 
     // Create team
+    console.log("[TEAMS] Creating team in database")
     const { data: team, error: teamError } = await supabase
       .from("teams")
       .insert({
@@ -51,11 +67,17 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (teamError) {
-      console.error("[v0] Error creating team:", teamError)
-      return NextResponse.json({ error: "Erro ao criar equipe" }, { status: 500 })
+      console.error("[TEAMS] Error creating team:", teamError)
+      return NextResponse.json({ 
+        error: `Erro ao criar equipe: ${teamError.message}. Verifique se a tabela 'teams' existe no banco de dados.`,
+        details: teamError
+      }, { status: 500 })
     }
 
+    console.log("[TEAMS] Team created successfully:", team.id)
+
     // Add creator as first team member
+    console.log("[TEAMS] Adding creator as team member")
     const { error: memberError } = await supabase
       .from("team_members")
       .insert({
@@ -64,13 +86,16 @@ export async function POST(request: NextRequest) {
       })
 
     if (memberError) {
-      console.error("[v0] Error adding team member:", memberError)
+      console.error("[TEAMS] Error adding team member:", memberError)
       // Rollback: delete team if member creation fails
       await supabase.from("teams").delete().eq("id", team.id)
-      return NextResponse.json({ error: "Erro ao adicionar membro à equipe" }, { status: 500 })
+      return NextResponse.json({ 
+        error: `Erro ao adicionar membro à equipe: ${memberError.message}. Verifique se a tabela 'team_members' existe no banco de dados.`,
+        details: memberError
+      }, { status: 500 })
     }
 
-    console.log("[v0] Team created successfully:", team.id)
+    console.log("[TEAMS] Team member added successfully")
 
     return NextResponse.json({ 
       success: true, 
@@ -81,8 +106,12 @@ export async function POST(request: NextRequest) {
         creator_id: team.creator_id
       }
     })
-  } catch (error) {
-    console.error("[v0] Create team error:", error)
-    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+  } catch (error: any) {
+    console.error("[TEAMS] Unexpected error:", error)
+    return NextResponse.json({ 
+      error: "Erro interno do servidor",
+      message: error.message || "Erro desconhecido",
+      details: error
+    }, { status: 500 })
   }
 }

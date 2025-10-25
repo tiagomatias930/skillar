@@ -157,7 +157,21 @@ export function JoinCompetitionButton({
       const teamData = await teamResponse.json()
 
       if (!teamResponse.ok) {
-        showToast(teamData.error || "Erro ao criar equipe", "error")
+        console.error("[TEAMS] Create team error:", teamData)
+        
+        // Check if it's a database table issue
+        if (teamData.error && (
+          teamData.error.includes("table") || 
+          teamData.error.includes("relation") ||
+          teamData.error.includes("does not exist")
+        )) {
+          showToast(
+            "⚠️ Tabelas de equipes não encontradas! Execute o script SQL no Supabase: /scripts/009_create_teams_tables.sql",
+            "error"
+          )
+        } else {
+          showToast(teamData.error || "Erro ao criar equipe", "error")
+        }
         setIsLoading(false)
         return
       }
