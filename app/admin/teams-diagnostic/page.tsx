@@ -7,10 +7,12 @@ export default function TeamsDiagnosticPage() {
   const [status, setStatus] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [sqlScript, setSqlScript] = useState("")
+  const [rlsScript, setRlsScript] = useState("")
 
   useEffect(() => {
     checkTables()
     loadSqlScript()
+    loadRlsScript()
   }, [])
 
   const checkTables = async () => {
@@ -36,9 +38,19 @@ export default function TeamsDiagnosticPage() {
     }
   }
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(sqlScript)
-    alert('✅ Script SQL copiado para a área de transferência!')
+  const loadRlsScript = async () => {
+    try {
+      const res = await fetch('/scripts/010_teams_rls_policies.sql')
+      const text = await res.text()
+      setRlsScript(text)
+    } catch (error) {
+      console.error("Error loading RLS script:", error)
+    }
+  }
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text)
+    alert(`✅ ${label} copiado para a área de transferência!`)
   }
 
   return (
@@ -112,20 +124,39 @@ export default function TeamsDiagnosticPage() {
                   <li>Acesse o <a href="https://app.supabase.com" target="_blank" className="text-blue-400 underline">Supabase Dashboard</a></li>
                   <li>Vá em <b>SQL Editor</b></li>
                   <li>Clique em <b>New Query</b></li>
-                  <li>Cole o script SQL abaixo</li>
-                  <li>Clique em <b>Run</b></li>
+                  <li><b className="text-yellow-300">IMPORTANTE:</b> Execute os <b className="text-yellow-300">DOIS scripts abaixo</b> (criar tabelas + políticas RLS)</li>
+                  <li>Clique em <b>Run</b> para cada um</li>
                 </ol>
                 
                 {sqlScript && (
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <h4 className="text-white font-bold">Script SQL:</h4>
-                      <Button onClick={copyToClipboard} size="sm">
+                      <h4 className="text-white font-bold">Script SQL (Criar Tabelas):</h4>
+                      <Button onClick={() => copyToClipboard(sqlScript, "Script SQL")} size="sm">
                         📋 Copiar Script
                       </Button>
                     </div>
                     <pre className="bg-black p-4 rounded overflow-x-auto text-sm text-green-400 max-h-96">
                       {sqlScript}
+                    </pre>
+                  </div>
+                )}
+
+                {rlsScript && (
+                  <div className="space-y-2 mt-4">
+                    <div className="flex justify-between items-center">
+                      <h4 className="text-white font-bold">Script RLS (Políticas de Segurança):</h4>
+                      <Button onClick={() => copyToClipboard(rlsScript, "Script RLS")} size="sm" className="bg-purple-600 hover:bg-purple-700">
+                        📋 Copiar RLS
+                      </Button>
+                    </div>
+                    <div className="bg-yellow-800/30 p-3 rounded mb-2">
+                      <p className="text-yellow-300 text-sm">
+                        ⚠️ <b>Importante:</b> Execute ESTE script também! Ele configura as políticas de segurança (Row Level Security) necessárias para criar e gerenciar equipes.
+                      </p>
+                    </div>
+                    <pre className="bg-black p-4 rounded overflow-x-auto text-sm text-purple-400 max-h-96">
+                      {rlsScript}
                     </pre>
                   </div>
                 )}
