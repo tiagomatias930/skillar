@@ -7,8 +7,8 @@ export const dynamic = 'force-dynamic'
 export async function POST(request: NextRequest) {
   try {
     console.log("[v0] Join competition API called")
-    const { competitionId, username, competitionTitle } = await request.json()
-    console.log("[v0] Request data:", { competitionId, username, competitionTitle })
+    const { competitionId, username, competitionTitle, teamId } = await request.json()
+    console.log("[v0] Request data:", { competitionId, username, competitionTitle, teamId })
 
     if (!competitionId || !username) {
       console.log("[v0] Missing required data")
@@ -47,20 +47,25 @@ export async function POST(request: NextRequest) {
         repositoryUrl = repoData.repositoryUrl
         console.log("[v0] GitHub repository created:", repositoryUrl)
 
-        // Update participant record with repository URL
+        // Update participant record with repository URL and team
         const user = await getUserByUsername(username)
         if (user) {
           const supabase = await createClient()
+          const updateData: any = { repository_url: repositoryUrl }
+          if (teamId) {
+            updateData.team_id = teamId
+          }
+          
           const { error: updateError } = await supabase
             .from('participants')
-            .update({ repository_url: repositoryUrl })
+            .update(updateData)
             .eq('competition_id', competitionId)
             .eq('user_id', user.id)
 
           if (updateError) {
-            console.error("[v0] Error updating repository URL:", updateError)
+            console.error("[v0] Error updating participant record:", updateError)
           } else {
-            console.log("[v0] Repository URL saved to participant record")
+            console.log("[v0] Participant record updated with repository URL and team")
           }
         }
       } else {
