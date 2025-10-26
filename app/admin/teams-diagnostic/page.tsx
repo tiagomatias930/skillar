@@ -56,7 +56,28 @@ export default function TeamsDiagnosticPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-6">🔍 Diagnóstico de Tabelas de Teams</h1>
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-white mb-2">🔍 Diagnóstico de Tabelas de Teams</h1>
+          <p className="text-gray-300">
+            Esta página verifica se as tabelas e políticas necessárias para equipes estão configuradas corretamente.
+          </p>
+        </div>
+
+        {/* Info Banner */}
+        <div className="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4 mb-6">
+          <div className="flex items-start gap-3">
+            <div className="text-2xl">ℹ️</div>
+            <div className="flex-1">
+              <h3 className="text-blue-300 font-bold mb-1">Como usar esta página:</h3>
+              <ol className="text-sm text-blue-200 space-y-1 list-decimal list-inside">
+                <li>Veja o status das tabelas abaixo</li>
+                <li>Se houver problemas, copie os scripts SQL fornecidos</li>
+                <li>Execute-os no <a href="https://app.supabase.com" target="_blank" className="underline">Supabase SQL Editor</a></li>
+                <li>Clique em "Verificar Novamente" para confirmar</li>
+              </ol>
+            </div>
+          </div>
+        </div>
 
         {loading ? (
           <div className="text-white text-center py-8">Verificando tabelas...</div>

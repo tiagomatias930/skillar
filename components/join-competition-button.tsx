@@ -35,6 +35,8 @@ export function JoinCompetitionButton({
   const [teamName, setTeamName] = useState('')
   const [teams, setTeams] = useState<Team[]>([])
   const [loadingTeams, setLoadingTeams] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const [errorDetails, setErrorDetails] = useState<{type: string, message: string} | null>(null)
   const router = useRouter()
   const { showToast, ToastContainer } = useToast()
 
@@ -165,10 +167,21 @@ export function JoinCompetitionButton({
           teamData.error.includes("relation") ||
           teamData.error.includes("does not exist")
         )) {
-          showToast(
-            "⚠️ Tabelas de equipes não encontradas! Execute o script SQL no Supabase: /scripts/009_create_teams_tables.sql",
-            "error"
-          )
+          setErrorDetails({
+            type: 'missing-tables',
+            message: 'As tabelas de equipes não foram criadas no banco de dados.'
+          })
+          setShowErrorModal(true)
+        } else if (teamData.error && (
+          teamData.error.includes("row-level security") ||
+          teamData.error.includes("violates") ||
+          teamData.error.includes("policy")
+        )) {
+          setErrorDetails({
+            type: 'rls-policy',
+            message: 'As políticas de segurança RLS não foram configuradas.'
+          })
+          setShowErrorModal(true)
         } else {
           showToast(teamData.error || "Erro ao criar equipe", "error")
         }
@@ -478,6 +491,57 @@ export function JoinCompetitionButton({
                   </Button>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showErrorModal && errorDetails && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-red-900/90 to-gray-900/90 rounded-lg max-w-2xl w-full border border-red-500/50 shadow-2xl animate-in fade-in zoom-in duration-200">
+            <div className="p-6">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="text-4xl">
+                  {errorDetails.type === 'missing-tables' ? '🗄️' : '🔒'}
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    {errorDetails.type === 'missing-tables' 
+                      ? 'Tabelas Não Encontradas' 
+                      : 'Erro de Segurança RLS'}
+                  </h2>
+                  <p className="text-red-200 mb-4">{errorDetails.message}</p>
+                  
+                  <div className="bg-black/30 rounded-lg p-4 mb-4">
+                    <h3 className="text-white font-bold mb-2">📋 O que precisa ser feito:</h3>
+                    <ol className="list-decimal list-inside space-y-2 text-gray-200 text-sm">
+                      <li>Acesse a página de diagnóstico (botão abaixo)</li>
+                      <li>Copie os scripts SQL mostrados</li>
+                      <li>Execute-os no <a href="https://app.supabase.com" target="_blank" className="text-blue-400 underline">Supabase SQL Editor</a></li>
+                      <li>Volte aqui e tente criar a equipe novamente</li>
+                    </ol>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setShowErrorModal(false)
+                        router.push('/admin/teams-diagnostic')
+                      }}
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                    >
+                      🔧 Ir para Diagnóstico
+                    </button>
+                    <button
+                      onClick={() => setShowErrorModal(false)}
+                      className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                    >
+                      Fechar
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
