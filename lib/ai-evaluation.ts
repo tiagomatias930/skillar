@@ -67,10 +67,10 @@ const BASE_URL = "https://42skillar-aval.vercel.app/api";
 // Função para gerar desafios usando Google Gemini AI
 export async function generateChallengeAI(request: ChallengeGenerationRequest): Promise<ChallengeGenerationResponse | ChallengeGenerationError> {
   try {
-    let apiKey = process.env.GOOGLE_GEMINI_API_KEY || "AIzaSyCtQepXWZWuwOSiDOBohmpNZDfylhRUQAk";
+    let apiKey = process.env.GOOGLE_GEMINI_API_KEY || "AIzaSyC0IVuu5GNzTxsdgYHGkhcFR_Wd3tp8-tM";
 
     if (!apiKey) {
-      apiKey = "AIzaSyCtQepXWZWuwOSiDOBohmpNZDfylhRUQAk";
+      apiKey = "AIzaSyC0IVuu5GNzTxsdgYHGkhcFR_Wd3tp8-tM";
       if (!apiKey) {
         return { error: "Chave da API do Google Gemini não configurada" };
       }
@@ -103,7 +103,7 @@ IMPORTANTE:
 - O tempo estimado deve ser realista baseado na dificuldade
 - Inclua uma seção sobre quantos prompts de IA podem ser usados na resolução do desafio`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
