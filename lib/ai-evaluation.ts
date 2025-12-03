@@ -67,7 +67,7 @@ const BASE_URL = "https://42skillar-aval.vercel.app/api";
 // Função para gerar desafios usando Google Gemini AI
 export async function generateChallengeAI(request: ChallengeGenerationRequest): Promise<ChallengeGenerationResponse | ChallengeGenerationError> {
   try {
-    let apiKey = "AIzaSyC0IVuu5GNzTxsdgYHGkhcFR_Wd3tp8-tM";
+    let apiKey = "AIzaSyBF9Iemp5CyNlhXpHVnbpMOyfZxmSdWfEo";
 
     if (!apiKey) {
       apiKey = "AIzaSyC0IVuu5GNzTxsdgYHGkhcFR_Wd3tp8-tM";
