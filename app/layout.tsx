@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "42Skillar - Arena dos Campeões ",
+  title: "42Skillar",
   description: "Plataforma para criar e gerenciar competições com rankings em tempo real",
   generator: "42Skillar App",
   icons: {

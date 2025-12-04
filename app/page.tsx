@@ -22,7 +22,6 @@ export default function HomePage() {
                 alt="skiller"
               />
               <h1 className="text-2xl sm:text-3xl font-bold text-white">Skillar</h1>
-              <p className="hidden lg:block text-center text-lg font-italic text-gray-300">Arena dos Campeões</p>
             </div>
 
             {/* Desktop Navigation */}
