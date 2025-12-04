@@ -68,10 +68,9 @@ const BASE_URL = "https://42skillar-aval.vercel.app/api";
 export async function generateChallengeAI(request: ChallengeGenerationRequest): Promise<ChallengeGenerationResponse | ChallengeGenerationError> {
   try {
     // Accept multiple possible env var names to be robust across deployments
-    let apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+    let apiKey = "AIzaSyBF9Iemp5CyNlhXpHVnbpMOyfZxmSdWfEo";
 
     if (!apiKey) {
-      apiKey = "AIzaSyBF9Iemp5CyNlhXpHVnbpMOyfZxmSdWfEo";
       return { error: "Chave da API do Google Gemini não configurada. Defina GEMINI_API_KEY ou GOOGLE_GEMINI_API_KEY. |1|" };
     }
 
