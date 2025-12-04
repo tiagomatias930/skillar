@@ -11,11 +11,13 @@ type GenerateRequest = {
 export async function POST(request: Request) {
   try {
     const body: GenerateRequest = await request.json()
-    const apiKey = process.env.GEMINI_API_KEY;
+
+    // Accept multiple possible env var names to be more robust across deployments
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
     if (!apiKey) {
-      console.error('[v0] GOOGLE_GEMINI_API_KEY not configured')
-      return NextResponse.json({ success: false, error: 'GOOGLE_GEMINI_API_KEY not configured[42]' }, { status: 400 })
+      console.error('[v0] Gemini API key not configured. Expected one of: GEMINI_API_KEY, GOOGLE_GEMINI_API_KEY, GOOGLE_API_KEY')
+      return NextResponse.json({ success: false, error: 'Gemini API key not configured. Set GEMINI_API_KEY or GOOGLE_GEMINI_API_KEY.' }, { status: 400 })
     }
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${apiKey}`

@@ -67,14 +67,11 @@ const BASE_URL = "https://42skillar-aval.vercel.app/api";
 // Função para gerar desafios usando Google Gemini AI
 export async function generateChallengeAI(request: ChallengeGenerationRequest): Promise<ChallengeGenerationResponse | ChallengeGenerationError> {
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
+    // Accept multiple possible env var names to be robust across deployments
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
-    if (!apiKey)
-    {
-      const apiKeyTest = process.env.GEMINI_API_KEY;
-      if (!apiKeyTest) {
-        return { error: "Chave da API do Google Gemini não configurada" };
-      }
+    if (!apiKey) {
+      return { error: "Chave da API do Google Gemini não configurada. Defina GEMINI_API_KEY ou GOOGLE_GEMINI_API_KEY." };
     }
 
     // Construir o prompt baseado nos parâmetros
