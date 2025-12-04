@@ -104,7 +104,7 @@ IMPORTANTE:
 - O tempo estimado deve ser realista baseado na dificuldade
 - Inclua uma seção sobre quantos prompts de IA podem ser usados na resolução do desafio`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${apiKey}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
