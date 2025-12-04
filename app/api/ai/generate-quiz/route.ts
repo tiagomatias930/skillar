@@ -11,7 +11,7 @@ type GenerateRequest = {
 export async function POST(request: Request) {
   try {
     const body: GenerateRequest = await request.json()
-    const apiKey = "AIzaSyC0IVuu5GNzTxsdgYHGkhcFR_Wd3tp8-tM"
+    const apiKey = process.env.GOOGLE_GEMINI_API_KEY;
 
     if (!apiKey) {
       console.error('[v0] GOOGLE_GEMINI_API_KEY not configured')

@@ -32,20 +32,31 @@ export async function POST(request: NextRequest) {
     console.log("✅ Code received:", code.substring(0, 10) + "...")
 
     // OAuth credentials
-    const clientId = 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
-    const clientSecret = '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'
+    const clientId = process.env.INTRA42_CLIENT_ID
+    const clientSecret = process.env.INTRA42_CLIENT_SECRET;
     const redirectUri = 'https://42skillar.vercel.app/login'
+
+    // Ensure credentials are present at runtime
+    if (!clientId || !clientSecret) {
+      console.error("❌ Missing OAuth client credentials")
+      return NextResponse.json(
+        {
+          success: false,
+          error: "OAuth client credentials not configured"
+        },
+        { status: 500, headers }
+      )
+    }
 
     console.log("🔄 Exchanging code for token...")
 
     // Exchange code for access token
-    const tokenParams = new URLSearchParams({
-      grant_type: 'authorization_code',
-      client_id: clientId,
-      client_secret: clientSecret,
-      code: code,
-      redirect_uri: redirectUri
-    })
+    const tokenParams = new URLSearchParams()
+    tokenParams.append('grant_type', 'authorization_code')
+    tokenParams.append('client_id', clientId)
+    tokenParams.append('client_secret', clientSecret)
+    tokenParams.append('code', String(code))
+    tokenParams.append('redirect_uri', redirectUri)
 
     const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
       method: 'POST',

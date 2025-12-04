@@ -42,18 +42,31 @@ export async function POST(request: NextRequest) {
     console.log("✅ Code marked as used")
 
     // OAuth credentials
-    const clientId = 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
-    const clientSecret = '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'
+    const clientId = process.env.INTRA42_CLIENT_ID
+    const clientSecret = process.env.INTRA42_CLIENT_SECRET
     const redirectUri = 'https://42skillar.vercel.app/login'
 
     console.log("🔄 Exchanging code for token...")
 
     // Exchange code for access token
+    // Ensure client credentials are available and values are strings before building URLSearchParams
+    if (!clientId || !clientSecret) {
+      console.error("❌ OAuth client credentials are not set")
+      usedCodes.delete(code)
+      return NextResponse.json(
+        {
+          success: false,
+          error: "OAuth client credentials are not configured"
+        },
+        { status: 500 }
+      )
+    }
+
     const tokenParams = new URLSearchParams({
       grant_type: 'authorization_code',
       client_id: clientId,
       client_secret: clientSecret,
-      code: code,
+      code: String(code),
       redirect_uri: redirectUri
     })
 

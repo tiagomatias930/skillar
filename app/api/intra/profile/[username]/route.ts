@@ -7,8 +7,8 @@ export async function GET(request: NextRequest, { params }: { params: { username
 
   try {
     // Replace with your actual client_id and client_secret
-    const clientId = "u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229"
-    const clientSecret = "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"
+    const clientId = process.env.INTRA42_CLIENT_ID;
+    const clientSecret =  process.env.INTRA42_CLIENT_SECRET;
     const tokenRes = await fetch('https://api.intra.42.fr/oauth/token', {
       method: 'POST',
       headers: {
