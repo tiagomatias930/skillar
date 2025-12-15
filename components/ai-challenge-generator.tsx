@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { generateChallengeAI, type ChallengeGenerationRequest, type ChallengeGenerationResponse, type ChallengeGenerationError } from "@/lib/ai-evaluation"
 import { Sparkles, Loader2 } from "lucide-react"
+import { FormattedText } from "./formatted-text"
 
 interface AiChallengeGeneratorProps {
   onChallengeGenerated?: (challenge: ChallengeGenerationResponse) => void
@@ -134,7 +135,7 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
                 <CardContent className="space-y-4">
                   <div>
                     <h4 className="font-semibold mb-2">Descrição:</h4>
-                    <p className="text-white-700">{result.descricao}</p>
+                    <FormattedText text={result.descricao} className="text-white-700" />
                   </div>
 
                   <div>

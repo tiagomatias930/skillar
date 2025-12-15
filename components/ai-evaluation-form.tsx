@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { FormattedText } from "./formatted-text"
 import { evaluateProjectPOST, type EvaluationRequest, type EvaluationResponse, type EvaluationError, atribuirNotaAoUsuario } from "@/lib/ai-evaluation"
 
 type AiEvaluationFormProps = {
@@ -90,9 +91,14 @@ export default function AiEvaluationForm({ initialUser = '', initialDesafio = ''
               )}
             </div>
           ) : (
-            <div className="text-white">
+            <div className="text-white space-y-2">
               <div><b>Nota:</b> {result.nota_final} ({result.classificacao})</div>
-              <div><b>Descrição:</b> {result.descricao}</div>
+              <div>
+                <b>Descrição:</b>
+                <div className="mt-1">
+                  <FormattedText text={result.descricao} />
+                </div>
+              </div>
               <div><b>Commit:</b> {result.commit}</div>
               <div><b>Repo:</b> {result.repo}</div>
               <div><b>Usuário:</b> {result.user}</div>

@@ -135,9 +135,11 @@ export default function HomePage() {
       {/* Features */}
       <section className="py-10 sm:py-16 bg-[#06224A]">
         <div className="container mx-4 px-4">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-2 sm:mb-4">
-            Como Funciona
-          </h3>
+          <div className="w-full min-h-[50vh] flex items-center justify-center">
+            <h3 className="text-2xl sm:text-3xl font-bold text-center text-white">
+              Como Funciona
+            </h3>
+          </div>
           <div className="container mx-4 px-4">
           <div className="flex justify-center items-center min-h-screen bg-[#06224A] dark:bg-[#06224A] px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-4xl mx-5 aspect-video rounded-lg overflow-hidden shadow-xl bg-[#06224A] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
