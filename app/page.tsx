@@ -183,12 +183,12 @@ export default function HomePage() {
               <CardHeader className="pb-4">
                 <Users className="h-8 w-8 text-white mx-auto mb-4" />
                 <CardTitle className="text-xl font-semibold text-white">
-                  Compete e Pontue
+                  Alcance Objectivos
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-300 leading-relaxed">
-                  O criador da competição atribui pontos aos participantes. Acompanhe o ranking em tempo real.
+                  Uma meta sem um plano é apenas um desejo.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -203,20 +203,6 @@ export default function HomePage() {
               <CardContent>
                 <CardDescription className="text-gray-300 leading-relaxed">
                   Torne-se Presidente (1º lugar), Vice-presidente (2º lugar) ou Diretor (3º lugar) e entre para o histórico.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
-              <CardHeader className="pb-4">
-                <Users className="h-8 w-8 text-white mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold text-white">
-                  Alcance Objectivos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-300 leading-relaxed">
-                  Uma meta sem um plano é apenas um desejo.
                 </CardDescription>
               </CardContent>
             </Card>
