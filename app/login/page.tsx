@@ -165,10 +165,10 @@ export default function LoginPage() {
     setIsLoading(true)
     setError(null)
 
-    const clientId = process.env.INTRA42_CLIENT_ID || 'u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229'
+    const clientId = process.env.INTRA42_CLIENT_ID
     const redirectUri = process.env.NEXT_PUBLIC_42_REDIRECT_URI || 'https://42skillar.vercel.app/login'
 
-    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https%3A%2F%2F42skillar.vercel.app%2Flogin&response_type=code`
+    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`
 
     window.location.href = authUrl
   }
@@ -182,18 +182,18 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
-            <img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />
-            <h1 className="text-lg text-white">Skillar</h1>
+            {/*<img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />*/}
+            <h1 className="text-lg text-white">SkillarCode</h1>
             <p className="text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
           </Link>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Entrar no 42Skillar</CardTitle>
+            <CardTitle className="text-2xl text-center">Entrar no SkillarCode</CardTitle>
             <CardDescription className="text-center">
               {isProcessingOAuth
-                ? "Processando login da 42..."
+                ? "Processando login do SkillarCode..."
                 : "Escolha um método para entrar"
               }
             </CardDescription>

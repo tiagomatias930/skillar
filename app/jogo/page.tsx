@@ -52,12 +52,12 @@ export default function JogoPage() {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
-              <img
+              {/*   LOGOTYPE          <img
                 className="h-8 w-8 sm:h-12 sm:w-12 object-contain"
                 src="/42skillar.png"
-                alt="skiller"
-              />
-              <h1 className="text-xl sm:text-3xl font-bold text-white">Skillar</h1>
+                alt="skillar"
+              /> */}
+              <h1 className="text-xl sm:text-3xl font-bold text-white">SkillarCode</h1>
               <p className="hidden sm:block text-center text-lg text-gray-300">Arena dos Campeões</p>
             </div>
 

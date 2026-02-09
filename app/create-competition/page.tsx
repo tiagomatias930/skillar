@@ -16,12 +16,12 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img
+              {/*   LOGOTYPE          <img    
                 className="h-12 w-12 object-contain"
                 src="/42skillar.png"
-                alt="skiller"
-              />
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">Skillar</h1>
+                alt="skillar"
+              /> */}
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">SkillarCode</h1>
             </div>
 
             {/* Desktop Navigation */}
@@ -114,7 +114,7 @@ export default function HomePage() {
               Compete, Evolua e Conquiste
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 text-pretty px-2">
-              Participe de competições semanais, desafie outros usuários e prove suas habilidades no 42Skillar.
+              Participe de competições semanais, desafie outros usuários e prove suas habilidades no SkillarCode.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
               <Link href="/competitions" className="w-full sm:w-auto">
@@ -217,7 +217,7 @@ export default function HomePage() {
             Pronto para Começar?
           </h3>
           <p className="text-xl mb-8 text-white">
-            Entre no 42Skillar agora e mostre suas habilidades!
+            Entre no SkillarCode agora e mostre suas habilidades!
           </p>
           <Link href="/login">
             <Button size="lg" className="bg-white text-[#052A5F] hover:bg-gray-100">
@@ -231,19 +231,19 @@ export default function HomePage() {
       <footer className="bg-[#041a3a] text-white py-6 sm:py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img
+            {/*<img
               className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
               src="/42skillar.png"
-              alt="skiller"
-            />
-            <p className="text-base sm:text-lg font-semibold">Skillar</p>
+              alt="skillar"
+            />*/}
+            <p className="text-base sm:text-lg font-semibold">SkillarCode</p>
             <p className="hidden sm:block text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
           </div>
           <p className="text-sm sm:text-base text-gray-400 px-2">
-            Plataforma de competições semanais - Mostre suas habilidades
+            Plataforma de competições de tecnologia em tempo real - Mostre suas habilidades
           </p>
           <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4 px-4 max-w-2xl mx-auto">
-            &copy; 2025 42Skillar lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc & Nádia Cristovão
+            &copy; 2025 SkillarCode lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc, Mauro Silva & Nádia Cristovão
           </p>
         </div>
       </footer>

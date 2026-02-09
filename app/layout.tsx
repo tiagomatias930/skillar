@@ -8,9 +8,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "42Skillar",
+  title: "SkillarCode - Competições de Programação em Tempo Real",
   description: "Plataforma para criar e gerenciar competições com rankings em tempo real",
-  generator: "42Skillar App",
+  generator: "SkillarCode App",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

@@ -26,8 +26,8 @@ export function Navigation() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
-            <h1 className="text-xl sm:text-3xl font-bold text-white">Skillar</h1>
+           {/*<img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />*/}
+            <h1 className="text-xl sm:text-3xl font-bold text-white">SkillarCode</h1>
             <p className="hidden sm:block text-center text-sm sm:text-lg text-gray-300">Arena dos Campeões</p>
           </Link>
 
