@@ -23,55 +23,55 @@ export function Navigation() {
 
   return (
     <header className="border-b bg-black/80 backdrop-blur-sm border-[#073266]">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-4 lg:py-5 xl:py-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-           {/*<img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />*/}
-            <h1 className="text-xl sm:text-3xl font-bold text-white">SkillarCode</h1>
-            <p className="hidden sm:block text-center text-sm sm:text-lg text-gray-300">Arena dos Campeões</p>
+          <Link href="/" className="flex items-center gap-2 lg:gap-3">
+           {/*<img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain" />*/}
+            <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white">SkillarCode</h1>
+            <p className="hidden md:block text-center text-sm lg:text-base xl:text-lg text-gray-300">Arena dos Campeões</p>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-4">
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-4">
             <Link href="/competitions">
-              <Button variant="ghost">{t('navigation.competitions')}</Button>
+              <Button variant="ghost" className="lg:text-sm xl:text-base">{t('navigation.competitions')}</Button>
             </Link>
             <Link href="/ranking">
-              <Button variant="ghost">{t('navigation.ranking')}</Button>
+              <Button variant="ghost" className="lg:text-sm xl:text-base">{t('navigation.ranking')}</Button>
             </Link>
             <Link href="/history">
-              <Button variant="ghost">{t('navigation.history')}</Button>
+              <Button variant="ghost" className="lg:text-sm xl:text-base">{t('navigation.history')}</Button>
             </Link>
             <Link href="/jogo">
-              <Button variant="ghost">Jogos & Diversão</Button>
+              <Button variant="ghost" className="lg:text-sm xl:text-base">Jogos & Diversão</Button>
             </Link>
             <Link href="/reports">
-              <Button variant="ghost">{t('navigation.reports')}</Button>
+              <Button variant="ghost" className="lg:text-sm xl:text-base">{t('navigation.reports')}</Button>
             </Link>
             <Link href="/blacklist">
-              <Button variant="ghost">{t('navigation.blacklist')}</Button>
+              <Button variant="ghost" className="lg:text-sm xl:text-base">{t('navigation.blacklist')}</Button>
             </Link>
 
             <LanguageSelector />
 
             {username ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 xl:gap-4">
                 {avatarUrl && (
                   <img
                     src={avatarUrl}
                     alt="Avatar"
-                    className="w-8 h-8 rounded-full border border-[#073266] object-cover"
+                    className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-[#073266] object-cover"
                   />
                 )}
-                <span className="text-sm text-gray-300">Olá, {username}</span>
-                <Button variant="outline" size="sm" onClick={handleLogout} className="border-[#073266] text-white hover:bg-[#052A5F]">
+                <span className="text-sm lg:text-base text-gray-300">Olá, {username}</span>
+                <Button variant="outline" size="sm" onClick={handleLogout} className="border-[#073266] text-white hover:bg-[#052A5F] lg:text-sm">
                   <LogOut className="h-4 w-4 mr-2" />
                   {t('navigation.logout')}
                 </Button>
               </div>
             ) : (
               <Link href="/login">
-                <Button className="bg-[#052A5F] hover:bg-[#073266] text-white">{t('navigation.login')}</Button>
+                <Button className="bg-[#052A5F] hover:bg-[#073266] text-white lg:text-sm xl:text-base">{t('navigation.login')}</Button>
               </Link>
             )}
           </nav>

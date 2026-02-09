@@ -51,14 +51,14 @@ export default function JogoPage() {
       <header className="w-full border-b border-blue-900 bg-transparent shadow-sm z-10">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
               {/*   LOGOTYPE          <img
                 className="h-8 w-8 sm:h-12 sm:w-12 object-contain"
                 src="/42skillar.png"
                 alt="skillar"
               /> */}
-              <h1 className="text-xl sm:text-3xl font-bold text-white">SkillarCode</h1>
-              <p className="hidden sm:block text-center text-lg text-gray-300">Arena dos Campeões</p>
+              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-white">SkillarCode</h1>
+              <p className="hidden sm:block text-center text-lg lg:text-xl text-gray-300">Arena dos Campeões</p>
             </div>
 
             {/* Desktop Navigation */}

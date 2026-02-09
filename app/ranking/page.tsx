@@ -150,10 +150,10 @@ export default function RankingPage() {
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("ranking.title")}</h1>
-          <p className="text-sm sm:text-base text-gray-300">{t("ranking.description")}</p>
+      <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
+        <div className="mb-6 sm:mb-8 lg:mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2">{t("ranking.title")}</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-300">{t("ranking.description")}</p>
         </div>
 
         <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
@@ -226,8 +226,8 @@ export default function RankingPage() {
                         </div>
                       </div>
                       <div className="text-left sm:text-right mt-3 sm:mt-0 pl-13 sm:pl-0">
-                        <div className="text-xl sm:text-3xl font-bold text-white">{user.totalPoints}</div>
-                        <div className="text-xs sm:text-sm text-gray-300">{t("ranking.totalPoints")}</div>
+                        <div className="text-xl sm:text-3xl lg:text-4xl font-bold text-white">{user.totalPoints}</div>
+                        <div className="text-xs sm:text-sm lg:text-base text-gray-300">{t("ranking.totalPoints")}</div>
                       </div>
                     </div>
                   )
@@ -239,9 +239,9 @@ export default function RankingPage() {
 
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
-          <div className="mt-6 sm:mt-8">
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">{t("ranking.currentPodium")}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div className="mt-6 sm:mt-8 lg:mt-12">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6 lg:mb-8 text-center">{t("ranking.currentPodium")}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 lg:max-w-5xl xl:max-w-6xl lg:mx-auto">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
                 return (

@@ -119,23 +119,23 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-12 sm:py-20">
+      <section className="py-12 sm:py-20 lg:py-28 xl:py-32">
         <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 text-balance">
+          <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 lg:mb-8 text-balance">
               Compete, Evolua e Conquiste
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 text-pretty px-2">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 lg:mb-10 text-pretty px-2">
               Participe de competições semanais, desafie outros usuários e prove suas habilidades no SkillarCode.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 justify-center px-4">
               <Link href="/competitions" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto bg-[#052A5F] hover:bg-[#073266] text-white">
+                <Button size="lg" className="w-full sm:w-auto lg:text-lg lg:px-8 lg:py-6 bg-[#052A5F] hover:bg-[#073266] text-white">
                   Ver Competições
                 </Button>
               </Link>
               <Link href="/create-competition" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto lg:text-lg lg:px-8 lg:py-6">
                   Criar Competição
                 </Button>
               </Link>
@@ -145,63 +145,46 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="py-10 sm:py-16 bg-[#06224A]">
-        <div className="container mx-4 px-4">  
-          <div className="container mx-4 px-4">
-          {/*<div className="flex justify-center items-center min-h-screen bg-[#06224A] dark:bg-[#06224A] px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-4xl mx-5 aspect-video rounded-lg overflow-hidden shadow-xl bg-[#06224A] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/xXeZ3b5Nb08?si=vASGsJO20wTg82zI"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-
-          </div>*/}
-        </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-            <Card className="text-center p-4 sm:p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
+      <section className="py-10 sm:py-16 lg:py-20 xl:py-24 bg-[#06224A]">
+        <div className="container mx-auto px-4">  
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 max-w-6xl lg:max-w-7xl mx-auto">
+            <Card className="text-center p-4 sm:p-6 lg:p-8 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-[#073266] border-[#052A5F]">
               <CardHeader className="pb-2 sm:pb-4">
-                <Target className="h-8 w-8 sm:h-7 sm:w-7 text-white mx-auto mb-2 sm:mb-4" />
-                <CardTitle className="text-lg sm:text-xl font-semibold text-white">
+                <Target className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white mx-auto mb-2 sm:mb-4" />
+                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">
                   Crie ou Participe
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
                   Qualquer usuário pode criar uma competição ou participar das existentes. Basta escolher um username único.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
-              <CardHeader className="pb-4">
-                <Users className="h-8 w-8 text-white mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold text-white">
+            <Card className="text-center p-4 sm:p-6 lg:p-8 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-[#073266] border-[#052A5F]">
+              <CardHeader className="pb-2 sm:pb-4">
+                <Users className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white mx-auto mb-2 sm:mb-4" />
+                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">
                   Alcance Objectivos
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
                   Uma meta sem um plano é apenas um desejo.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
-              <CardHeader className="pb-4">
-                <Award className="h-8 w-8 text-white mx-auto mb-4" />
-                <CardTitle className="text-xl font-semibold text-white">
+            <Card className="text-center p-4 sm:p-6 lg:p-8 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-[#073266] border-[#052A5F] sm:col-span-2 lg:col-span-1">
+              <CardHeader className="pb-2 sm:pb-4">
+                <Award className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white mx-auto mb-2 sm:mb-4" />
+                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">
                   Conquiste Posições
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-gray-300 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
                   Torne-se Presidente (1º lugar), Vice-presidente (2º lugar) ou Diretor (3º lugar) e entre para o histórico.
                 </CardDescription>
               </CardContent>
@@ -211,16 +194,16 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 text-white bg-gradient-to-r from-[#052A5F] to-[#073266]">
+      <section className="py-12 sm:py-16 lg:py-20 xl:py-24 text-white bg-gradient-to-r from-[#052A5F] to-[#073266]">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-3xl font-bold mb-4 text-white">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 lg:mb-6 text-white">
             Pronto para Começar?
           </h3>
-          <p className="text-xl mb-8 text-white">
+          <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 lg:mb-10 text-white max-w-2xl lg:max-w-3xl mx-auto">
             Entre no SkillarCode agora e mostre suas habilidades!
           </p>
           <Link href="/login">
-            <Button size="lg" className="bg-white text-[#052A5F] hover:bg-gray-100">
+            <Button size="lg" className="bg-white text-[#052A5F] hover:bg-gray-100 lg:text-lg lg:px-10 lg:py-6">
               Começar Agora
             </Button>
           </Link>
@@ -228,21 +211,21 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#041a3a] text-white py-6 sm:py-8">
+      <footer className="bg-[#041a3a] text-white py-6 sm:py-8 lg:py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="flex items-center justify-center gap-2 lg:gap-4 mb-4 lg:mb-6">
             {/* LOGOTYPE<img
-              className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
+              className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 object-contain"
               src="/42skillar.png"
               alt="skillar"
             />*/}
-            <p className="text-base sm:text-lg font-semibold">SkillarCode</p>
-            <p className="hidden sm:block text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
+            <p className="text-base sm:text-lg lg:text-xl font-semibold">SkillarCode</p>
+            <p className="hidden sm:block text-center text-sm lg:text-base text-italic text-gray-300">Arena dos Campeões</p>
           </div>
-          <p className="text-sm sm:text-base text-gray-400 px-2">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-400 px-2 max-w-3xl mx-auto">
             Plataforma de competições de tecnologia em tempo real - Mostre suas habilidades
           </p>
-          <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4 px-4 max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm lg:text-base text-gray-500 mt-3 sm:mt-4 lg:mt-6 px-4 max-w-2xl lg:max-w-3xl mx-auto">
             &copy; 2025 SkillarCode lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc, Mauro Silva & Nádia Cristovão
           </p>
         </div>

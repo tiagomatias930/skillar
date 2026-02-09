@@ -118,50 +118,50 @@ export default function HistoryPage() {
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white-900 mb-2">{t("history.title")}</h1>
-          <p className="text-sm sm:text-base text-white-600">{t("history.description")}</p>
+      <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
+        <div className="mb-6 sm:mb-8 lg:mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white-900 mb-2">{t("history.title")}</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-white-600">{t("history.description")}</p>
         </div>
 
         {/* Analytics Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 lg:mb-10">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium text-white-600">{t("history.totalCompetitions")}</CardTitle>
+              <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-white-600">{t("history.totalCompetitions")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl sm:text-2xl font-bold text-blue-600">{stats.totalCompetitions}</div>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">{stats.totalCompetitions}</div>
               <p className="text-xs text-white-600 hidden sm:block">{t("history.createdSoFar")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium text-white-600">{t("history.totalUsers")}</CardTitle>
+              <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-white-600">{t("history.totalUsers")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl sm:text-2xl font-bold text-purple-600">{stats.totalUsers}</div>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-600">{stats.totalUsers}</div>
               <p className="text-xs text-white-600 hidden sm:block">{t("history.registered")}</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium text-white-600">{t("history.participations")}</CardTitle>
+              <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-white-600">{t("history.participations")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl sm:text-2xl font-bold text-orange-600">{stats.totalParticipations}</div>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-orange-600">{stats.totalParticipations}</div>
               <p className="text-xs text-white-600 hidden sm:block">{t("history.totalRegistrations")}</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Recent Activity Summary */}
-        <Card className="mt-6 sm:mt-8">
+        <Card className="mt-6 sm:mt-8 lg:mt-10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
-              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base lg:text-lg">
+              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-purple-600" />
               {t("history.activitySummary")}
             </CardTitle>
             <CardDescription className="text-xs sm:text-sm">{t("history.platformStats")}</CardDescription>

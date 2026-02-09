@@ -176,18 +176,18 @@ export default function LoginPage() {
       style={{ backgroundImage: `url('/_.gif')` }}
     >
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md lg:max-w-lg xl:max-w-xl">
         <div className="text-center mb-6">
-          <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-gray-900">
+          <Link href="/" className="inline-flex items-center gap-2 text-2xl lg:text-3xl font-bold text-gray-900">
             {/*<img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />*/}
-            <h1 className="text-lg text-white">SkillarCode</h1>
-            <p className="text-center text-sm text-italic text-gray-300">Arena dos Campeões</p>
+            <h1 className="text-lg lg:text-xl xl:text-2xl text-white">SkillarCode</h1>
+            <p className="text-center text-sm lg:text-base text-italic text-gray-300">Arena dos Campeões</p>
           </Link>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Entrar no SkillarCode</CardTitle>
+            <CardTitle className="text-2xl lg:text-3xl text-center">Entrar no SkillarCode</CardTitle>
             <CardDescription className="text-center">
               {isProcessingOAuth
                 ? "Processando login da 42..."

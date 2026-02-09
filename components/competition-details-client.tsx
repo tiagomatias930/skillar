@@ -62,13 +62,13 @@ export default function CompetitionDetailsClient({
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] container mx-auto px-4 py-6 sm:py-8">
+    <main className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
       {/* Competition Header */}
-      <div className="mb-6 sm:mb-8">
+      <div className="mb-6 sm:mb-8 lg:mb-10">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
           <div className="flex-1">
-            <h1 className="text-xl sm:text-3xl font-bold text-white mb-2">{competition.title}</h1>
-            <p className="text-sm sm:text-base text-gray-300 mb-4">{competition.description}</p>
+            <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2">{competition.title}</h1>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-300 mb-4">{competition.description}</p>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 {competition.creator?.avatar_url && (
@@ -182,8 +182,8 @@ export default function CompetitionDetailsClient({
                       </div>
                     </div>
                     <div className="text-left sm:text-right pl-13 sm:pl-0">
-                      <div className="text-xl sm:text-2xl font-bold text-white">{participant.points || 0}</div>
-                      <div className="text-xs sm:text-sm text-gray-300">{t('competitionDetail.points')}</div>
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{participant.points || 0}</div>
+                      <div className="text-xs sm:text-sm lg:text-base text-gray-300">{t('competitionDetail.points')}</div>
                     </div>
                   </div>
                 )

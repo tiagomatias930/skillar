@@ -14,11 +14,11 @@ export default async function CompetitionsPage() {
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+      <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8 lg:mb-10">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Competições Ativas</h1>
-            <p className="text-sm sm:text-base text-gray-300">Participe das competições em andamento ou crie a sua própria</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2">Competições Ativas</h1>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-300">Participe das competições em andamento ou crie a sua própria</p>
           </div>
           <Link href="/create-competition">
             <Button className="bg-[#052A5F] hover:bg-[#073266] text-white w-full sm:w-auto">
@@ -40,7 +40,7 @@ export default async function CompetitionsPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {competitions.map((competition) => (
               <Card key={competition.id} className="hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
                 <CardHeader className="pb-3">
