@@ -165,10 +165,7 @@ export default function LoginPage() {
     setIsLoading(true)
     setError(null)
 
-    const clientId = process.env.INTRA42_CLIENT_ID
-    const redirectUri = process.env.NEXT_PUBLIC_42_REDIRECT_URI || 'https://42skillar.vercel.app/login'
-
-    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`
+    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https%3A%2F%2F42skillar.vercel.app%2Flogin&response_type=code`
 
     window.location.href = authUrl
   }
@@ -193,7 +190,7 @@ export default function LoginPage() {
             <CardTitle className="text-2xl text-center">Entrar no SkillarCode</CardTitle>
             <CardDescription className="text-center">
               {isProcessingOAuth
-                ? "Processando login do SkillarCode..."
+                ? "Processando login da 42..."
                 : "Escolha um método para entrar"
               }
             </CardDescription>
