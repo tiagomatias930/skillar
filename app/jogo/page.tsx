@@ -4,13 +4,14 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Home, Trophy, History, LogIn, BarChart3, Users } from "lucide-react"
+import { ExternalLink, Home, Trophy, History, LogIn, BarChart3, Users, Menu, X } from "lucide-react"
 
 export default function JogoPage() {
   const [currentUrl, setCurrentUrl] = useState("https://playgama.com/") // https://www.onlinegames.io/ ;
   const [customUrl, setCustomUrl] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -33,8 +34,8 @@ export default function JogoPage() {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Verificando autenticação...</p>
+          <div className="animate-spin rounded-full h-16 w-16 sm:h-32 sm:w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 text-sm sm:text-base">Verificando autenticação...</p>
         </div>
       </div>
     )
@@ -50,16 +51,18 @@ export default function JogoPage() {
       <header className="w-full border-b border-blue-900 bg-transparent shadow-sm z-10">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <img
-                className="h-12 w-12 object-contain"
+                className="h-8 w-8 sm:h-12 sm:w-12 object-contain"
                 src="/42skillar.png"
                 alt="skiller"
               />
-              <h1 className="text-3xl font-bold text-white">Skillar</h1>
-              <p className="text-center text-lg text-gray-300">Arena dos Campeões</p>
+              <h1 className="text-xl sm:text-3xl font-bold text-white">Skillar</h1>
+              <p className="hidden sm:block text-center text-lg text-gray-300">Arena dos Campeões</p>
             </div>
-            <nav className="flex items-center gap-3">
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-3">
               <Link href="/">
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
                   <span>Início</span>
@@ -70,7 +73,6 @@ export default function JogoPage() {
                   <span>Competições</span>
                 </Button>
               </Link>
-
               <Link href="/ranking">
                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
                   <span>Ranking</span>
@@ -82,7 +84,48 @@ export default function JogoPage() {
                 </Button>
               </Link>
             </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
+
+          {/* Mobile Navigation Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 animate-in slide-in-from-top-2 duration-200">
+              <nav className="flex flex-col gap-2">
+                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    Início
+                  </Button>
+                </Link>
+                <Link href="/competitions" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    Competições
+                  </Button>
+                </Link>
+                <Link href="/ranking" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    Ranking
+                  </Button>
+                </Link>
+                <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-white">
+                    Histórico
+                  </Button>
+                </Link>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 

@@ -150,10 +150,10 @@ export default function RankingPage() {
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">{t("ranking.title")}</h1>
-          <p className="text-gray-300">{t("ranking.description")}</p>
+      <main className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t("ranking.title")}</h1>
+          <p className="text-sm sm:text-base text-gray-300">{t("ranking.description")}</p>
         </div>
 
         <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
@@ -183,51 +183,51 @@ export default function RankingPage() {
                 <p className="text-gray-300">{t("ranking.joinCompetitions")}</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {sortedRanking.map((user, index) => {
                   const position = index + 1
                   return (
                     <div
                       key={user.userId}
-                      className={`flex items-center justify-between p-6 rounded-lg border transition-all hover:shadow-md bg-[#052A5F] border-[#073266] ${
+                      className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-6 rounded-lg border transition-all hover:shadow-md bg-[#052A5F] border-[#073266] ${
                         position <= 3
                           ? "ring-2 ring-blue-400/50"
                           : ""
                       }`}
                     >
-                      <div className="flex items-center gap-6">
-                        <div className="flex items-center justify-center w-16 h-16 rounded-full bg-[#073266]">
+                      <div className="flex items-center gap-3 sm:gap-6">
+                        <div className="flex items-center justify-center w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-[#073266] shrink-0">
                           {getRankIcon(position)}
                         </div>
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                             {user.avatar_url && (
                               <HoverCard.Root openDelay={150} closeDelay={100}>
                                 <HoverCard.Trigger asChild>
                                   <img
                                     src={user.avatar_url}
                                     alt={`Avatar de ${user.username}`}
-                                    className="w-12 h-12 rounded-full border border-[#073266] object-cover cursor-pointer"
+                                    className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[#073266] object-cover cursor-pointer shrink-0"
                                   />
                                 </HoverCard.Trigger>
-                                <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150">
+                                <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150 hidden sm:block">
                                   <IntraProfilePreview username={user.username} avatarUrl={user.avatar_url} />
                                 </HoverCard.Content>
                               </HoverCard.Root>
                             )}
-                            <h3 className="text-xl font-bold text-white">{user.username}</h3>
-                            <Badge variant="outline" className={getRankBadgeColor(position)}>
+                            <h3 className="text-base sm:text-xl font-bold text-white truncate">{user.username}</h3>
+                            <Badge variant="outline" className={`${getRankBadgeColor(position)} text-xs sm:text-sm shrink-0`}>
                               {getRankTitle(position)}
                             </Badge>
                           </div>
-                          <p className="text-sm text-gray-300">
+                          <p className="text-xs sm:text-sm text-gray-300">
                             {t("ranking.participatingIn")} {user.competitions} {user.competitions > 1 ? t("ranking.competitions") : t("ranking.competition")}
                           </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-3xl font-bold text-white">{user.totalPoints}</div>
-                        <div className="text-sm text-gray-300">{t("ranking.totalPoints")}</div>
+                      <div className="text-left sm:text-right mt-3 sm:mt-0 pl-13 sm:pl-0">
+                        <div className="text-xl sm:text-3xl font-bold text-white">{user.totalPoints}</div>
+                        <div className="text-xs sm:text-sm text-gray-300">{t("ranking.totalPoints")}</div>
                       </div>
                     </div>
                   )
@@ -239,9 +239,9 @@ export default function RankingPage() {
 
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold text-white mb-6 text-center">{t("ranking.currentPodium")}</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+          <div className="mt-6 sm:mt-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">{t("ranking.currentPodium")}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
                 return (
@@ -249,29 +249,29 @@ export default function RankingPage() {
                     key={user.userId}
                     className={`text-center bg-[#073266] border-[#052A5F] ${
                       position === 1
-                        ? "ring-2 ring-yellow-400/50"
+                        ? "ring-2 ring-yellow-400/50 sm:order-2"
                         : position === 2
-                          ? "ring-2 ring-gray-400/50"
-                          : "ring-2 ring-amber-400/50"
+                          ? "ring-2 ring-gray-400/50 sm:order-1"
+                          : "ring-2 ring-amber-400/50 sm:order-3"
                     }`}
                   >
-                    <CardHeader>
-                      <div className="flex justify-center mb-4">{getRankIcon(position)}</div>
+                    <CardHeader className="pb-2 sm:pb-4">
+                      <div className="flex justify-center mb-2 sm:mb-4">{getRankIcon(position)}</div>
                       {user.avatar_url && (
-                        <div className="flex justify-center mb-4">
+                        <div className="flex justify-center mb-2 sm:mb-4">
                           <img
                             src={user.avatar_url}
                             alt={`Avatar de ${user.username}`}
-                            className="w-20 h-20 rounded-full border-2 border-[#073266] object-cover"
+                            className="w-14 h-14 sm:w-20 sm:h-20 rounded-full border-2 border-[#073266] object-cover"
                           />
                         </div>
                       )}
-                      <CardTitle className="text-lg text-white">{user.username}</CardTitle>
-                      <CardDescription className="text-gray-300">{getRankTitle(position)}</CardDescription>
+                      <CardTitle className="text-base sm:text-lg text-white">{user.username}</CardTitle>
+                      <CardDescription className="text-gray-300 text-xs sm:text-sm">{getRankTitle(position)}</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold text-white mb-2">{user.totalPoints}</div>
-                      <div className="text-sm text-gray-300">{t("ranking.totalPoints")}</div>
+                    <CardContent className="pt-0">
+                      <div className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">{user.totalPoints}</div>
+                      <div className="text-xs sm:text-sm text-gray-300">{t("ranking.totalPoints")}</div>
                     </CardContent>
                   </Card>
                 )

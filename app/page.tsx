@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Users, Target, Award, Trophy, History, BarChart3, Gamepad2, Menu, X } from "lucide-react"
@@ -8,6 +8,14 @@ import { LanguageSelector } from "@/components/language-selector"
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    const username = localStorage.getItem("skillar_username")
+    if (username) {
+      setIsAuthenticated(true)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
@@ -47,11 +55,13 @@ export default function HomePage() {
                 </Button>
               </Link>
               <LanguageSelector />
-              <Link href="/login">
-                <Button className="flex items-center gap-2">               
-                  <span>Entrar</span>
-                </Button>
-              </Link>
+              {!isAuthenticated && (
+                <Link href="/login">
+                  <Button className="flex items-center gap-2">               
+                    <span>Entrar</span>
+                  </Button>
+                </Link>
+              )}
             </nav>
 
             {/* Mobile Menu Button */}
@@ -95,11 +105,13 @@ export default function HomePage() {
                 <div className="px-3 py-2">
                   <LanguageSelector />
                 </div>
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full justify-start">               
-                    <span>Entrar</span>
-                  </Button>
-                </Link>
+                {!isAuthenticated && (
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="w-full justify-start">               
+                      <span>Entrar</span>
+                    </Button>
+                  </Link>
+                )}
               </nav>
             </div>
           )}
@@ -149,18 +161,7 @@ export default function HomePage() {
                 className="w-full h-full"
               />
             </div>
-            <div className="w-full max-w-4xl mx-5 aspect-video rounded-lg overflow-hidden shadow-xl bg-[#06224A] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 transform hover:scale-[1.02] transition-transform duration-300">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/8QpxUibAz8I?si=BoKZr97mn5IdySgk"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="w-full h-full mr-6"
-              />
-            </div>
+
           </div>*/}
         </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
@@ -205,6 +206,20 @@ export default function HomePage() {
                 </CardDescription>
               </CardContent>
             </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
+              <CardHeader className="pb-4">
+                <Users className="h-8 w-8 text-white mx-auto mb-4" />
+                <CardTitle className="text-xl font-semibold text-white">
+                  Alcance Objectivos
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-300 leading-relaxed">
+                  Uma meta sem um plano é apenas um desejo.
+                </CardDescription>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -242,7 +257,7 @@ export default function HomePage() {
             Plataforma de competições semanais - Mostre suas habilidades
           </p>
           <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4 px-4 max-w-2xl mx-auto">
-            &copy; 2025 42Skillar lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc & Nádia Cristovão
+            &copy; 2025 42Skillar lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc, Mauro Silva & Nádia Cristovão
           </p>
         </div>
       </footer>

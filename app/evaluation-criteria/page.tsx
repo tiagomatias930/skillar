@@ -88,17 +88,17 @@ export default function AvaliacaoForm() {
 	}, [selectedCompetition]);
 
 	return (
-		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundAttachment: 'fixed', minHeight: '100vh' }} className="p-2">
+		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundAttachment: 'fixed', minHeight: '100vh' }} className="p-2 sm:p-4">
 			<div className="max-w-xl mx-auto">
-				<h1 className="text-2xl font-bold mb-4 text-center text-white">Avaliação</h1>
-				<p className="mb-6 text-gray-600 text-center text-white">
+				<h1 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center text-white">Avaliação</h1>
+				<p className="mb-4 sm:mb-6 text-sm sm:text-base text-gray-600 text-center text-white px-2">
 					Selecione o desafio que está participando, responda o quiz e submeta seu projeto para avaliação automática por IA.
 				</p>
-				<div className="mb-6">
-					<Label htmlFor="competition-select" className="text-white">Escolha o desafio:</Label>
+				<div className="mb-4 sm:mb-6 px-2 sm:px-0">
+					<Label htmlFor="competition-select" className="text-white text-sm sm:text-base">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
-						className="w-full p-2 rounded border mt-1 text-black "
+						className="w-full p-2 rounded border mt-1 text-black text-sm sm:text-base"
 						value={selectedCompetition?.id || ''}
 						onChange={e => {
 							const comp = competitions.find(c => c.id === e.target.value);
@@ -112,8 +112,8 @@ export default function AvaliacaoForm() {
 					</select>
 				</div>
 				{selectedCompetition && (
-					<div className="mb-6 p-4 rounded ">
-						<div className="mb-2 text-white"><b>Descrição:</b> {selectedCompetition.description}</div>
+					<div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded mx-2 sm:mx-0">
+						<div className="mb-2 text-white text-sm sm:text-base"><b>Descrição:</b> {selectedCompetition.description}</div>
 					</div>
 				)}
 				{selectedCompetition && loadingQuiz && <div className="text-center text-white">Carregando pré-avaliação...</div>}

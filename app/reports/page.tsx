@@ -133,14 +133,14 @@ export default function ReportsPage() {
       <Navigation />
       <ToastContainer />
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+      <main className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-3xl font-bold text-white-900">Sistema de Relatórios</h1>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-2">
+              <h1 className="text-xl sm:text-3xl font-bold text-white-900">Sistema de Relatórios</h1>
               <a
                 href="/evaluation-criteria"
-                className="text-sm px-3 py-1 rounded bg-blue-100 text-gray-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
+                className="text-xs sm:text-sm px-2 sm:px-3 py-1 rounded bg-blue-100 text-gray-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
                 title="Ver critérios de avaliação"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -148,9 +148,9 @@ export default function ReportsPage() {
                 Critérios de Avaliação
               </a>
             </div>
-            <p className="text-white-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
+            <p className="text-sm sm:text-base text-white-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
           </div>
-          <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700">
+          <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700 w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             {showForm ? "Cancelar" : "Novo Relatório"}
           </Button>

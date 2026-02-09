@@ -14,14 +14,14 @@ export default async function CompetitionsPage() {
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
+      <main className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Competições Ativas</h1>
-            <p className="text-gray-300">Participe das competições em andamento ou crie a sua própria</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Competições Ativas</h1>
+            <p className="text-sm sm:text-base text-gray-300">Participe das competições em andamento ou crie a sua própria</p>
           </div>
           <Link href="/create-competition">
-            <Button className="bg-[#052A5F] hover:bg-[#073266] text-white">
+            <Button className="bg-[#052A5F] hover:bg-[#073266] text-white w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Nova Competição
             </Button>
@@ -40,35 +40,39 @@ export default async function CompetitionsPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {competitions.map((competition) => (
               <Card key={competition.id} className="hover:shadow-lg transition-shadow bg-[#073266] border-[#052A5F]">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg mb-2 text-white">{competition.title}</CardTitle>
-                      <CardDescription className="text-sm text-gray-300">{competition.description}</CardDescription>
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <CardTitle className="text-base sm:text-lg mb-2 text-white truncate">{competition.title}</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm text-gray-300 line-clamp-2">{competition.description}</CardDescription>
                     </div>
-                    <Badge variant="secondary" className="ml-2 bg-[#052A5F] text-white">
+                    <Badge variant="secondary" className="shrink-0 bg-[#052A5F] text-white text-xs">
                       Ativa
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-300">
-                      <Users className="h-4 w-4" />
-                      <span>Criado por {competition.creator?.username}</span>
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-300">
+                      <Users className="h-4 w-4 shrink-0" />
+                      <span className="truncate">Criado por {competition.creator?.username}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-300">
-                      <Calendar className="h-4 w-4" />
-                      <p className="text-sm">Começa em {new Date(competition.start_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
-
-                      <p className="text-sm">Termina em {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</p>
+                    <div className="flex flex-col gap-1 text-xs sm:text-sm text-gray-300">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 shrink-0" />
+                        <span>Começa: {new Date(competition.start_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 shrink-0 opacity-0" />
+                        <span>Termina: {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
+                      </div>
                     </div>
-                    <div className="flex gap-2 pt-2">
+                    <div className="flex flex-col sm:flex-row gap-2 pt-2">
                       <Link href={`/competitions/${competition.id}`} className="flex-1">
-                        <Button variant="outline" className="w-full bg-transparent border-[#052A5F] text-white hover:bg-[#052A5F]">
+                        <Button variant="outline" className="w-full bg-transparent border-[#052A5F] text-white hover:bg-[#052A5F] text-xs sm:text-sm">
                           Ver Detalhes
                         </Button>
                       </Link>

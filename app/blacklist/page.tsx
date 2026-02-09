@@ -31,10 +31,10 @@ export default async function BlacklistPage() {
     <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white-900 mb-2">Lista Negra</h1>
-          <p className="text-white-600">Usuários que violaram as regras da comunidade</p>
+      <main className="container mx-auto px-4 py-6 sm:py-8">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white-900 mb-2">Lista Negra</h1>
+          <p className="text-sm sm:text-base text-white-600">Usuários que violaram as regras da comunidade</p>
         </div>
 
         <Card>

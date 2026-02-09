@@ -62,20 +62,20 @@ export default function CompetitionDetailsClient({
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] container mx-auto px-4 py-8">
+    <main className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] container mx-auto px-4 py-6 sm:py-8">
       {/* Competition Header */}
-      <div className="mb-8">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">{competition.title}</h1>
-            <p className="text-gray-300 mb-4">{competition.description}</p>
-            <div className="flex items-center gap-4 text-sm text-gray-300">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div className="flex-1">
+            <h1 className="text-xl sm:text-3xl font-bold text-white mb-2">{competition.title}</h1>
+            <p className="text-sm sm:text-base text-gray-300 mb-4">{competition.description}</p>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-300">
               <div className="flex items-center gap-2">
                 {competition.creator?.avatar_url && (
                   <img
                     src={competition.creator.avatar_url}
                     alt="Avatar do criador"
-                    className="w-12 h-12 rounded-full border border-[#073266] object-cover"
+                    className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[#073266] object-cover"
                   />
                 )}
                 <span>{t('competitionDetail.createdBy')} {competition.creator?.username}</span>
@@ -94,20 +94,20 @@ export default function CompetitionDetailsClient({
             </div>
           </div>
           <div className="flex gap-2">
-            <Badge variant={competition.is_active ? "default" : "secondary"} className="bg-[#052A5F] text-white">
+            <Badge variant={competition.is_active ? "default" : "secondary"} className="bg-[#052A5F] text-white text-xs sm:text-sm">
               {competition.is_active ? t('competitionDetail.active') : t('competitionDetail.finished')}
             </Badge>
           </div>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <JoinCompetitionButton 
             competitionId={competition.id} 
             competitionTitle={competition.title}
             disabled={isOver} 
           />
           <Link href={`/competitions/${competition.id}/manage`}>
-            <Button variant="outline">
+            <Button variant="outline" className="w-full sm:w-auto">
               <Edit className="h-4 w-4 mr-2" />
               {t('competitionDetail.manage')}
             </Button>
@@ -147,43 +147,43 @@ export default function CompetitionDetailsClient({
                 return (
                   <div
                     key={participant.id}
-                    className={`flex items-center justify-between p-4 rounded-lg border ${
+                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 rounded-lg border ${
                       position <= 3 ? "bg-[#052A5F]" : "bg-[#06224A]"
-                    } border-[#073266]`}
+                    } border-[#073266] gap-3`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#073266]">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#073266] shrink-0">
                         {getRankIcon(position)}
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
                           {participant.user?.avatar_url && (
                             <HoverCard.Root openDelay={150} closeDelay={100}>
                               <HoverCard.Trigger asChild>
                                 <img
                                   src={participant.user.avatar_url}
                                   alt={`Avatar de ${participant.user.username}`}
-                                  className="w-12 h-12 rounded-full border border-[#073266] object-cover cursor-pointer"
+                                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[#073266] object-cover cursor-pointer shrink-0"
                                 />
                               </HoverCard.Trigger>
-                              <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150">
+                              <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150 hidden sm:block">
                                 <IntraProfilePreview username={participant.user.username} avatarUrl={participant.user.avatar_url} />
                               </HoverCard.Content>
                             </HoverCard.Root>
                           )}
-                          <h3 className="font-semibold text-white">{participant.user?.username}</h3>
-                          <Badge variant="outline" className={`border-[#052A5F] ${getRankBadgeColor(position)}`}>
+                          <h3 className="font-semibold text-white text-sm sm:text-base truncate">{participant.user?.username}</h3>
+                          <Badge variant="outline" className={`border-[#052A5F] ${getRankBadgeColor(position)} text-xs sm:text-sm`}>
                             {getRankTitle(position)}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-300">
+                        <p className="text-xs sm:text-sm text-gray-300">
                           {t('competitionDetail.participatingSince')} {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                         </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-white">{participant.points || 0}</div>
-                      <div className="text-sm text-gray-300">{t('competitionDetail.points')}</div>
+                    <div className="text-left sm:text-right pl-13 sm:pl-0">
+                      <div className="text-xl sm:text-2xl font-bold text-white">{participant.points || 0}</div>
+                      <div className="text-xs sm:text-sm text-gray-300">{t('competitionDetail.points')}</div>
                     </div>
                   </div>
                 )
