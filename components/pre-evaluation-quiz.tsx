@@ -44,7 +44,7 @@ export default function PreEvaluationQuiz({ questions, onComplete }: QuizProps) 
       <div className="mb-6 p-8 rounded-xl bg-gradient-to-br from-green-500/20 to-blue-500/20 border border-green-500/30 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="text-center space-y-4">
           <MedalMilitary className="w-16 h-16 mx-auto text-yellow-400 animate-bounce" weight="duotone" />
-          <h3 className="text-2xl font-bold text-foreground">Pré-avaliação Concluída! 🎉</h3>
+          <h3 className="text-2xl font-bold text-foreground">Pré-avaliação Concluída! </h3>
           <div className="text-4xl font-bold text-foreground">{score} pontos</div>
           <p className="text-[var(--md3-on-surface-variant)]">Pode agora submeter o seu projeto para avaliação.</p>
         </div>

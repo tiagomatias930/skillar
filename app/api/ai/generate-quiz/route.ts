@@ -20,7 +20,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Gemini API key not configured. Set GEMINI_API_KEY or GOOGLE_GEMINI_API_KEY.' }, { status: 400 })
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent?key=${apiKey}`
 
     // Build a simple prompt asking Gemini to generate 3 multiple-choice or short answer quiz questions
     const prompt = `Gere 3 perguntas de pré-avaliação (português) para o desafio a seguir. Cada pergunta deve ter: question (texto da pergunta), options (array de 4 strings se for múltipla escolha), answer (número 0-3 indicando índice da resposta correta se for múltipla escolha, ou null se for resposta curta).
