@@ -13,14 +13,14 @@ export async function POST(request: Request) {
     const body: GenerateRequest = await request.json()
 
     // Accept multiple possible env var names to be more robust across deployments
-    const apiKey = process.env.GOOGLE_GEMINI_API_KEY || process.env.VITY_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || process.env.VITY_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
     if (!apiKey) {
       console.error('[v0] Gemini API key not configured. Expected one of: GEMINI_API_KEY, GOOGLE_GEMINI_API_KEY, GOOGLE_API_KEY')
       return NextResponse.json({ success: false, error: 'Gemini API key not configured. Set GEMINI_API_KEY or GOOGLE_GEMINI_API_KEY.' }, { status: 400 })
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash:generateContent?key=${apiKey}`
+    const apiBase = 'https://generativelanguage.googleapis.com'
 
     // Build a simple prompt asking Gemini to generate 3 multiple-choice or short answer quiz questions
     const prompt = `Gere 3 perguntas de pré-avaliação (português) para o desafio a seguir. Cada pergunta deve ter: question (texto da pergunta), options (array de 4 strings se for múltipla escolha), answer (número 0-3 indicando índice da resposta correta se for múltipla escolha, ou null se for resposta curta).
@@ -37,40 +37,65 @@ Retorne APENAS um JSON válido no formato:
 Título do desafio: ${body.title}
 Descrição: ${body.description}`
 
-    // Correct payload structure for Gemini API v1beta
-    const payload = {
-      contents: [
-        {
-          parts: [
-            {
-              text: prompt
-            }
-          ]
+    // Try multiple model names for resilience (same approach as generate-challenge)
+    const modelCandidates = [
+      'gemini-2.0-flash',
+      'gemini-2.5-flash',
+      'gemini-1.5-flash',
+    ]
+
+    let json: any = null
+    let usedModel: string | undefined
+    let lastError: { status?: number; body?: string; model?: string } | null = null
+
+    for (const model of modelCandidates) {
+      const url = `${apiBase}/v1beta/models/${model}:generateContent?key=${apiKey}`
+
+      const payload = {
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: prompt }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.2,
+          maxOutputTokens: 1000,
+          responseMimeType: 'application/json',
         }
-      ],
-      generationConfig: {
-        temperature: 0.2,
-        maxOutputTokens: 1000,
-        candidateCount: 1
       }
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        lastError = { status: res.status, body: text?.slice?.(0, 2000), model }
+        // If model not found or invalid model name, try next candidate
+        if (res.status === 404 || (res.status === 400 && /model|not\s*found|invalid/i.test(text || ''))) {
+          continue
+        }
+        console.error('[v0] Gemini error:', model, res.status, text?.slice?.(0, 2000))
+        return NextResponse.json({ success: false, error: 'Gemini API error', debug: lastError }, { status: 502 })
+      }
+
+      json = await res.json()
+      usedModel = model
+      break
     }
 
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-
-    if (!res.ok) {
-      const text = await res.text()
-      const truncated = text?.toString?.().slice(0, 2000)
-      console.error('[v0] Gemini error:', res.status, truncated)
-      return NextResponse.json({ success: false, error: 'Gemini API error', debug: { status: res.status, body: truncated } }, { status: 502 })
+    if (!json) {
+      return NextResponse.json({
+        success: false,
+        error: 'Gemini API error',
+        debug: { ...(lastError || {}), attemptedModels: modelCandidates }
+      }, { status: 502 })
     }
-
-    const json = await res.json()
 
     // Extract text from Gemini's response structure: candidates[0].content.parts[0].text
     let outputText = ''
