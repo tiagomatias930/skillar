@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Trophy, Crown, Medal, Award, Users, Save } from "lucide-react"
+import { Trophy, Crown, Medal, MedalMilitary, UsersThree, FloppyDisk } from "@phosphor-icons/react"
 import { Navigation } from "@/components/navigation"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/toast"
@@ -222,7 +222,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2 text-foreground">
-                  <Trophy className="h-5 w-5 text-primary" />
+                  <Trophy className="h-5 w-5 text-primary" weight="duotone" />
                   Atribuir Pontos aos Participantes
                 </CardTitle>
                 <CardDescription className="text-[var(--md3-on-surface-variant)]">
@@ -230,7 +230,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                 </CardDescription>
               </div>
               <Button onClick={handleSavePoints} disabled={isSaving}>
-                <Save className="h-4 w-4 mr-2" />
+                <FloppyDisk className="h-4 w-4 mr-2" weight="duotone" />
                 {isSaving ? "Salvando..." : "Salvar Pontos"}
               </Button>
             </div>
@@ -238,7 +238,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
           <CardContent>
             {participants.length === 0 ? (
               <div className="text-center py-8">
-                <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <UsersThree className="h-16 w-16 text-muted-foreground mx-auto mb-4" weight="duotone" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">Nenhum participante ainda</h3>
                 <p className="text-[var(--md3-on-surface-variant)]">Aguarde participantes se inscreverem na competição</p>
               </div>

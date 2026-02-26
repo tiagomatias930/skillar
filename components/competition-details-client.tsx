@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Trophy, Crown, Medal, Award, Users, Calendar, Edit, Clock } from "lucide-react"
+import { Trophy, Crown, Medal, MedalMilitary, UsersThree, CalendarBlank, PencilSimple, Clock } from "@phosphor-icons/react"
 import { CountdownTimer } from "@/components/countdown-timer"
 import { RefreshButton } from "@/components/refresh-button"
 import Link from "next/link"
@@ -81,7 +81,7 @@ export default function CompetitionDetailsClient({
                 <span>{t('competitionDetail.createdBy')} {competition.creator?.username}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
+                <CalendarBlank className="h-4 w-4" weight="duotone" />
                 <span>{t('competitionDetail.endsOn')} {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
               </div>
               <CountdownTimer endDate={competition.custom_end_date || competition.end_date} />
@@ -108,7 +108,7 @@ export default function CompetitionDetailsClient({
           />
           <Link href={`/competitions/${competition.id}/manage`}>
             <Button variant="outline" className="w-full sm:w-auto">
-              <Edit className="h-4 w-4 mr-2" />
+              <PencilSimple className="h-4 w-4 mr-2" weight="duotone" />
               {t('competitionDetail.manage')}
             </Button>
           </Link>
@@ -121,7 +121,7 @@ export default function CompetitionDetailsClient({
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2 text-foreground">
-                <Trophy className="h-5 w-5 text-primary" />
+                <Trophy className="h-5 w-5 text-primary" weight="duotone" />
                 {t('competitionDetail.realtimeRanking')}
               </CardTitle>
               <CardDescription className="text-[var(--md3-on-surface-variant)]">
@@ -136,7 +136,7 @@ export default function CompetitionDetailsClient({
         <CardContent>
           {participants.length === 0 ? (
             <div className="text-center py-8">
-              <Users className="h-16 w-16 text-primary mx-auto mb-4" />
+              <UsersThree className="h-16 w-16 text-primary mx-auto mb-4" weight="duotone" />
               <h3 className="text-lg font-semibold text-foreground mb-2">{t('competitionDetail.noParticipants')}</h3>
               <p className="text-[var(--md3-on-surface-variant)]">{t('competitionDetail.noParticipantsDesc')}</p>
             </div>

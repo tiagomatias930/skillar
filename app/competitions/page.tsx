@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Trophy, Users, Calendar, Plus } from "lucide-react"
+import { Trophy, UsersThree, CalendarBlank, Plus } from "@/components/icons"
 import Link from "next/link"
 import { getActiveCompetitions } from "@/lib/database"
 import { JoinCompetitionButton } from "@/components/join-competition-button"
@@ -22,7 +22,7 @@ export default async function CompetitionsPage() {
           </div>
           <Link href="/create-competition">
             <Button className="rounded-full w-full sm:w-auto">
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-4 w-4 mr-2" weight="bold" />
               Nova Competição
             </Button>
           </Link>
@@ -32,7 +32,7 @@ export default async function CompetitionsPage() {
           <Card className="text-center py-16 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
             <CardContent>
               <div className="h-20 w-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <Trophy className="h-10 w-10 text-primary" />
+                <Trophy className="h-10 w-10 text-primary" weight="duotone" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">Nenhuma competição ativa</h3>
               <p className="text-[var(--md3-on-surface-variant)] mb-8">Seja o primeiro a criar uma competição!</p>
@@ -59,16 +59,16 @@ export default async function CompetitionsPage() {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">
-                      <Users className="h-4 w-4 shrink-0 text-primary/70" />
+                      <UsersThree className="h-4 w-4 shrink-0 text-primary/70" weight="duotone" />
                       <span className="truncate">Criado por {competition.creator?.username}</span>
                     </div>
                     <div className="flex flex-col gap-1.5 text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 shrink-0 text-primary/70" />
+                        <CalendarBlank className="h-4 w-4 shrink-0 text-primary/70" weight="duotone" />
                         <span>Começa: {new Date(competition.start_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 shrink-0 opacity-0" />
+                        <CalendarBlank className="h-4 w-4 shrink-0 opacity-0" />
                         <span>Termina: {new Date(competition.custom_end_date || competition.end_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</span>
                       </div>
                     </div>

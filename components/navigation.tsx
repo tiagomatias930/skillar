@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Trophy, LogOut, History, Gamepad2, BarChart3, Users, Menu, X } from "lucide-react"
+import { Trophy, SignOut, ClockCounterClockwise, GameController, ChartBar, UsersThree, List, X } from "@phosphor-icons/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
@@ -28,7 +28,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 rounded-xl bg-primary/20 flex items-center justify-center">
-                <Trophy className="h-4 w-4 text-primary" />
+                <Trophy className="h-4 w-4 text-primary" weight="duotone" />
               </div>
               <h1 className="text-xl sm:text-2xl lg:text-2xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors duration-200">SkillarCode</h1>
             </div>
@@ -71,7 +71,7 @@ export function Navigation() {
                 )}
                 <span className="text-sm text-[var(--md3-on-surface-variant)] font-medium">Olá, {username}</span>
                 <Button variant="outline" size="sm" onClick={handleLogout} className="rounded-full border-[var(--md3-outline)] text-[var(--md3-on-surface-variant)] hover:text-foreground">
-                  <LogOut className="h-4 w-4 mr-1.5" />
+                  <SignOut className="h-4 w-4 mr-1.5" weight="bold" />
                   {t('navigation.logout')}
                 </Button>
               </div>
@@ -89,9 +89,9 @@ export function Navigation() {
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5" weight="bold" />
             ) : (
-              <Menu className="h-5 w-5" />
+              <List className="h-5 w-5" weight="bold" />
             )}
           </button>
         </div>
@@ -146,7 +146,7 @@ export function Navigation() {
                     <span className="text-sm text-[var(--md3-on-surface-variant)] font-medium">Olá, {username}</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={handleLogout} className="rounded-full border-[var(--md3-outline)] text-[var(--md3-on-surface-variant)] w-full justify-start">
-                    <LogOut className="h-4 w-4 mr-1.5" />
+                    <SignOut className="h-4 w-4 mr-1.5" weight="bold" />
                     {t('navigation.logout')}
                   </Button>
                 </div>

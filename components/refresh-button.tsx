@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { RefreshCw } from "lucide-react"
+import { ArrowsClockwise } from "@phosphor-icons/react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -24,7 +24,7 @@ export function RefreshButton({ className }: RefreshButtonProps) {
 
   return (
     <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isRefreshing} className={className}>
-      <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`} />
+      <ArrowsClockwise className={`h-4 w-4 mr-2 ${isRefreshing ? "animate-spin" : ""}`} weight="bold" />
       {isRefreshing ? "Atualizando..." : "Atualizar"}
     </Button>
   )

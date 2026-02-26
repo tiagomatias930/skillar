@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Trophy, Crown, Medal, Award, Users } from "lucide-react"
+import { Trophy, Crown, Medal, MedalMilitary, UsersThree } from "@phosphor-icons/react"
 import { Navigation } from "@/components/navigation"
 import { RefreshButton } from "@/components/refresh-button"
 import { useTranslation } from "@/hooks/use-translation"
@@ -162,7 +162,7 @@ export default function RankingPage() {
               <div>
                 <CardTitle className="flex items-center gap-2 text-foreground">
                   <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center">
-                    <Trophy className="h-4 w-4 text-primary" />
+                    <Trophy className="h-4 w-4 text-primary" weight="duotone" />
                   </div>
                   {t("ranking.globalRanking")}
                 </CardTitle>
@@ -181,7 +181,7 @@ export default function RankingPage() {
             {sortedRanking.length === 0 ? (
               <div className="text-center py-16">
                 <div className="h-20 w-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                  <Users className="h-10 w-10 text-primary" />
+                  <UsersThree className="h-10 w-10 text-primary" weight="duotone" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">{t("ranking.noParticipants")}</h3>
                 <p className="text-[var(--md3-on-surface-variant)]">{t("ranking.joinCompetitions")}</p>

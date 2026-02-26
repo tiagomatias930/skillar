@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Settings, Ban, RotateCcw } from "lucide-react"
+import { GearSix, Prohibit, ArrowCounterClockwise } from "@phosphor-icons/react"
 
 export function AdminPanel() {
   const [isClosingCompetitions, setIsClosingCompetitions] = useState(false)
@@ -80,7 +80,7 @@ export function AdminPanel() {
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl bg-primary/15 flex items-center justify-center">
-              <Settings className="h-4.5 w-4.5 text-primary" />
+              <GearSix className="h-4.5 w-4.5 text-primary" weight="duotone" />
             </div>
             Painel Administrativo
           </CardTitle>
@@ -94,7 +94,7 @@ export function AdminPanel() {
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-amber-400">
               <div className="h-8 w-8 rounded-xl bg-amber-500/15 flex items-center justify-center">
-                <RotateCcw className="h-4 w-4" />
+                <ArrowCounterClockwise className="h-4 w-4" weight="bold" />
               </div>
               Fechar Competições Expiradas
             </CardTitle>
@@ -112,7 +112,7 @@ export function AdminPanel() {
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-red-400">
               <div className="h-8 w-8 rounded-xl bg-red-500/15 flex items-center justify-center">
-                <Ban className="h-4 w-4" />
+                <Prohibit className="h-4 w-4" weight="bold" />
               </div>
               Adicionar à Lista Negra
             </CardTitle>

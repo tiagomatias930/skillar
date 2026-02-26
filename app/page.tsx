@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Users, Target, Award, Trophy, History, BarChart3, Gamepad2, Menu, X } from "lucide-react"
+import { UsersThree, Crosshair, Medal, Trophy, ClockCounterClockwise, ChartBar, GameController, List, X } from "@phosphor-icons/react"
 import Link from "next/link"
 import { LanguageSelector } from "@/components/language-selector"
 
@@ -25,7 +25,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="h-9 w-9 rounded-xl bg-primary/20 flex items-center justify-center">
-                <Trophy className="h-5 w-5 text-primary" />
+                <Trophy className="h-5 w-5 text-primary" weight="duotone" />
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">SkillarCode</h1>
             </div>
@@ -72,7 +72,7 @@ export default function HomePage() {
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <List className="h-5 w-5" weight="bold" />
               )}
             </button>
           </div>
@@ -126,7 +126,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center relative">
           <div className="max-w-3xl lg:max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
-              <Trophy className="h-4 w-4" />
+              <Trophy className="h-4 w-4" weight="duotone" />
               <span>Plataforma de Competições</span>
             </div>
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight text-balance leading-[1.1]">
@@ -162,7 +162,7 @@ export default function HomePage() {
             <Card className="text-center group hover:shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
               <CardHeader className="pb-2 sm:pb-4">
                 <div className="h-14 w-14 rounded-2xl bg-primary/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/25 transition-colors duration-300">
-                  <Target className="h-7 w-7 text-primary" />
+                  <Crosshair className="h-7 w-7 text-primary" weight="duotone" />
                 </div>
                 <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                   Crie ou Participe
@@ -178,7 +178,7 @@ export default function HomePage() {
             <Card className="text-center group hover:shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
               <CardHeader className="pb-2 sm:pb-4">
                 <div className="h-14 w-14 rounded-2xl bg-accent/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/25 transition-colors duration-300">
-                  <Users className="h-7 w-7 text-accent" />
+                  <UsersThree className="h-7 w-7 text-accent" weight="duotone" />
                 </div>
                 <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                   Alcance Objectivos
@@ -194,7 +194,7 @@ export default function HomePage() {
             <Card className="text-center group hover:shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 sm:col-span-2 lg:col-span-1">
               <CardHeader className="pb-2 sm:pb-4">
                 <div className="h-14 w-14 rounded-2xl bg-[var(--md3-tertiary)]/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-[var(--md3-tertiary)]/25 transition-colors duration-300">
-                  <Award className="h-7 w-7 text-[var(--md3-tertiary)]" />
+                  <Medal className="h-7 w-7 text-[var(--md3-tertiary)]" weight="duotone" />
                 </div>
                 <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                   Conquiste Posições
@@ -235,7 +235,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-8 w-8 rounded-xl bg-primary/20 flex items-center justify-center">
-              <Trophy className="h-4 w-4 text-primary" />
+              <Trophy className="h-4 w-4 text-primary" weight="duotone" />
             </div>
             <p className="text-lg font-semibold text-foreground">SkillarCode</p>
           </div>

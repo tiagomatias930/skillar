@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Trophy } from "lucide-react"
+import { Trophy } from "@phosphor-icons/react"
 import Link from "next/link"
 import { NextResponse } from 'next/server'
 
@@ -182,7 +182,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex flex-col items-center gap-2">
             <div className="h-12 w-12 rounded-2xl bg-primary/20 flex items-center justify-center mb-2">
-              <Trophy className="h-6 w-6 text-primary" />
+              <Trophy className="h-6 w-6 text-primary" weight="duotone" />
             </div>
             <h1 className="text-2xl font-bold text-foreground tracking-tight">SkillarCode</h1>
             <p className="text-sm text-[var(--md3-on-surface-variant)]">Arena dos Campeões</p>

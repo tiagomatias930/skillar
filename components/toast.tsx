@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { CheckCircle, XCircle, AlertCircle, X } from "lucide-react"
+import { CheckCircle, XCircle, WarningCircle, X } from "@phosphor-icons/react"
 
 interface ToastProps {
   message: string
@@ -22,11 +22,11 @@ export function Toast({ message, type, duration = 3000, onClose }: ToastProps) {
   const getIcon = () => {
     switch (type) {
       case "success":
-        return <CheckCircle className="h-5 w-5 text-green-500" />
+        return <CheckCircle className="h-5 w-5 text-green-500" weight="duotone" />
       case "error":
-        return <XCircle className="h-5 w-5 text-red-500" />
+        return <XCircle className="h-5 w-5 text-red-500" weight="duotone" />
       case "info":
-        return <AlertCircle className="h-5 w-5 text-blue-500" />
+        return <WarningCircle className="h-5 w-5 text-blue-500" weight="duotone" />
     }
   }
 
@@ -48,7 +48,7 @@ export function Toast({ message, type, duration = 3000, onClose }: ToastProps) {
       {getIcon()}
       <span className="text-sm font-medium text-foreground">{message}</span>
       <button onClick={onClose} className="ml-2 text-muted-foreground hover:text-[var(--md3-on-surface-variant)] transition-colors">
-        <X className="h-4 w-4" />
+        <X className="h-4 w-4" weight="bold" />
       </button>
     </div>
   )

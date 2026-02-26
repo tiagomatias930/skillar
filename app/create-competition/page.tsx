@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Trophy, ArrowLeft, Clock, Calendar } from "lucide-react"
+import { Trophy, ArrowLeft, Clock, CalendarBlank } from "@phosphor-icons/react"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { useToast } from "@/components/toast"
@@ -115,7 +115,7 @@ export default function CreateCompetitionPage() {
         <div className="max-w-2xl mx-auto">
           <div className="mb-6">
             <Link href="/competitions" className="inline-flex items-center gap-2 text-[var(--md3-on-surface-variant)] hover:text-foreground transition-colors duration-200">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4" weight="bold" />
               Voltar para Competições
             </Link>
           </div>
@@ -124,7 +124,7 @@ export default function CreateCompetitionPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-foreground text-xl sm:text-2xl">
                 <div className="h-10 w-10 rounded-xl bg-yellow-500/15 flex items-center justify-center">
-                  <Trophy className="h-5 w-5 text-yellow-400" />
+                  <Trophy className="h-5 w-5 text-yellow-400" weight="duotone" />
                 </div>
                 Criar Nova Competição
               </CardTitle>
@@ -186,7 +186,7 @@ export default function CreateCompetitionPage() {
                   {!useCustomDate ? (
                     <div className="bg-[var(--md3-surface-container-high)] p-5 rounded-2xl space-y-4 border border-[var(--md3-outline-variant)]/30">
                       <div className="flex items-center gap-2 text-[var(--md3-on-surface-variant)] text-sm">
-                        <Clock className="h-4 w-4 text-primary/70" />
+                        <Clock className="h-4 w-4 text-primary/70" weight="duotone" />
                         Escolha a duração
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -225,7 +225,7 @@ export default function CreateCompetitionPage() {
                   ) : (
                     <div className="bg-[var(--md3-surface-container-high)] p-5 rounded-2xl space-y-4 border border-[var(--md3-outline-variant)]/30">
                       <div className="flex items-center gap-2 text-[var(--md3-on-surface-variant)] text-sm">
-                        <Calendar className="h-4 w-4 text-primary/70" />
+                        <CalendarBlank className="h-4 w-4 text-primary/70" weight="duotone" />
                         Escolha a data e hora de término
                       </div>
                       <Input

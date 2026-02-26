@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/toast"
-import { User, Users, X, Plus, UserPlus } from "lucide-react"
+import { User, UsersThree, X, Plus, UserPlus } from "@phosphor-icons/react"
 
 interface JoinCompetitionButtonProps {
   competitionId: string
@@ -339,7 +339,7 @@ export function JoinCompetitionButton({
                 onClick={() => setShowModal(false)}
                 className="text-foreground hover:text-[var(--md3-on-surface-variant)] p-1"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6" weight="bold" />
               </button>
             </div>
 
@@ -447,7 +447,7 @@ export function JoinCompetitionButton({
                     <div className="text-center py-8 text-[var(--md3-on-surface-variant)]">Carregando equipes...</div>
                   ) : teams.length === 0 ? (
                     <div className="text-center py-8">
-                      <Users className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+                      <UsersThree className="w-12 h-12 text-muted-foreground mx-auto mb-3" weight="duotone" />
                       <p className="text-[var(--md3-on-surface-variant)]">Nenhuma equipe disponível ainda.</p>
                       <p className="text-sm text-muted-foreground mt-2">Seja o primeiro a criar uma!</p>
                     </div>

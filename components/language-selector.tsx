@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Languages } from 'lucide-react'
+import { Translate } from '@phosphor-icons/react'
 import { useTranslation } from '@/hooks/use-translation'
 
 const languages = [
@@ -52,7 +52,7 @@ export function LanguageSelector() {
         onClick={() => setIsOpen(!isOpen)}
         disabled={isChanging}
       >
-        <Languages className="h-4 w-4" />
+        <Translate className="h-4 w-4" weight="bold" />
         <span className="hidden sm:inline">
           {isChanging ? "..." : `${currentLanguage.flag} ${currentLanguage.name}`}
         </span>

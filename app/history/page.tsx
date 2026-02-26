@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Trophy, Crown, Medal, Award, Calendar, Users, TrendingUp } from "lucide-react"
+import { Trophy, Crown, Medal, MedalMilitary, CalendarBlank, UsersThree, TrendUp } from "@phosphor-icons/react"
 import { Navigation } from "@/components/navigation"
 import { useTranslation } from "@/hooks/use-translation"
 import { createClient } from "@/lib/supabase/client"
@@ -78,13 +78,13 @@ export default function HistoryPage() {
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <Crown className="h-6 w-6 text-yellow-500" />
+        return <Crown className="h-6 w-6 text-yellow-500" weight="duotone" />
       case 2:
-        return <Medal className="h-6 w-6 text-muted-foreground" />
+        return <Medal className="h-6 w-6 text-muted-foreground" weight="duotone" />
       case 3:
-        return <Award className="h-6 w-6 text-amber-600" />
+        return <MedalMilitary className="h-6 w-6 text-amber-600" weight="duotone" />
       default:
-        return <Trophy className="h-6 w-6 text-blue-500" />
+        return <Trophy className="h-6 w-6 text-blue-500" weight="duotone" />
     }
   }
 
@@ -162,7 +162,7 @@ export default function HistoryPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-sm sm:text-base lg:text-lg">
               <div className="h-8 w-8 rounded-xl bg-accent/15 flex items-center justify-center">
-                <Calendar className="h-4 w-4 text-accent" />
+                <CalendarBlank className="h-4 w-4 text-accent" weight="duotone" />
               </div>
               {t("history.activitySummary")}
             </CardTitle>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { CheckCircle2, XCircle, Award, Zap } from "lucide-react";
+import { CheckCircle, XCircle, MedalMilitary, Lightning } from "@phosphor-icons/react";
 
 export type QuizQuestion = {
   question: string;
@@ -43,7 +43,7 @@ export default function PreEvaluationQuiz({ questions, onComplete }: QuizProps) 
     return (
       <div className="mb-6 p-8 rounded-xl bg-gradient-to-br from-green-500/20 to-blue-500/20 border border-green-500/30 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="text-center space-y-4">
-          <Award className="w-16 h-16 mx-auto text-yellow-400 animate-bounce" />
+          <MedalMilitary className="w-16 h-16 mx-auto text-yellow-400 animate-bounce" weight="duotone" />
           <h3 className="text-2xl font-bold text-foreground">Pré-avaliação Concluída! 🎉</h3>
           <div className="text-4xl font-bold text-foreground">{score} pontos</div>
           <p className="text-[var(--md3-on-surface-variant)]">Pode agora submeter o seu projeto para avaliação.</p>
@@ -139,14 +139,14 @@ export default function PreEvaluationQuiz({ questions, onComplete }: QuizProps) 
                   {showFeedback && isSelected && (
                     <div className="flex-shrink-0">
                       {isCorrect ? (
-                        <CheckCircle2 className="w-6 h-6 text-green-400 animate-in zoom-in duration-300" />
+                        <CheckCircle className="w-6 h-6 text-green-400 animate-in zoom-in duration-300" weight="duotone" />
                       ) : (
-                        <XCircle className="w-6 h-6 text-red-400 animate-in zoom-in duration-300" />
+                        <XCircle className="w-6 h-6 text-red-400 animate-in zoom-in duration-300" weight="duotone" />
                       )}
                     </div>
                   )}
                   {showFeedback && !isSelected && isCorrect && (
-                    <CheckCircle2 className="w-6 h-6 text-green-400/50" />
+                    <CheckCircle className="w-6 h-6 text-green-400/50" weight="duotone" />
                   )}
                 </div>
               </button>
@@ -164,7 +164,7 @@ export default function PreEvaluationQuiz({ questions, onComplete }: QuizProps) 
             <div className="flex items-center gap-2">
               {answered === questions[current].answer ? (
                 <>
-                  <CheckCircle2 className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-green-400" weight="duotone" />
                   <span className="text-green-300 font-semibold">Correto! +1 ponto</span>
                 </>
               ) : (

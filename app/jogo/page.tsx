@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Home, Trophy, History, LogIn, BarChart3, Users, Menu, X } from "lucide-react"
+import { ArrowSquareOut, House, Trophy, ClockCounterClockwise, SignIn, ChartBar, UsersThree, List, X } from "@phosphor-icons/react"
 
 export default function JogoPage() {
   const [currentUrl, setCurrentUrl] = useState("https://playgama.com/") // https://www.onlinegames.io/ ;
@@ -92,9 +92,9 @@ export default function JogoPage() {
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6" weight="bold" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <List className="h-6 w-6" weight="bold" />
               )}
             </button>
           </div>

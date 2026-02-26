@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Clock } from "lucide-react"
+import { Clock } from "@phosphor-icons/react"
 
 export function CountdownTimer({ endDate }: { endDate: string }) {
     const [timeLeft, setTimeLeft] = useState<string>("")

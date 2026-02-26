@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Ban, Shield, Calendar } from "lucide-react"
+import { Prohibit, ShieldCheck, CalendarBlank } from "@/components/icons"
 import { Navigation } from "@/components/navigation"
 import { createClient } from "@/lib/supabase/server"
 
@@ -40,7 +40,7 @@ export default async function BlacklistPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Ban className="h-5 w-5 text-red-600" />
+              <Prohibit className="h-5 w-5 text-red-600" weight="duotone" />
               Usuários na Lista Negra
             </CardTitle>
             <CardDescription>
@@ -63,7 +63,7 @@ export default async function BlacklistPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                          <Ban className="h-6 w-6 text-red-600" />
+                          <Prohibit className="h-6 w-6 text-red-600" weight="duotone" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-2">
@@ -72,7 +72,7 @@ export default async function BlacklistPage() {
                           </div>
                           <div className="flex items-center gap-4 text-sm text-foreground-600 mb-2">
                             <div className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4" />
+                              <CalendarBlank className="h-4 w-4" weight="duotone" />
                               <span>Banido em {new Date(entry.blacklisted_at).toLocaleDateString("pt-BR")}</span>
                             </div>
                           </div>

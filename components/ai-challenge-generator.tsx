@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { generateChallengeAI, type ChallengeGenerationRequest, type ChallengeGenerationResponse, type ChallengeGenerationError } from "@/lib/ai-evaluation"
-import { Sparkles, Loader2 } from "lucide-react"
+import { Sparkle, CircleNotch } from "@phosphor-icons/react"
 import { FormattedText } from "./formatted-text"
 
 interface AiChallengeGeneratorProps {
@@ -46,7 +46,7 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
     <Card className="mb-6 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-foreground">
-          <Sparkles className="h-5 w-5 text-primary" />
+          <Sparkle className="h-5 w-5 text-primary" weight="duotone" />
           Gerador de Desafio IA
         </CardTitle>
         <p className="text-sm text-foreground-300 mt-1">
@@ -109,12 +109,12 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
           <Button type="submit" disabled={loading} className="w-full">
             {loading ? (
               <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                <CircleNotch className="h-4 w-4 mr-2 animate-spin" />
                 Gerando Desafio...
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4 mr-2" />
+                <Sparkle className="h-4 w-4 mr-2" weight="duotone" />
                 Gerar Desafio com IA
               </>
             )}

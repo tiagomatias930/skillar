@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { AlertTriangle, Shield, User, Calendar, Plus } from "lucide-react"
+import { Warning, ShieldCheck, User, CalendarBlank, Plus } from "@phosphor-icons/react"
 import { Navigation } from "@/components/navigation"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/toast"
@@ -151,7 +151,7 @@ export default function ReportsPage() {
             <p className="text-sm sm:text-base lg:text-lg text-foreground-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
           </div>
           <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700 w-full sm:w-auto lg:text-base lg:px-6 lg:py-3">
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2" weight="bold" />
             {showForm ? "Cancelar" : "Novo Relatório"}
           </Button>
         </div>
@@ -161,7 +161,7 @@ export default function ReportsPage() {
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-red-600">
-                <AlertTriangle className="h-5 w-5" />
+                <Warning className="h-5 w-5" weight="duotone" />
                 Criar Novo Relatório
               </CardTitle>
               <CardDescription>
@@ -213,7 +213,7 @@ export default function ReportsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-foreground-600" />
+              <ShieldCheck className="h-5 w-5 text-foreground-600" weight="duotone" />
               Relatórios da Comunidade
             </CardTitle>
             <CardDescription>
@@ -225,7 +225,7 @@ export default function ReportsPage() {
           <CardContent>
             {reports.length === 0 ? (
               <div className="text-center py-12">
-                <Shield className="h-16 w-16 text-foreground-400 mx-auto mb-4" />
+                <ShieldCheck className="h-16 w-16 text-foreground-400 mx-auto mb-4" weight="duotone" />
                 <h3 className="text-lg font-semibold text-foreground-900 mb-2">Nenhum relatório ainda</h3>
                 <p className="text-foreground-600">A comunidade está segura por enquanto!</p>
               </div>
@@ -236,7 +236,7 @@ export default function ReportsPage() {
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                          <AlertTriangle className="h-5 w-5 text-red-600" />
+                          <Warning className="h-5 w-5 text-red-600" weight="duotone" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
@@ -249,7 +249,7 @@ export default function ReportsPage() {
                               <span>Reportado: {report.reported_user?.username}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4" />
+                              <CalendarBlank className="h-4 w-4" weight="duotone" />
                               <span>{new Date(report.created_at).toLocaleDateString("pt-BR")}</span>
                             </div>
                           </div>
