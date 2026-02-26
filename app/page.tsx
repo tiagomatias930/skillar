@@ -157,7 +157,7 @@ export default function HomePage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
-                  Qualquer usuário pode criar uma competição ou participar das existentes. Basta escolher um username único.
+                  Qualquer usuário pode criar uma competição ou participar das existentes.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -185,7 +185,7 @@ export default function HomePage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
-                  Torne-se Presidente (1º lugar), Vice-presidente (2º lugar) ou Diretor (3º lugar) e entre para o histórico.
+                  Torne-se Nível Mago (1º lugar), RANK S (2º lugar) ou Diretor (3º lugar) e entre para o histórico.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -220,14 +220,13 @@ export default function HomePage() {
               alt="skillar"
             />*/}
             <p className="text-base sm:text-lg lg:text-xl font-semibold">SkillarCode</p>
-            <p className="hidden sm:block text-center text-sm lg:text-base text-italic text-gray-300">Arena dos Campeões</p>
           </div>
           <p className="text-sm sm:text-base lg:text-lg text-gray-400 px-2 max-w-3xl mx-auto">
             Plataforma de competições de tecnologia em tempo real - Mostre suas habilidades
           </p>
-          <p className="text-xs sm:text-sm lg:text-base text-gray-500 mt-3 sm:mt-4 lg:mt-6 px-4 max-w-2xl lg:max-w-3xl mx-auto">
+          {/*<p className="text-xs sm:text-sm lg:text-base text-gray-500 mt-3 sm:mt-4 lg:mt-6 px-4 max-w-2xl lg:max-w-3xl mx-auto">
             &copy; 2025 SkillarCode lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc, Mauro Silva & Nádia Cristovão
-          </p>
+          </p>*/}
         </div>
       </footer>
     </div>
