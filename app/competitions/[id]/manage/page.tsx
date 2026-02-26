@@ -170,20 +170,20 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
       case 1:
         return <img src="/rank-1.png" className="h-12 w-12 text-yellow-500" />
       case 2:
-        return <img src="/rank-2.png" className="h-12 w-12 text-gray-400" />
+        return <img src="/rank-2.png" className="h-12 w-12 text-muted-foreground" />
       case 3:
         return <img src="/rank-3.png" className="h-12 w-12 text-amber-600" />
       default:
-        return <span className="text-sm font-bold text-gray-500">#{position}</span>
+        return <span className="text-sm font-bold text-muted-foreground">#{position}</span>
     }
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
         <Navigation />
         <main className="container mx-auto px-4 py-8">
-          <div className="text-center text-white">Carregando...</div>
+          <div className="text-center text-foreground">Carregando...</div>
         </main>
       </div>
     )
@@ -191,12 +191,12 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
         <Navigation />
         <main className="container mx-auto px-4 py-8">
-          <Card className="text-center py-12 bg-[#073266] border-[#052A5F]">
+          <Card className="text-center py-12 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
             <CardContent>
-              <h3 className="text-xl font-semibold text-white mb-2">Erro</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Erro</h3>
               <p className="text-red-400 mb-4">{error}</p>
               <Button onClick={() => router.back()}>Voltar</Button>
             </CardContent>
@@ -207,25 +207,25 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
       <Navigation />
       <ToastContainer />
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Gerenciar Competição</h1>
-          <p className="text-gray-300">{competition?.title}</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Gerenciar Competição</h1>
+          <p className="text-[var(--md3-on-surface-variant)]">{competition?.title}</p>
         </div>
 
-        <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
+        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 shadow-xl">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="flex items-center gap-2 text-white">
-                  <Trophy className="h-5 w-5 text-blue-400" />
+                <CardTitle className="flex items-center gap-2 text-foreground">
+                  <Trophy className="h-5 w-5 text-primary" />
                   Atribuir Pontos aos Participantes
                 </CardTitle>
-                <CardDescription className="text-gray-300">
+                <CardDescription className="text-[var(--md3-on-surface-variant)]">
                   Como criador, você pode atribuir pontos aos participantes da competição
                 </CardDescription>
               </div>
@@ -238,9 +238,9 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
           <CardContent>
             {participants.length === 0 ? (
               <div className="text-center py-8">
-                <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">Nenhum participante ainda</h3>
-                <p className="text-gray-300">Aguarde participantes se inscreverem na competição</p>
+                <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">Nenhum participante ainda</h3>
+                <p className="text-[var(--md3-on-surface-variant)]">Aguarde participantes se inscreverem na competição</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -253,24 +253,24 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                     return (
                       <div
                         key={participant.id}
-                        className={`flex items-center justify-between p-4 rounded-lg border bg-[#052A5F] border-[#073266] ${
+                        className={`flex items-center justify-between p-4 rounded-lg border bg-[var(--md3-surface-container-high)] border-[var(--md3-outline-variant)]/30 ${
                           position <= 3 ? "ring-2 ring-blue-400/50" : ""
                         }`}
                       >
                         <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[#073266]">
+                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--md3-surface-container-high)]">
                             {getRankIcon(position)}
                           </div>
                           <div>
-                            <h3 className="font-semibold text-white">{participant.user?.username}</h3>
-                            <p className="text-sm text-gray-300">
+                            <h3 className="font-semibold text-foreground">{participant.user?.username}</h3>
+                            <p className="text-sm text-[var(--md3-on-surface-variant)]">
                               Participando desde {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-white font-semibold block mb-1">
+                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-foreground font-semibold block mb-1">
                               Pontos
                             </Label>
                             <Input

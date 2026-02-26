@@ -43,13 +43,13 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
   }
 
   return (
-    <Card className="mb-6 bg-[#073266] border-[#052A5F] shadow-xl">
+    <Card className="mb-6 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 shadow-xl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-white">
-          <Sparkles className="h-5 w-5 text-blue-400" />
+        <CardTitle className="flex items-center gap-2 text-foreground">
+          <Sparkles className="h-5 w-5 text-primary" />
           Gerador de Desafio IA
         </CardTitle>
-        <p className="text-sm text-white-300 mt-1">
+        <p className="text-sm text-foreground-300 mt-1">
           Use IA para criar desafios personalizados automaticamente
         </p>
       </CardHeader>
@@ -80,13 +80,13 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
               <Label htmlFor="dificuldade">Dificuldade</Label>
               <select
                 id="dificuldade"
-                className="w-full bg-[#052A5F] border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-[var(--md3-primary-container)] border border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={form.dificuldade}
                 onChange={(e) => setForm(f => ({ ...f, dificuldade: e.target.value as "facil" | "medio" | "dificil" }))}
               >
-                <option value="facil" className="bg-[#052A5F]">Fácil</option>
-                <option value="medio" className="bg-[#052A5F]">Médio</option>
-                <option value="dificil" className="bg-[#052A5F]">Difícil</option>
+                <option value="facil" className="bg-[var(--md3-primary-container)]">Fácil</option>
+                <option value="medio" className="bg-[var(--md3-primary-container)]">Médio</option>
+                <option value="dificil" className="bg-[var(--md3-primary-container)]">Difícil</option>
               </select>
             </div>
 
@@ -94,14 +94,14 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
               <Label htmlFor="tipo">Tipo de Desafio</Label>
               <select
                 id="tipo"
-                className="w-full border bg-[#052A5F] border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border bg-[var(--md3-primary-container)] border-blue-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={form.tipo}
                 onChange={(e) => setForm(f => ({ ...f, tipo: e.target.value as "programacao" | "design" | "analise" | "outro" }))}
               >
-                <option value="programacao" className="bg-[#052A5F]">Programação</option>
-                <option value="design" className="bg-[#052A5F]">Design</option>
-                <option value="analise" className="bg-[#052A5F]">Análise</option>
-                <option value="outro" className="bg-[#052A5F]">Outro</option>
+                <option value="programacao" className="bg-[var(--md3-primary-container)]">Programação</option>
+                <option value="design" className="bg-[var(--md3-primary-container)]">Design</option>
+                <option value="analise" className="bg-[var(--md3-primary-container)]">Análise</option>
+                <option value="outro" className="bg-[var(--md3-primary-container)]">Outro</option>
               </select>
             </div>
           </div>
@@ -135,14 +135,14 @@ export function AiChallengeGenerator({ onChallengeGenerated }: AiChallengeGenera
                 <CardContent className="space-y-4">
                   <div>
                     <h4 className="font-semibold mb-2">Descrição:</h4>
-                    <FormattedText text={result.descricao} className="text-white-700" />
+                    <FormattedText text={result.descricao} className="text-foreground-700" />
                   </div>
 
                   <div>
                     <h4 className="font-semibold mb-2">Critérios de Avaliação:</h4>
                     <ul className="list-disc list-inside space-y-1">
                       {result.criterios_avaliacao.map((criterio, index) => (
-                        <li key={index} className="text-white-700">{criterio}</li>
+                        <li key={index} className="text-foreground-700">{criterio}</li>
                       ))}
                     </ul>
                   </div>

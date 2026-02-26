@@ -57,8 +57,8 @@ export default function TeamsDiagnosticPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 p-4 sm:p-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-4 sm:mb-6">
-          <h1 className="text-xl sm:text-3xl font-bold text-white mb-2">🔍 Diagnóstico de Tabelas de Teams</h1>
-          <p className="text-sm sm:text-base text-gray-300">
+          <h1 className="text-xl sm:text-3xl font-bold text-foreground mb-2">🔍 Diagnóstico de Tabelas de Teams</h1>
+          <p className="text-sm sm:text-base text-[var(--md3-on-surface-variant)]">
             Esta página verifica se as tabelas e políticas necessárias para equipes estão configuradas corretamente.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function TeamsDiagnosticPage() {
         </div>
 
         {loading ? (
-          <div className="text-white text-center py-8">Verificando tabelas...</div>
+          <div className="text-foreground text-center py-8">Verificando tabelas...</div>
         ) : status ? (
           <div className="space-y-6">
             {/* Status Card */}
@@ -89,31 +89,31 @@ export default function TeamsDiagnosticPage() {
                 ? 'bg-green-500/20 border-green-500' 
                 : 'bg-red-500/20 border-red-500'
             }`}>
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-2xl font-bold text-foreground mb-2">
                 {status.status === 'OK' ? '✅ ' : '❌ '}
                 {status.message}
               </h2>
-              <p className="text-gray-300 text-sm">{status.status}</p>
+              <p className="text-[var(--md3-on-surface-variant)] text-sm">{status.status}</p>
             </div>
 
             {/* Tables Status */}
             <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
-              <h3 className="text-xl font-bold text-white mb-4">Status das Tabelas</h3>
+              <h3 className="text-xl font-bold text-foreground mb-4">Status das Tabelas</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded">
-                  <span className="text-white font-mono">teams</span>
+                  <span className="text-foreground font-mono">teams</span>
                   <span className={status.details.teams_table ? 'text-green-400' : 'text-red-400'}>
                     {status.details.teams_table ? '✅ Existe' : '❌ Não existe'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded">
-                  <span className="text-white font-mono">team_members</span>
+                  <span className="text-foreground font-mono">team_members</span>
                   <span className={status.details.team_members_table ? 'text-green-400' : 'text-red-400'}>
                     {status.details.team_members_table ? '✅ Existe' : '❌ Não existe'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-gray-900/50 rounded">
-                  <span className="text-white font-mono">participants.team_id</span>
+                  <span className="text-foreground font-mono">participants.team_id</span>
                   <span className={status.details.participants_team_id_column ? 'text-green-400' : 'text-red-400'}>
                     {status.details.participants_team_id_column ? '✅ Existe' : '❌ Não existe'}
                   </span>
@@ -128,9 +128,9 @@ export default function TeamsDiagnosticPage() {
                 <div className="space-y-2">
                   {status.details.errors.map((err: any, idx: number) => (
                     <div key={idx} className="p-3 bg-black/30 rounded">
-                      <div className="text-white font-mono text-sm mb-1">{err.table}</div>
+                      <div className="text-foreground font-mono text-sm mb-1">{err.table}</div>
                       <div className="text-red-300 text-sm">{err.error}</div>
-                      {err.code && <div className="text-gray-400 text-xs mt-1">Code: {err.code}</div>}
+                      {err.code && <div className="text-muted-foreground text-xs mt-1">Code: {err.code}</div>}
                     </div>
                   ))}
                 </div>
@@ -141,8 +141,8 @@ export default function TeamsDiagnosticPage() {
             {status.status !== 'OK' && (
               <div className="bg-yellow-900/20 rounded-lg p-6 border border-yellow-500">
                 <h3 className="text-xl font-bold text-yellow-400 mb-4">💡 Como Resolver</h3>
-                <ol className="list-decimal list-inside space-y-2 text-white mb-4">
-                  <li>Acesse o <a href="https://app.supabase.com" target="_blank" className="text-blue-400 underline">Supabase Dashboard</a></li>
+                <ol className="list-decimal list-inside space-y-2 text-foreground mb-4">
+                  <li>Acesse o <a href="https://app.supabase.com" target="_blank" className="text-primary underline">Supabase Dashboard</a></li>
                   <li>Vá em <b>SQL Editor</b></li>
                   <li>Clique em <b>New Query</b></li>
                   <li><b className="text-yellow-300">IMPORTANTE:</b> Execute os <b className="text-yellow-300">DOIS scripts abaixo</b> (criar tabelas + políticas RLS)</li>
@@ -152,7 +152,7 @@ export default function TeamsDiagnosticPage() {
                 {sqlScript && (
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <h4 className="text-white font-bold">Script SQL (Criar Tabelas):</h4>
+                      <h4 className="text-foreground font-bold">Script SQL (Criar Tabelas):</h4>
                       <Button onClick={() => copyToClipboard(sqlScript, "Script SQL")} size="sm">
                         📋 Copiar Script
                       </Button>
@@ -166,7 +166,7 @@ export default function TeamsDiagnosticPage() {
                 {rlsScript && (
                   <div className="space-y-2 mt-4">
                     <div className="flex justify-between items-center">
-                      <h4 className="text-white font-bold">Script RLS (Políticas de Segurança):</h4>
+                      <h4 className="text-foreground font-bold">Script RLS (Políticas de Segurança):</h4>
                       <Button onClick={() => copyToClipboard(rlsScript, "Script RLS")} size="sm" className="bg-purple-600 hover:bg-purple-700">
                         📋 Copiar RLS
                       </Button>

@@ -80,7 +80,7 @@ export default function HistoryPage() {
       case 1:
         return <Crown className="h-6 w-6 text-yellow-500" />
       case 2:
-        return <Medal className="h-6 w-6 text-gray-400" />
+        return <Medal className="h-6 w-6 text-muted-foreground" />
       case 3:
         return <Award className="h-6 w-6 text-amber-600" />
       default:
@@ -104,105 +104,107 @@ export default function HistoryPage() {
   const getRankBadgeColor = (position: number) => {
     switch (position) {
       case 1:
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+        return "bg-yellow-500/15 text-yellow-300 border-yellow-500/30"
       case 2:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return "bg-blue-500/15 text-blue-300 border-blue-500/30"
       case 3:
-        return "bg-amber-100 text-amber-800 border-amber-200"
+        return "bg-amber-500/15 text-amber-300 border-amber-500/30"
       default:
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-[var(--md3-secondary-container)] text-[var(--md3-on-secondary-container)] border-[var(--md3-outline-variant)]"
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
-        <div className="mb-6 sm:mb-8 lg:mb-10">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white-900 mb-2">{t("history.title")}</h1>
-          <p className="text-sm sm:text-base lg:text-lg text-white-600">{t("history.description")}</p>
+      <main className="container mx-auto px-4 py-8 sm:py-10 lg:py-12">
+        <div className="mb-8 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 tracking-tight">{t("history.title")}</h1>
+          <p className="text-sm sm:text-base text-[var(--md3-on-surface-variant)]">{t("history.description")}</p>
         </div>
 
-        {/* Analytics Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 lg:mb-10">
-          <Card>
+        {/* Analytics Cards — MD3 Surface Containers */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
             <CardHeader className="pb-2">
-              <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-white-600">{t("history.totalCompetitions")}</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium text-[var(--md3-on-surface-variant)]">{t("history.totalCompetitions")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">{stats.totalCompetitions}</div>
-              <p className="text-xs text-white-600 hidden sm:block">{t("history.createdSoFar")}</p>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary">{stats.totalCompetitions}</div>
+              <p className="text-xs text-[var(--md3-on-surface-variant)] hidden sm:block">{t("history.createdSoFar")}</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
             <CardHeader className="pb-2">
-              <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-white-600">{t("history.totalUsers")}</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium text-[var(--md3-on-surface-variant)]">{t("history.totalUsers")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-600">{stats.totalUsers}</div>
-              <p className="text-xs text-white-600 hidden sm:block">{t("history.registered")}</p>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-accent">{stats.totalUsers}</div>
+              <p className="text-xs text-[var(--md3-on-surface-variant)] hidden sm:block">{t("history.registered")}</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
             <CardHeader className="pb-2">
-              <CardTitle className="text-xs sm:text-sm lg:text-base font-medium text-white-600">{t("history.participations")}</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium text-[var(--md3-on-surface-variant)]">{t("history.participations")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-orange-600">{stats.totalParticipations}</div>
-              <p className="text-xs text-white-600 hidden sm:block">{t("history.totalRegistrations")}</p>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-[var(--md3-tertiary)]">{stats.totalParticipations}</div>
+              <p className="text-xs text-[var(--md3-on-surface-variant)] hidden sm:block">{t("history.totalRegistrations")}</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Recent Activity Summary */}
-        <Card className="mt-6 sm:mt-8 lg:mt-10">
+        <Card className="mt-8 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-sm sm:text-base lg:text-lg">
-              <Calendar className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-purple-600" />
+            <CardTitle className="flex items-center gap-3 text-sm sm:text-base lg:text-lg">
+              <div className="h-8 w-8 rounded-xl bg-accent/15 flex items-center justify-center">
+                <Calendar className="h-4 w-4 text-accent" />
+              </div>
               {t("history.activitySummary")}
             </CardTitle>
             <CardDescription className="text-xs sm:text-sm">{t("history.platformStats")}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold text-white-900 mb-3">{t("history.generalStats")}</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.competitionsCreated")}</span>
-                    <span className="font-medium">{stats.totalCompetitions}</span>
+                <h4 className="font-semibold text-foreground mb-3">{t("history.generalStats")}</h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.competitionsCreated")}</span>
+                    <span className="font-medium text-foreground">{stats.totalCompetitions}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.activeCompetitions")}</span>
-                    <span className="font-medium text-green-600">{stats.activeCompetitions}</span>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.activeCompetitions")}</span>
+                    <span className="font-medium text-emerald-400">{stats.activeCompetitions}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.finishedCompetitions")}</span>
-                    <span className="font-medium">{history.length}</span>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.finishedCompetitions")}</span>
+                    <span className="font-medium text-foreground">{history.length}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.totalParticipations")}</span>
-                    <span className="font-medium">{stats.totalParticipations}</span>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.totalParticipations")}</span>
+                    <span className="font-medium text-foreground">{stats.totalParticipations}</span>
                   </div>
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-white-900 mb-3">{t("history.community")}</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.registeredUsers")}</span>
-                    <span className="font-medium">{stats.totalUsers}</span>
+                <h4 className="font-semibold text-foreground mb-3">{t("history.community")}</h4>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.registeredUsers")}</span>
+                    <span className="font-medium text-foreground">{stats.totalUsers}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.usersWithWins")}</span>
-                    <span className="font-medium">{stats.topWinners.length}</span>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.usersWithWins")}</span>
+                    <span className="font-medium text-foreground">{stats.topWinners.length}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-white-600">{t("history.avgParticipations")}</span>
-                    <span className="font-medium">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-[var(--md3-on-surface-variant)]">{t("history.avgParticipations")}</span>
+                    <span className="font-medium text-foreground">
                       {stats.totalUsers && stats.totalParticipations
                         ? Math.round((stats.totalParticipations / stats.totalUsers) * 10) / 10
                         : 0}

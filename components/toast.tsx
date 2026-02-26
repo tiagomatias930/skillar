@@ -33,21 +33,21 @@ export function Toast({ message, type, duration = 3000, onClose }: ToastProps) {
   const getBgColor = () => {
     switch (type) {
       case "success":
-        return "bg-green-50 border-green-200"
+        return "bg-emerald-500/15 border-emerald-500/30"
       case "error":
-        return "bg-red-50 border-red-200"
+        return "bg-red-500/15 border-red-500/30"
       case "info":
-        return "bg-blue-50 border-blue-200"
+        return "bg-primary/15 border-primary/30"
     }
   }
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 flex items-center gap-3 p-4 rounded-lg border shadow-lg ${getBgColor()} animate-in slide-in-from-right-full duration-300`}
+      className={`fixed top-4 right-4 z-50 flex items-center gap-3 p-4 rounded-2xl border shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] backdrop-blur-lg ${getBgColor()} animate-in slide-in-from-right-full duration-300`}
     >
       {getIcon()}
-      <span className="text-sm font-medium text-gray-900">{message}</span>
-      <button onClick={onClose} className="ml-2 text-gray-400 hover:text-gray-600 transition-colors">
+      <span className="text-sm font-medium text-foreground">{message}</span>
+      <button onClick={onClose} className="ml-2 text-muted-foreground hover:text-[var(--md3-on-surface-variant)] transition-colors">
         <X className="h-4 w-4" />
       </button>
     </div>

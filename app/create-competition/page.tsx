@@ -93,10 +93,10 @@ export default function CreateCompetitionPage() {
 
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto"></div>
-          <p className="mt-4 text-gray-300">Verificando autenticação...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-2 border-primary border-t-transparent mx-auto"></div>
+          <p className="mt-4 text-[var(--md3-on-surface-variant)]">Verificando autenticação...</p>
         </div>
       </div>
     )
@@ -107,126 +107,125 @@ export default function CreateCompetitionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
       <Navigation />
       <ToastContainer />
 
-      <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
+      <main className="container mx-auto px-4 py-8 sm:py-10 lg:py-12">
         <div className="max-w-2xl mx-auto">
           <div className="mb-6">
-            <Link href="/competitions" className="inline-flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+            <Link href="/competitions" className="inline-flex items-center gap-2 text-[var(--md3-on-surface-variant)] hover:text-foreground transition-colors duration-200">
               <ArrowLeft className="h-4 w-4" />
               Voltar para Competições
             </Link>
           </div>
 
-          <Card className="bg-[#073266] border-[#052A5F]">
+          <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-white text-xl sm:text-2xl">
-                <Trophy className="h-6 w-6 text-yellow-500" />
+              <CardTitle className="flex items-center gap-3 text-foreground text-xl sm:text-2xl">
+                <div className="h-10 w-10 rounded-xl bg-yellow-500/15 flex items-center justify-center">
+                  <Trophy className="h-5 w-5 text-yellow-400" />
+                </div>
                 Criar Nova Competição
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <CardDescription>
                 Preencha os detalhes da sua competição
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="text-white">Título da Competição</Label>
+                  <Label htmlFor="title" className="text-foreground font-medium">Título da Competição</Label>
                   <Input
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Ex: Desafio de Algoritmos"
-                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-gray-400"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description" className="text-white">Descrição</Label>
+                  <Label htmlFor="description" className="text-foreground font-medium">Descrição</Label>
                   <Textarea
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Descreva os objetivos e regras da competição..."
-                    className="bg-[#052A5F] border-[#073266] text-white placeholder:text-gray-400 min-h-[120px]"
+                    className="border-[var(--md3-outline)] rounded-xl min-h-[120px] focus-visible:border-primary focus-visible:ring-primary/30 focus-visible:ring-[3px] hover:border-[var(--md3-on-surface)]"
                     required
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-white">Duração da Competição</Label>
+                  <Label className="text-foreground font-medium">Duração da Competição</Label>
                   
-                  <div className="flex items-center gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                  <div className="flex items-center gap-6">
+                    <label className="flex items-center gap-2 cursor-pointer group">
                       <input
                         type="radio"
                         name="dateType"
                         checked={!useCustomDate}
                         onChange={() => setUseCustomDate(false)}
-                        className="text-[#052A5F]"
+                        className="accent-primary"
                       />
-                      <span className="text-gray-300">Definir duração</span>
+                      <span className="text-[var(--md3-on-surface-variant)] group-hover:text-foreground transition-colors">Definir duração</span>
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-2 cursor-pointer group">
                       <input
                         type="radio"
                         name="dateType"
                         checked={useCustomDate}
                         onChange={() => setUseCustomDate(true)}
-                        className="text-[#052A5F]"
+                        className="accent-primary"
                       />
-                      <span className="text-gray-300">Data específica</span>
+                      <span className="text-[var(--md3-on-surface-variant)] group-hover:text-foreground transition-colors">Data específica</span>
                     </label>
                   </div>
 
                   {!useCustomDate ? (
-                    <div className="bg-[#052A5F] p-4 rounded-lg space-y-4">
-                      <div className="flex items-center gap-2 text-gray-300 text-sm">
-                        <Clock className="h-4 w-4" />
+                    <div className="bg-[var(--md3-surface-container-high)] p-5 rounded-2xl space-y-4 border border-[var(--md3-outline-variant)]/30">
+                      <div className="flex items-center gap-2 text-[var(--md3-on-surface-variant)] text-sm">
+                        <Clock className="h-4 w-4 text-primary/70" />
                         Escolha a duração
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         <div>
-                          <Label className="text-gray-300 text-sm">Tipo</Label>
+                          <Label className="text-[var(--md3-on-surface-variant)] text-sm">Tipo</Label>
                           <select
                             value={durationType}
                             onChange={(e) => setDurationType(e.target.value as "dias" | "horas")}
-                            className="w-full mt-1 bg-[#073266] border border-[#052A5F] text-white rounded-md px-3 py-2"
+                            className="w-full mt-1 bg-[var(--md3-surface-container-highest)] border border-[var(--md3-outline)] text-foreground rounded-xl px-3 py-2.5 outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/30 transition-all"
                           >
                             <option value="dias">Dias</option>
                             <option value="horas">Horas</option>
                           </select>
                         </div>
                         <div>
-                          <Label className="text-gray-300 text-sm">Valor</Label>
+                          <Label className="text-[var(--md3-on-surface-variant)] text-sm">Valor</Label>
                           <Input
                             type="number"
                             min={1}
                             value={durationValue}
                             onChange={(e) => setDurationValue(parseInt(e.target.value) || 1)}
-                            className="bg-[#073266] border-[#052A5F] text-white"
                           />
                         </div>
                         <div>
-                          <Label className="text-gray-300 text-sm">Minutos</Label>
+                          <Label className="text-[var(--md3-on-surface-variant)] text-sm">Minutos</Label>
                           <Input
                             type="number"
                             min={0}
                             max={59}
                             value={durationMinutes}
                             onChange={(e) => setDurationMinutes(parseInt(e.target.value) || 0)}
-                            className="bg-[#073266] border-[#052A5F] text-white"
                           />
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-[#052A5F] p-4 rounded-lg space-y-4">
-                      <div className="flex items-center gap-2 text-gray-300 text-sm">
-                        <Calendar className="h-4 w-4" />
+                    <div className="bg-[var(--md3-surface-container-high)] p-5 rounded-2xl space-y-4 border border-[var(--md3-outline-variant)]/30">
+                      <div className="flex items-center gap-2 text-[var(--md3-on-surface-variant)] text-sm">
+                        <Calendar className="h-4 w-4 text-primary/70" />
                         Escolha a data e hora de término
                       </div>
                       <Input
@@ -234,18 +233,17 @@ export default function CreateCompetitionPage() {
                         value={customEndDate}
                         onChange={(e) => setCustomEndDate(e.target.value)}
                         min={new Date().toISOString().slice(0, 16)}
-                        className="bg-[#073266] border-[#052A5F] text-white"
                         required={useCustomDate}
                       />
                     </div>
                   )}
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <div className="flex flex-col sm:flex-row gap-3 pt-4">
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 bg-[#052A5F] hover:bg-[#041a3a] text-white"
+                    className="flex-1 rounded-full"
                   >
                     {isLoading ? "Criando..." : "Criar Competição"}
                   </Button>
@@ -253,7 +251,7 @@ export default function CreateCompetitionPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full border-[#052A5F] text-white hover:bg-[#052A5F]"
+                      className="w-full rounded-full"
                     >
                       Cancelar
                     </Button>

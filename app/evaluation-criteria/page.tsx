@@ -90,12 +90,12 @@ export default function AvaliacaoForm() {
 	return (
 		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundAttachment: 'fixed', minHeight: '100vh' }} className="p-2 sm:p-4">
 			<div className="max-w-xl mx-auto">
-				<h1 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center text-white">Avaliação</h1>
-				<p className="mb-4 sm:mb-6 text-sm sm:text-base text-gray-600 text-center text-white px-2">
+				<h1 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center text-foreground">Avaliação</h1>
+				<p className="mb-4 sm:mb-6 text-sm sm:text-base text-[var(--md3-on-surface-variant)] text-center text-foreground px-2">
 					Selecione o desafio que está participando, responda o quiz e submeta seu projeto para avaliação automática por IA.
 				</p>
 				<div className="mb-4 sm:mb-6 px-2 sm:px-0">
-					<Label htmlFor="competition-select" className="text-white text-sm sm:text-base">Escolha o desafio:</Label>
+					<Label htmlFor="competition-select" className="text-foreground text-sm sm:text-base">Escolha o desafio:</Label>
 					<select
 						id="competition-select"
 						className="w-full p-2 rounded border mt-1 text-black text-sm sm:text-base"
@@ -113,10 +113,10 @@ export default function AvaliacaoForm() {
 				</div>
 				{selectedCompetition && (
 					<div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded mx-2 sm:mx-0">
-						<div className="mb-2 text-white text-sm sm:text-base"><b>Descrição:</b> {selectedCompetition.description}</div>
+						<div className="mb-2 text-foreground text-sm sm:text-base"><b>Descrição:</b> {selectedCompetition.description}</div>
 					</div>
 				)}
-				{selectedCompetition && loadingQuiz && <div className="text-center text-white">Carregando pré-avaliação...</div>}
+				{selectedCompetition && loadingQuiz && <div className="text-center text-foreground">Carregando pré-avaliação...</div>}
 				{selectedCompetition && quizError && <div className="text-center text-red-300">{quizError}</div>}
 				{selectedCompetition && !loadingQuiz && !quizError && questions && questions.length > 0 && !quizDone && (
 					<PreEvaluationQuiz
@@ -149,10 +149,10 @@ export default function AvaliacaoForm() {
 					/>
 				)}
 				{selectedCompetition && generatingWithAI && (
-					<div className="text-center text-white">Gerando pré-avaliação com IA...</div>
+					<div className="text-center text-foreground">Gerando pré-avaliação com IA...</div>
 				)}
 				{selectedCompetition && !loadingQuiz && !quizError && !generatingWithAI && questions && questions.length === 0 && (
-					<div className="text-center text-white">Nenhuma questão de pré-avaliação disponível para esta competição.</div>
+					<div className="text-center text-foreground">Nenhuma questão de pré-avaliação disponível para esta competição.</div>
 				)}
 				{selectedCompetition && quizDone && (
 					<>

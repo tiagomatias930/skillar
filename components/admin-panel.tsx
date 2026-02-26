@@ -76,10 +76,12 @@ export function AdminPanel() {
   return (
     <div className="space-y-6">
       <ToastContainer />
-      <Card>
+      <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="h-5 w-5 text-blue-600" />
+          <CardTitle className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-primary/15 flex items-center justify-center">
+              <Settings className="h-4.5 w-4.5 text-primary" />
+            </div>
             Painel Administrativo
           </CardTitle>
           <CardDescription>Ferramentas para gerenciar a plataforma SkillarCode</CardDescription>
@@ -88,10 +90,12 @@ export function AdminPanel() {
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Close Competitions */}
-        <Card>
+        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-orange-600">
-              <RotateCcw className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-3 text-amber-400">
+              <div className="h-8 w-8 rounded-xl bg-amber-500/15 flex items-center justify-center">
+                <RotateCcw className="h-4 w-4" />
+              </div>
               Fechar Competições Expiradas
             </CardTitle>
             <CardDescription>Encerra automaticamente competições que passaram de 7 dias</CardDescription>
@@ -104,10 +108,12 @@ export function AdminPanel() {
         </Card>
 
         {/* Blacklist User */}
-        <Card>
+        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-red-600">
-              <Ban className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-3 text-red-400">
+              <div className="h-8 w-8 rounded-xl bg-red-500/15 flex items-center justify-center">
+                <Ban className="h-4 w-4" />
+              </div>
               Adicionar à Lista Negra
             </CardTitle>
             <CardDescription>Banir usuário que violou as regras da comunidade</CardDescription>
@@ -135,7 +141,7 @@ export function AdminPanel() {
                   rows={3}
                 />
               </div>
-              <Button type="submit" disabled={isBlacklisting} className="w-full bg-red-600 hover:bg-red-700">
+              <Button type="submit" disabled={isBlacklisting} className="w-full rounded-full bg-red-500/80 hover:bg-red-500 text-white">
                 {isBlacklisting ? "Adicionando..." : "Adicionar à Lista Negra"}
               </Button>
             </form>

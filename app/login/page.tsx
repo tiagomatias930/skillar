@@ -7,7 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Trophy } from "lucide-react"
 import Link from "next/link"
+import { NextResponse } from 'next/server'
+
 
 async function login42(code: string, router: ReturnType<typeof useRouter>) {
   try {
@@ -172,22 +175,24 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-2 bg-cover bg-center bg-fixed"
+      className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-fixed"
       style={{ backgroundImage: `url('/foto_Implementada_no_centro.png')` }}
     >
-      <div className="absolute inset-0 bg-black/15 pointer-events-none" />
-      <div className="w-full max-w-md lg:max-w-lg xl:max-w-xl">
-        <div className="text-center mb-6">
-          <Link href="/" className="inline-flex items-center gap-2 text-2xl lg:text-3xl font-bold text-gray-900">
-            {/*<img src="/42skillar.png" alt="42Skillar Logo" className="h-10 w-10 object-contain" />*/}
-            <h1 className="text-lg lg:text-xl xl:text-2xl text-white">SkillarCode</h1>
-            <p className="text-center text-sm lg:text-base text-italic text-gray-300">Arena dos Campeões</p>
+      <div className="absolute inset-0 bg-[var(--md3-surface-container-lowest)]/80 backdrop-blur-sm pointer-events-none" />
+      <div className="w-full max-w-md lg:max-w-lg relative">
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex flex-col items-center gap-2">
+            <div className="h-12 w-12 rounded-2xl bg-primary/20 flex items-center justify-center mb-2">
+              <Trophy className="h-6 w-6 text-primary" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground tracking-tight">SkillarCode</h1>
+            <p className="text-sm text-[var(--md3-on-surface-variant)]">Arena dos Campeões</p>
           </Link>
         </div>
 
-        <Card>
+        <Card className="bg-[var(--md3-surface-container)]/95 backdrop-blur-md border-[var(--md3-outline-variant)]/30">
           <CardHeader>
-            <CardTitle className="text-2xl lg:text-3xl text-center">Entrar no SkillarCode</CardTitle>
+            <CardTitle className="text-2xl text-center text-foreground">Entrar no SkillarCode</CardTitle>
             <CardDescription className="text-center">
               {isProcessingOAuth
                 ? "Processando login da 42..."
@@ -202,7 +207,7 @@ export default function LoginPage() {
                   <div className="space-y-4">
                     <Button
                       type="button"
-                      className="w-full mt-4 bg-[#00BABC] hover:bg-[#00BABC]/90"
+                      className="w-full mt-4 rounded-full bg-[#00BABC] hover:bg-[#00BABC]/90 text-foreground"
                       onClick={handle42Login}
                       disabled={isLoading}
                     >
@@ -216,9 +221,9 @@ export default function LoginPage() {
                   </div>
                 </form>
 
-                {/* Debug info - remova isso depois de resolver o problema */}
+                {/* Debug info */}
                 {searchParams.get('code') && (
-                  <div className="mt-4 p-3 text-xs bg-gray-100 border rounded">
+                  <div className="mt-4 p-3 text-xs bg-[var(--md3-surface-container-high)] border border-[var(--md3-outline-variant)] rounded-xl">
                     <div>Code detected: {searchParams.get('code')?.substring(0, 20)}...</div>
                     <div>Processing: {isProcessingOAuth ? 'Yes' : 'No'}</div>
                     <div>Loading: {isLoading ? 'Yes' : 'No'}</div>
@@ -230,12 +235,12 @@ export default function LoginPage() {
 
             {isProcessingOAuth && (
               <div className="text-center p-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00BABC] mx-auto mb-4"></div>
-                <p>Autenticando com 42.intra.fr</p>
+                <div className="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent mx-auto mb-4"></div>
+                <p className="text-[var(--md3-on-surface-variant)]">Autenticando com 42.intra.fr</p>
               </div>
             )}
 
-            <div className="mt-6 text-center text-sm text-gray-600">
+            <div className="mt-6 text-center text-sm text-[var(--md3-on-surface-variant)]">
               <p>Arena dos Campeões</p>
             </div>
           </CardContent>

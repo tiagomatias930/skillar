@@ -66,15 +66,15 @@ export default function AiEvaluationForm({ initialUser = '', initialDesafio = ''
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded bg-black/50">
-      <h2 className="text-lg font-bold mb-2 text-white">Submeter Projeto para Avaliação</h2>
-      <p className="text-white">Usuário: {form.user}</p>
-      <input className="w-full border p-2 rounded text-white" required placeholder="URL do repositório Git" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
-      <input className="w-full border p-2 rounded text-white" required placeholder="SHA do commit, ex: 1 para pegar o ultimo commit" value={form.commit} onChange={e => setForm(f => ({ ...f, commit: e.target.value }))} />
-      <input className="w-full border p-2 rounded text-white" required placeholder="Desafio" value={form.desafio} onChange={e => setForm(f => ({ ...f, desafio: e.target.value }))} />
-      <input className="w-full border p-2 rounded text-white" required placeholder="Descrição do desafio" value={form.desc_desafio} onChange={e => setForm(f => ({ ...f, desc_desafio: e.target.value }))} />
-      <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50" disabled={loading}>{loading ? "Avaliando..." : "Submeter"}</button>
+      <h2 className="text-lg font-bold mb-2 text-foreground">Submeter Projeto para Avaliação</h2>
+      <p className="text-foreground">Usuário: {form.user}</p>
+      <input className="w-full border p-2 rounded text-foreground" required placeholder="URL do repositório Git" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-foreground" required placeholder="SHA do commit, ex: 1 para pegar o ultimo commit" value={form.commit} onChange={e => setForm(f => ({ ...f, commit: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-foreground" required placeholder="Desafio" value={form.desafio} onChange={e => setForm(f => ({ ...f, desafio: e.target.value }))} />
+      <input className="w-full border p-2 rounded text-foreground" required placeholder="Descrição do desafio" value={form.desc_desafio} onChange={e => setForm(f => ({ ...f, desc_desafio: e.target.value }))} />
+      <button type="submit" className="w-full bg-blue-600 text-foreground py-2 rounded disabled:opacity-50" disabled={loading}>{loading ? "Avaliando..." : "Submeter"}</button>
       {result && (
-        <div className="mt-4 p-3 border rounded bg-[#052A5F]">
+        <div className="mt-4 p-3 border rounded bg-[var(--md3-primary-container)]">
           {"error" in result ? (
             <div className="space-y-2">
               <span className="text-red-400 block">❌ {result.error}</span>
@@ -91,7 +91,7 @@ export default function AiEvaluationForm({ initialUser = '', initialDesafio = ''
               )}
             </div>
           ) : (
-            <div className="text-white space-y-2">
+            <div className="text-foreground space-y-2">
               <div><b>Nota:</b> {result.nota_final} ({result.classificacao})</div>
               <div>
                 <b>Descrição:</b>

@@ -43,25 +43,25 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
     return () => { mounted = false }
   }, [username])
 
-  if (loading) return <div className="text-gray-300">A carregar...</div>
+  if (loading) return <div className="text-[var(--md3-on-surface-variant)]">A carregar...</div>
   // If API errored, fallback to minimal display using avatarUrl
   if (error) {
     return (
       <div className="flex items-center gap-3">
         {avatarUrl ? (
-          <img src={avatarUrl} alt={`${username} avatar`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
+          <img src={avatarUrl} alt={`${username} avatar`} className="w-16 h-16 rounded-full border border-[var(--md3-outline-variant)] object-cover" />
         ) : (
-          <div className="w-16 h-16 rounded-full bg-[#052A5F] flex items-center justify-center text-white">{username?.[0]?.toUpperCase() || '?'}</div>
+          <div className="w-16 h-16 rounded-full bg-[var(--md3-primary-container)] flex items-center justify-center text-foreground">{username?.[0]?.toUpperCase() || '?'}</div>
         )}
         <div>
-          <div className="text-white font-semibold">{username}</div>
-          <div className="text-sm text-gray-300">{username}</div>
+          <div className="text-foreground font-semibold">{username}</div>
+          <div className="text-sm text-[var(--md3-on-surface-variant)]">{username}</div>
         </div>
       </div>
     )
   }
 
-  if (!profile) return <div className="text-gray-300">Sem dados</div>
+  if (!profile) return <div className="text-[var(--md3-on-surface-variant)]">Sem dados</div>
 
   const primaryCursus = profile.cursus?.[0]
   const coal = profile.coalitions?.slice?.(0,2) || []
@@ -70,40 +70,40 @@ export default function IntraProfilePreview({ username, avatarUrl }: { username:
   return (
     <div className="flex items-start gap-3">
       {profile.avatar ? (
-        <img src={profile.avatar} alt={`${profile.username} avatar`} className="w-16 h-16 rounded-full border border-[#073266] object-cover" />
+        <img src={profile.avatar} alt={`${profile.username} avatar`} className="w-16 h-16 rounded-full border border-[var(--md3-outline-variant)] object-cover" />
       ) : (
-        <div className="w-16 h-16 rounded-full bg-[#00BABC96] flex items-center justify-center text-white">{profile.username?.[0]?.toUpperCase() || '?'}</div>
+        <div className="w-16 h-16 rounded-full bg-[#00BABC96] flex items-center justify-center text-foreground">{profile.username?.[0]?.toUpperCase() || '?'}</div>
       )}
 
       <div className="min-w-[220px]">
         {/* Nome e usuário (destacados) */}
-        <div className="text-white font-semibold">{profile.displayname || profile.username}</div>
-        <div className="text-sm text-gray-400">@{profile.username}</div>
+        <div className="text-foreground font-semibold">{profile.displayname || profile.username}</div>
+        <div className="text-sm text-muted-foreground">@{profile.username}</div>
 
         {/* Campos apresentados como rótulo: valor */}
         <div className="mt-2 space-y-1 text-sm">
           {profile.campus && (
-            <div className="text-gray-300"><span className="text-gray-400">Campus:</span> {typeof profile.campus === 'string' ? profile.campus : profile.campus.name}</div>
+            <div className="text-[var(--md3-on-surface-variant)]"><span className="text-muted-foreground">Campus:</span> {typeof profile.campus === 'string' ? profile.campus : profile.campus.name}</div>
           )}
 
           {primaryCursus && (
-            <div className="text-gray-300"><span className="text-gray-400">Nível:</span> {primaryCursus.level?.toFixed?.(2) ?? primaryCursus.level} — {primaryCursus.name}</div>
+            <div className="text-[var(--md3-on-surface-variant)]"><span className="text-muted-foreground">Nível:</span> {primaryCursus.level?.toFixed?.(2) ?? primaryCursus.level} — {primaryCursus.name}</div>
           )}
 
           {profile.wallet !== null && (
-            <div className="text-gray-300"><span className="text-gray-400">Cogumelos:</span> {profile.wallet}</div>
+            <div className="text-[var(--md3-on-surface-variant)]"><span className="text-muted-foreground">Cogumelos:</span> {profile.wallet}</div>
           )}
 
           {profile.skills && profile.skills.length > 0 && (
-            <div className="text-gray-300"><span className="text-gray-400">Matérias:</span> {profile.skills.slice(0,3).map(s => s.name).join(', ')}</div>
+            <div className="text-[var(--md3-on-surface-variant)]"><span className="text-muted-foreground">Matérias:</span> {profile.skills.slice(0,3).map(s => s.name).join(', ')}</div>
           )}
 
           {coal.length > 0 && (
-            <div className="text-gray-300"><span className="text-gray-400">Coaligations:</span> {coal.map((c:any) => c.name).join(', ')}</div>
+            <div className="text-[var(--md3-on-surface-variant)]"><span className="text-muted-foreground">Coaligations:</span> {coal.map((c:any) => c.name).join(', ')}</div>
           )}
 
           {locs.length > 0 && (
-            <div className="text-gray-300"><span className="text-gray-400">Localizações:</span> {locs.map((l:any)=> l.host || l.campus_id).slice(0,3).join(', ')}</div>
+            <div className="text-[var(--md3-on-surface-variant)]"><span className="text-muted-foreground">Localizações:</span> {locs.map((l:any)=> l.host || l.campus_id).slice(0,3).join(', ')}</div>
           )}
         </div>
       </div>

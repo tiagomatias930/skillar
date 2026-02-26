@@ -28,13 +28,13 @@ export default async function BlacklistPage() {
   const blacklist: BlacklistEntry[] = blacklistEntries || []
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
       <Navigation />
 
       <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
         <div className="mb-6 sm:mb-8 lg:mb-10">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white-900 mb-2">Lista Negra</h1>
-          <p className="text-sm sm:text-base lg:text-lg text-white-600">Usuários que violaram as regras da comunidade</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground-900 mb-2">Lista Negra</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-foreground-600">Usuários que violaram as regras da comunidade</p>
         </div>
 
         <Card>
@@ -52,9 +52,9 @@ export default async function BlacklistPage() {
           <CardContent>
             {blacklist.length === 0 ? (
               <div className="text-center py-12">
-                <img className="h-16 w-16 text-white-400 mx-auto mb-4" src="caution.png" />
-                <h3 className="text-lg font-semibold text-white-900 mb-2">Lista negra vazia</h3>
-                <p className="text-white-600">Todos os usuários estão seguindo as regras da comunidade!</p>
+                <img className="h-16 w-16 text-foreground-400 mx-auto mb-4" src="caution.png" />
+                <h3 className="text-lg font-semibold text-foreground-900 mb-2">Lista negra vazia</h3>
+                <p className="text-foreground-600">Todos os usuários estão seguindo as regras da comunidade!</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -67,17 +67,17 @@ export default async function BlacklistPage() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-2">
-                            <h3 className="font-semibold text-white-900">{entry.user?.username}</h3>
+                            <h3 className="font-semibold text-foreground-900">{entry.user?.username}</h3>
                             <Badge variant="destructive">Banido</Badge>
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-white-600 mb-2">
+                          <div className="flex items-center gap-4 text-sm text-foreground-600 mb-2">
                             <div className="flex items-center gap-1">
                               <Calendar className="h-4 w-4" />
                               <span>Banido em {new Date(entry.blacklisted_at).toLocaleDateString("pt-BR")}</span>
                             </div>
                           </div>
                           {entry.reason && (
-                            <p className="text-sm text-white-700 bg-gray-50 p-2 rounded">
+                            <p className="text-sm text-foreground-700 bg-gray-50 p-2 rounded">
                               <strong>Motivo:</strong> {entry.reason}
                             </p>
                           )}

@@ -48,7 +48,7 @@ export default function OAuthDebug() {
       </pre>
       <button 
         onClick={testCallbackAPI}
-        className="mt-2 px-2 py-1 bg-blue-500 text-white rounded text-xs"
+        className="mt-2 px-2 py-1 bg-blue-500 text-foreground rounded text-xs"
       >
         Test Callback API
       </button>

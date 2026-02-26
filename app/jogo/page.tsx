@@ -35,7 +35,7 @@ export default function JogoPage() {
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 sm:h-32 sm:w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 text-sm sm:text-base">Verificando autenticação...</p>
+          <p className="mt-4 text-[var(--md3-on-surface-variant)] text-sm sm:text-base">Verificando autenticação...</p>
         </div>
       </div>
     )
@@ -46,7 +46,7 @@ export default function JogoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] flex flex-col">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)] flex flex-col">
       {/* Header da aplicação */}
       <header className="w-full border-b border-blue-900 bg-transparent shadow-sm z-10">
         <div className="container mx-auto px-4 py-3">
@@ -57,8 +57,8 @@ export default function JogoPage() {
                 src="/42skillar.png"
                 alt="skillar"
               /> */}
-              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-white">SkillarCode</h1>
-              <p className="hidden sm:block text-center text-lg lg:text-xl text-gray-300">Arena dos Campeões</p>
+              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground">SkillarCode</h1>
+              <p className="hidden sm:block text-center text-lg lg:text-xl text-[var(--md3-on-surface-variant)]">Arena dos Campeões</p>
             </div>
 
             {/* Desktop Navigation */}
@@ -87,7 +87,7 @@ export default function JogoPage() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="md:hidden text-foreground p-2 hover:bg-white/10 rounded-lg transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -104,22 +104,22 @@ export default function JogoPage() {
             <div className="md:hidden mt-4 pb-4 animate-in slide-in-from-top-2 duration-200">
               <nav className="flex flex-col gap-2">
                 <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start text-foreground">
                     Início
                   </Button>
                 </Link>
                 <Link href="/competitions" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start text-foreground">
                     Competições
                   </Button>
                 </Link>
                 <Link href="/ranking" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start text-foreground">
                     Ranking
                   </Button>
                 </Link>
                 <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start text-foreground">
                     Histórico
                   </Button>
                 </Link>

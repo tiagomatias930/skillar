@@ -119,7 +119,7 @@ export default function ReportsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
         <Navigation />
         <main className="container mx-auto px-4 py-8">
           <div className="text-center">Carregando...</div>
@@ -129,7 +129,7 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
       <Navigation />
       <ToastContainer />
 
@@ -137,7 +137,7 @@ export default function ReportsPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8 lg:mb-10">
           <div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-2">
-              <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white-900">Sistema de Relatórios</h1>
+              <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground-900">Sistema de Relatórios</h1>
               <a
                 href="/evaluation-criteria"
                 className="text-xs sm:text-sm px-2 sm:px-3 py-1 rounded bg-blue-100 text-gray-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
@@ -148,7 +148,7 @@ export default function ReportsPage() {
                 Critérios de Avaliação
               </a>
             </div>
-            <p className="text-sm sm:text-base lg:text-lg text-white-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
+            <p className="text-sm sm:text-base lg:text-lg text-foreground-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
           </div>
           <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700 w-full sm:w-auto lg:text-base lg:px-6 lg:py-3">
             <Plus className="h-4 w-4 mr-2" />
@@ -213,7 +213,7 @@ export default function ReportsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-white-600" />
+              <Shield className="h-5 w-5 text-foreground-600" />
               Relatórios da Comunidade
             </CardTitle>
             <CardDescription>
@@ -225,14 +225,14 @@ export default function ReportsPage() {
           <CardContent>
             {reports.length === 0 ? (
               <div className="text-center py-12">
-                <Shield className="h-16 w-16 text-white-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white-900 mb-2">Nenhum relatório ainda</h3>
-                <p className="text-white-600">A comunidade está segura por enquanto!</p>
+                <Shield className="h-16 w-16 text-foreground-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-foreground-900 mb-2">Nenhum relatório ainda</h3>
+                <p className="text-foreground-600">A comunidade está segura por enquanto!</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {reports.map((report) => (
-                  <div key={report.id} className="border rounded-lg p-4 bg-[#052A5F] transition-colors">
+                  <div key={report.id} className="border rounded-lg p-4 bg-[var(--md3-primary-container)] transition-colors">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
@@ -241,9 +241,9 @@ export default function ReportsPage() {
                         <div>
                           <div className="flex items-center gap-2">
                             <Badge variant="destructive">Relatório</Badge>
-                            <span className="text-sm text-white-600">#{report.id.slice(0, 8)}</span>
+                            <span className="text-sm text-foreground-600">#{report.id.slice(0, 8)}</span>
                           </div>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-white-600">
+                          <div className="flex items-center gap-4 mt-1 text-sm text-foreground-600">
                             <div className="flex items-center gap-1">
                               <User className="h-4 w-4" />
                               <span>Reportado: {report.reported_user?.username}</span>
@@ -257,8 +257,8 @@ export default function ReportsPage() {
                       </div>
                     </div>
                     <div className="ml-13">
-                      <p className="text-white-900 mb-2">{report.reason}</p>
-                      <p className="text-sm text-white-600">Reportado por: {report.reporter_user?.username}</p>
+                      <p className="text-foreground-900 mb-2">{report.reason}</p>
+                      <p className="text-sm text-foreground-600">Reportado por: {report.reporter_user?.username}</p>
                     </div>
                   </div>
                 ))}

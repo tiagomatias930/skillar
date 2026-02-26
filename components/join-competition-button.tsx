@@ -316,7 +316,7 @@ export function JoinCompetitionButton({
             href={repositoryUrl} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="text-sm text-center px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700 transition-colors border border-gray-600 flex items-center justify-center gap-2"
+            className="text-sm text-center px-4 py-2 rounded bg-gray-800 text-foreground hover:bg-gray-700 transition-colors border border-gray-600 flex items-center justify-center gap-2"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
@@ -328,16 +328,16 @@ export function JoinCompetitionButton({
 
       {showModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#052A5F] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20">
+          <div className="bg-[var(--md3-primary-container)] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20">
             <div className="flex items-center justify-between p-4 border-b border-white/10">
-              <h2 className="text-xl font-bold text-white">
+              <h2 className="text-xl font-bold text-foreground">
                 {modalStep === 'choose' && 'Como deseja participar?'}
                 {modalStep === 'create-team' && 'Criar Nova Equipe'}
                 {modalStep === 'join-team' && 'Juntar-se a uma Equipe'}
               </h2>
               <button 
                 onClick={() => setShowModal(false)}
-                className="text-white hover:text-gray-300 p-1"
+                className="text-foreground hover:text-[var(--md3-on-surface-variant)] p-1"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -356,8 +356,8 @@ export function JoinCompetitionButton({
                         <User className="w-6 h-6 text-green-400" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white mb-2">Participar Sozinho</h3>
-                        <p className="text-sm text-gray-300">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Participar Sozinho</h3>
+                        <p className="text-sm text-[var(--md3-on-surface-variant)]">
                           Participe individualmente e compita pelos seus próprios pontos.
                         </p>
                       </div>
@@ -371,11 +371,11 @@ export function JoinCompetitionButton({
                   >
                     <div className="flex items-start gap-4">
                       <div className="p-3 rounded-full bg-blue-500/20 group-hover:bg-blue-500/30">
-                        <Plus className="w-6 h-6 text-blue-400" />
+                        <Plus className="w-6 h-6 text-primary" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white mb-2">Criar Equipe</h3>
-                        <p className="text-sm text-gray-300">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Criar Equipe</h3>
+                        <p className="text-sm text-[var(--md3-on-surface-variant)]">
                           Crie uma nova equipe e convide outros participantes a juntarem-se.
                         </p>
                       </div>
@@ -395,8 +395,8 @@ export function JoinCompetitionButton({
                         <UserPlus className="w-6 h-6 text-purple-400" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white mb-2">Juntar-se a uma Equipe</h3>
-                        <p className="text-sm text-gray-300">
+                        <h3 className="text-lg font-semibold text-foreground mb-2">Juntar-se a uma Equipe</h3>
+                        <p className="text-sm text-[var(--md3-on-surface-variant)]">
                           Entre numa equipe existente e compitam juntos.
                         </p>
                       </div>
@@ -408,7 +408,7 @@ export function JoinCompetitionButton({
               {modalStep === 'create-team' && (
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="teamName" className="text-white">Nome da Equipe</Label>
+                    <Label htmlFor="teamName" className="text-foreground">Nome da Equipe</Label>
                     <Input
                       id="teamName"
                       value={teamName}
@@ -444,12 +444,12 @@ export function JoinCompetitionButton({
               {modalStep === 'join-team' && (
                 <div className="space-y-4">
                   {loadingTeams ? (
-                    <div className="text-center py-8 text-gray-300">Carregando equipes...</div>
+                    <div className="text-center py-8 text-[var(--md3-on-surface-variant)]">Carregando equipes...</div>
                   ) : teams.length === 0 ? (
                     <div className="text-center py-8">
-                      <Users className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                      <p className="text-gray-300">Nenhuma equipe disponível ainda.</p>
-                      <p className="text-sm text-gray-400 mt-2">Seja o primeiro a criar uma!</p>
+                      <Users className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+                      <p className="text-[var(--md3-on-surface-variant)]">Nenhuma equipe disponível ainda.</p>
+                      <p className="text-sm text-muted-foreground mt-2">Seja o primeiro a criar uma!</p>
                     </div>
                   ) : (
                     <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -460,11 +460,11 @@ export function JoinCompetitionButton({
                         >
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
-                              <h3 className="font-semibold text-white mb-1">{team.name}</h3>
-                              <p className="text-sm text-gray-300">
+                              <h3 className="font-semibold text-foreground mb-1">{team.name}</h3>
+                              <p className="text-sm text-[var(--md3-on-surface-variant)]">
                                 Criador: {team.creator.username}
                               </p>
-                              <p className="text-sm text-gray-400 mt-1">
+                              <p className="text-sm text-muted-foreground mt-1">
                                 {team.memberCount} {team.memberCount === 1 ? 'membro' : 'membros'}
                               </p>
                             </div>
@@ -506,7 +506,7 @@ export function JoinCompetitionButton({
                   {errorDetails.type === 'missing-tables' ? '🗄️' : '🔒'}
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-white mb-2">
+                  <h2 className="text-2xl font-bold text-foreground mb-2">
                     {errorDetails.type === 'missing-tables' 
                       ? 'Tabelas Não Encontradas' 
                       : 'Erro de Segurança RLS'}
@@ -514,11 +514,11 @@ export function JoinCompetitionButton({
                   <p className="text-red-200 mb-4">{errorDetails.message}</p>
                   
                   <div className="bg-black/30 rounded-lg p-4 mb-4">
-                    <h3 className="text-white font-bold mb-2">📋 O que precisa ser feito:</h3>
+                    <h3 className="text-foreground font-bold mb-2">📋 O que precisa ser feito:</h3>
                     <ol className="list-decimal list-inside space-y-2 text-gray-200 text-sm">
                       <li>Acesse a página de diagnóstico (botão abaixo)</li>
                       <li>Copie os scripts SQL mostrados</li>
-                      <li>Execute-os no <a href="https://app.supabase.com" target="_blank" className="text-blue-400 underline">Supabase SQL Editor</a></li>
+                      <li>Execute-os no <a href="https://app.supabase.com" target="_blank" className="text-primary underline">Supabase SQL Editor</a></li>
                       <li>Volte aqui e tente criar a equipe novamente</li>
                     </ol>
                   </div>
@@ -529,13 +529,13 @@ export function JoinCompetitionButton({
                         setShowErrorModal(false)
                         router.push('/admin/teams-diagnostic')
                       }}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-foreground px-6 py-3 rounded-lg font-semibold transition-colors"
                     >
                       🔧 Ir para Diagnóstico
                     </button>
                     <button
                       onClick={() => setShowErrorModal(false)}
-                      className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                      className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-foreground rounded-lg transition-colors"
                     >
                       Fechar
                     </button>

@@ -108,13 +108,13 @@ export default function RankingPage() {
       case 1:
         return <img className="h-12 w-12 text-yellow-500" src="/rank-1.png" alt="Crown" />
       case 2:
-        return <img className="h-12 w-12 text-gray-400" src="/rank-2.png" alt="Medal" />
+        return <img className="h-12 w-12 text-muted-foreground" src="/rank-2.png" alt="Medal" />
       case 3:
         return <img className="h-12 w-12 text-amber-600" src="/rank-3.png" alt="Award" />
       default:
         return (
-          <div className="w-8 h-8 rounded-full bg-[#06224A] flex items-center justify-center">
-            <span className="text-sm font-bold text-white">#{position}</span>
+          <div className="w-8 h-8 rounded-full bg-[var(--md3-surface-container-highest)] flex items-center justify-center">
+            <span className="text-sm font-bold text-foreground">#{position}</span>
           </div>
         )
     }
@@ -136,35 +136,37 @@ export default function RankingPage() {
   const getRankBadgeColor = (position: number) => {
     switch (position) {
       case 1:
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+        return "bg-yellow-500/15 text-yellow-300 border-yellow-500/30"
       case 2:
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-blue-500/15 text-blue-300 border-blue-500/30"
       case 3:
-        return "bg-amber-100 text-amber-800 border-amber-200"
+        return "bg-amber-500/15 text-amber-300 border-amber-500/30"
       default:
-        return "bg-blue-100 text-blue-800 border-blue-200"
+        return "bg-[var(--md3-secondary-container)] text-[var(--md3-on-secondary-container)] border-[var(--md3-outline-variant)]"
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
       <Navigation />
 
-      <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
-        <div className="mb-6 sm:mb-8 lg:mb-10">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2">{t("ranking.title")}</h1>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-300">{t("ranking.description")}</p>
+      <main className="container mx-auto px-4 py-8 sm:py-10 lg:py-12">
+        <div className="mb-8 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2 tracking-tight">{t("ranking.title")}</h1>
+          <p className="text-sm sm:text-base text-[var(--md3-on-surface-variant)]">{t("ranking.description")}</p>
         </div>
 
-        <Card className="bg-[#073266] border-[#052A5F] shadow-xl">
+        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="flex items-center gap-2 text-white">
-                  <Trophy className="h-5 w-5 text-blue-400" />
+                <CardTitle className="flex items-center gap-2 text-foreground">
+                  <div className="h-8 w-8 rounded-xl bg-primary/15 flex items-center justify-center">
+                    <Trophy className="h-4 w-4 text-primary" />
+                  </div>
                   {t("ranking.globalRanking")}
                 </CardTitle>
-                <CardDescription className="text-gray-300">
+                <CardDescription>
                   {sortedRanking.length === 0
                     ? t("ranking.noParticipants")
                     : `${sortedRanking.length} ${
@@ -177,10 +179,12 @@ export default function RankingPage() {
           </CardHeader>
           <CardContent>
             {sortedRanking.length === 0 ? (
-              <div className="text-center py-12">
-                <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-white mb-2">{t("ranking.noParticipants")}</h3>
-                <p className="text-gray-300">{t("ranking.joinCompetitions")}</p>
+              <div className="text-center py-16">
+                <div className="h-20 w-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                  <Users className="h-10 w-10 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{t("ranking.noParticipants")}</h3>
+                <p className="text-[var(--md3-on-surface-variant)]">{t("ranking.joinCompetitions")}</p>
               </div>
             ) : (
               <div className="space-y-3 sm:space-y-4">
@@ -189,14 +193,14 @@ export default function RankingPage() {
                   return (
                     <div
                       key={user.userId}
-                      className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-6 rounded-lg border transition-all hover:shadow-md bg-[#052A5F] border-[#073266] ${
+                      className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-6 rounded-2xl border transition-all duration-200 hover:shadow-md bg-[var(--md3-surface-container-high)] border-[var(--md3-outline-variant)]/30 ${
                         position <= 3
-                          ? "ring-2 ring-blue-400/50"
+                          ? "ring-1 ring-primary/20"
                           : ""
                       }`}
                     >
                       <div className="flex items-center gap-3 sm:gap-6">
-                        <div className="flex items-center justify-center w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-[#073266] shrink-0">
+                        <div className="flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 rounded-2xl bg-[var(--md3-surface-container-highest)] shrink-0">
                           {getRankIcon(position)}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -207,27 +211,27 @@ export default function RankingPage() {
                                   <img
                                     src={user.avatar_url}
                                     alt={`Avatar de ${user.username}`}
-                                    className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[#073266] object-cover cursor-pointer shrink-0"
+                                    className="w-8 h-8 sm:w-11 sm:h-11 rounded-full border-2 border-[var(--md3-outline-variant)] object-cover cursor-pointer shrink-0 ring-2 ring-primary/10"
                                   />
                                 </HoverCard.Trigger>
-                                <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150 hidden sm:block">
+                                <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[var(--md3-surface-container-high)] border border-[var(--md3-outline-variant)] rounded-2xl hc-content hc-shadow hc-delay-150 hidden sm:block">
                                   <IntraProfilePreview username={user.username} avatarUrl={user.avatar_url} />
                                 </HoverCard.Content>
                               </HoverCard.Root>
                             )}
-                            <h3 className="text-base sm:text-xl font-bold text-white truncate">{user.username}</h3>
+                            <h3 className="text-base sm:text-xl font-bold text-foreground truncate">{user.username}</h3>
                             <Badge variant="outline" className={`${getRankBadgeColor(position)} text-xs sm:text-sm shrink-0`}>
                               {getRankTitle(position)}
                             </Badge>
                           </div>
-                          <p className="text-xs sm:text-sm text-gray-300">
+                          <p className="text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">
                             {t("ranking.participatingIn")} {user.competitions} {user.competitions > 1 ? t("ranking.competitions") : t("ranking.competition")}
                           </p>
                         </div>
                       </div>
                       <div className="text-left sm:text-right mt-3 sm:mt-0 pl-13 sm:pl-0">
-                        <div className="text-xl sm:text-3xl lg:text-4xl font-bold text-white">{user.totalPoints}</div>
-                        <div className="text-xs sm:text-sm lg:text-base text-gray-300">{t("ranking.totalPoints")}</div>
+                        <div className="text-xl sm:text-3xl lg:text-4xl font-bold text-primary">{user.totalPoints}</div>
+                        <div className="text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">{t("ranking.totalPoints")}</div>
                       </div>
                     </div>
                   )
@@ -239,39 +243,39 @@ export default function RankingPage() {
 
         {/* Top 3 Highlight */}
         {sortedRanking.length >= 3 && (
-          <div className="mt-6 sm:mt-8 lg:mt-12">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 sm:mb-6 lg:mb-8 text-center">{t("ranking.currentPodium")}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 lg:max-w-5xl xl:max-w-6xl lg:mx-auto">
+          <div className="mt-8 sm:mt-12">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-6 sm:mb-8 text-center tracking-tight">{t("ranking.currentPodium")}</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 lg:max-w-5xl lg:mx-auto">
               {sortedRanking.slice(0, 3).map((user, index) => {
                 const position = index + 1
                 return (
                   <Card
                     key={user.userId}
-                    className={`text-center bg-[#073266] border-[#052A5F] ${
+                    className={`text-center bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 ${
                       position === 1
-                        ? "ring-2 ring-yellow-400/50 sm:order-2"
+                        ? "ring-1 ring-yellow-400/30 sm:order-2"
                         : position === 2
-                          ? "ring-2 ring-gray-400/50 sm:order-1"
-                          : "ring-2 ring-amber-400/50 sm:order-3"
+                          ? "ring-1 ring-blue-400/30 sm:order-1"
+                          : "ring-1 ring-amber-400/30 sm:order-3"
                     }`}
                   >
                     <CardHeader className="pb-2 sm:pb-4">
-                      <div className="flex justify-center mb-2 sm:mb-4">{getRankIcon(position)}</div>
+                      <div className="flex justify-center mb-3">{getRankIcon(position)}</div>
                       {user.avatar_url && (
-                        <div className="flex justify-center mb-2 sm:mb-4">
+                        <div className="flex justify-center mb-3">
                           <img
                             src={user.avatar_url}
                             alt={`Avatar de ${user.username}`}
-                            className="w-14 h-14 sm:w-20 sm:h-20 rounded-full border-2 border-[#073266] object-cover"
+                            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[var(--md3-outline-variant)] object-cover ring-2 ring-primary/10"
                           />
                         </div>
                       )}
-                      <CardTitle className="text-base sm:text-lg text-white">{user.username}</CardTitle>
-                      <CardDescription className="text-gray-300 text-xs sm:text-sm">{getRankTitle(position)}</CardDescription>
+                      <CardTitle className="text-base sm:text-lg text-foreground">{user.username}</CardTitle>
+                      <CardDescription className="text-xs sm:text-sm">{getRankTitle(position)}</CardDescription>
                     </CardHeader>
                     <CardContent className="pt-0">
-                      <div className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">{user.totalPoints}</div>
-                      <div className="text-xs sm:text-sm text-gray-300">{t("ranking.totalPoints")}</div>
+                      <div className="text-xl sm:text-2xl font-bold text-primary mb-1">{user.totalPoints}</div>
+                      <div className="text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">{t("ranking.totalPoints")}</div>
                     </CardContent>
                   </Card>
                 )

@@ -18,46 +18,45 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F]">
-      {/* Header */}
-      <header className="border-b bg-black/80 backdrop-blur-sm border-[#073266]">
-        <div className="container mx-auto px-4 py-4">
+    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+      {/* Header — MD3 Top App Bar */}
+      <header className="sticky top-0 z-50 border-b border-[var(--md3-outline-variant)]/50 bg-[var(--md3-surface-container)]/80 backdrop-blur-xl backdrop-saturate-150">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {/*   LOGOTYPE          <img    
-                className="h-12 w-12 object-contain"
-                src="/42skillar.png"
-                alt="skillar"
-              /> */}
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">SkillarCode</h1>
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-xl bg-primary/20 flex items-center justify-center">
+                <Trophy className="h-5 w-5 text-primary" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">SkillarCode</h1>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-4">
+            <nav className="hidden md:flex items-center gap-1">
               <Link href="/competitions">
-                <Button variant="ghost" className="flex items-center gap-2">
+                <Button variant="ghost" className="rounded-full text-[var(--md3-on-surface-variant)] hover:text-foreground">
                   <span>Competições</span>
                 </Button>
               </Link>
               <Link href="/ranking">
-                <Button variant="ghost" className="flex items-center gap-2">
+                <Button variant="ghost" className="rounded-full text-[var(--md3-on-surface-variant)] hover:text-foreground">
                   <span>Ranking</span>
                 </Button>
               </Link>
               <Link href="/history">
-                <Button variant="ghost" className="flex items-center gap-2">
+                <Button variant="ghost" className="rounded-full text-[var(--md3-on-surface-variant)] hover:text-foreground">
                   <span>Histórico</span>
                 </Button>
               </Link>
               <Link href="/jogo">
-                <Button variant="ghost" className="flex items-center gap-2">
+                <Button variant="ghost" className="rounded-full text-[var(--md3-on-surface-variant)] hover:text-foreground">
                   <span>Jogo</span>
                 </Button>
               </Link>
+              <div className="w-px h-6 bg-[var(--md3-outline-variant)] mx-2" />
               <LanguageSelector />
               {!isAuthenticated && (
                 <Link href="/login">
-                  <Button className="flex items-center gap-2">               
+                  <Button className="rounded-full ml-2">
                     <span>Entrar</span>
                   </Button>
                 </Link>
@@ -66,39 +65,39 @@ export default function HomePage() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="md:hidden text-foreground p-2.5 hover:bg-foreground/[0.08] rounded-full transition-all duration-200"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
               )}
             </button>
           </div>
 
           {/* Mobile Navigation Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 animate-in slide-in-from-top-2 duration-200">
-              <nav className="flex flex-col gap-2">
+            <div className="md:hidden mt-4 pb-4 animate-in slide-in-from-top-2 duration-300">
+              <nav className="flex flex-col gap-1">
                 <Link href="/competitions" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start rounded-full text-[var(--md3-on-surface-variant)]">
                     <span>Competições</span>
                   </Button>
                 </Link>
                 <Link href="/ranking" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start rounded-full text-[var(--md3-on-surface-variant)]">
                     <span>Ranking</span>
                   </Button>
                 </Link>
                 <Link href="/history" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start rounded-full text-[var(--md3-on-surface-variant)]">
                     <span>Histórico</span>
                   </Button>
                 </Link>
                 <Link href="/jogo" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start text-white">
+                  <Button variant="ghost" className="w-full justify-start rounded-full text-[var(--md3-on-surface-variant)]">
                     <span>Jogo</span>
                   </Button>
                 </Link>
@@ -107,7 +106,7 @@ export default function HomePage() {
                 </div>
                 {!isAuthenticated && (
                   <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full justify-start">               
+                    <Button className="rounded-full w-full mt-1">
                       <span>Entrar</span>
                     </Button>
                   </Link>
@@ -118,24 +117,32 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="py-12 sm:py-20 lg:py-28 xl:py-32">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 lg:mb-8 text-balance">
-              Compete, Evolua e Conquiste
+      {/* Hero Section — MD3 large display style */}
+      <section className="py-16 sm:py-24 lg:py-32 xl:py-40 relative overflow-hidden">
+        {/* Decorative gradient orbs */}
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="container mx-auto px-4 text-center relative">
+          <div className="max-w-3xl lg:max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
+              <Trophy className="h-4 w-4" />
+              <span>Plataforma de Competições</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight text-balance leading-[1.1]">
+              Compete, Evolua<br className="hidden sm:block" /> e <span className="text-primary">Conquiste</span>
             </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 lg:mb-10 text-pretty px-2">
+            <p className="text-lg sm:text-xl lg:text-2xl text-[var(--md3-on-surface-variant)] mb-10 text-pretty max-w-2xl mx-auto leading-relaxed">
               Participe de competições semanais, desafie outros usuários e prove suas habilidades no SkillarCode.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 justify-center px-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/competitions" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto lg:text-lg lg:px-8 lg:py-6 bg-[#052A5F] hover:bg-[#073266] text-white">
+                <Button size="lg" className="w-full sm:w-auto rounded-full text-base px-8">
                   Ver Competições
                 </Button>
               </Link>
               <Link href="/create-competition" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto lg:text-lg lg:px-8 lg:py-6">
+                <Button size="lg" variant="tonal" className="w-full sm:w-auto rounded-full text-base px-8">
                   Criar Competição
                 </Button>
               </Link>
@@ -144,47 +151,57 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-10 sm:py-16 lg:py-20 xl:py-24 bg-[#06224A]">
-        <div className="container mx-auto px-4">  
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 xl:gap-10 max-w-6xl lg:max-w-7xl mx-auto">
-            <Card className="text-center p-4 sm:p-6 lg:p-8 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-[#073266] border-[#052A5F]">
+      {/* Features — MD3 Cards */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-[var(--md3-surface-container-low)]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 lg:mb-16">
+            <h3 className="text-sm font-semibold text-primary uppercase tracking-widest mb-3">Funcionalidades</h3>
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground tracking-tight">Tudo o que precisa para competir</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+            <Card className="text-center group hover:shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
               <CardHeader className="pb-2 sm:pb-4">
-                <Target className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white mx-auto mb-2 sm:mb-4" />
-                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">
+                <div className="h-14 w-14 rounded-2xl bg-primary/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/25 transition-colors duration-300">
+                  <Target className="h-7 w-7 text-primary" />
+                </div>
+                <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                   Crie ou Participe
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base leading-relaxed">
                   Qualquer usuário pode criar uma competição ou participar das existentes.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-4 sm:p-6 lg:p-8 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-[#073266] border-[#052A5F]">
+            <Card className="text-center group hover:shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
               <CardHeader className="pb-2 sm:pb-4">
-                <Users className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white mx-auto mb-2 sm:mb-4" />
-                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">
+                <div className="h-14 w-14 rounded-2xl bg-accent/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/25 transition-colors duration-300">
+                  <Users className="h-7 w-7 text-accent" />
+                </div>
+                <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                   Alcance Objectivos
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base leading-relaxed">
                   Uma meta sem um plano é apenas um desejo.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-4 sm:p-6 lg:p-8 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 bg-[#073266] border-[#052A5F] sm:col-span-2 lg:col-span-1">
+            <Card className="text-center group hover:shadow-[0_4px_8px_3px_rgba(0,0,0,0.15),0_1px_3px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition-all duration-300 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 sm:col-span-2 lg:col-span-1">
               <CardHeader className="pb-2 sm:pb-4">
-                <Award className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white mx-auto mb-2 sm:mb-4" />
-                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-semibold text-white">
+                <div className="h-14 w-14 rounded-2xl bg-[var(--md3-tertiary)]/15 flex items-center justify-center mx-auto mb-4 group-hover:bg-[var(--md3-tertiary)]/25 transition-colors duration-300">
+                  <Award className="h-7 w-7 text-[var(--md3-tertiary)]" />
+                </div>
+                <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                   Conquiste Posições
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
+                <CardDescription className="text-sm sm:text-base leading-relaxed">
                   Torne-se Nível Mago (1º lugar), RANK S (2º lugar) ou Diretor (3º lugar) e entre para o histórico.
                 </CardDescription>
               </CardContent>
@@ -193,40 +210,38 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 xl:py-24 text-white bg-gradient-to-r from-[#052A5F] to-[#073266]">
-        <div className="container mx-auto px-4 text-center">
-          <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 lg:mb-6 text-white">
-            Pronto para Começar?
-          </h3>
-          <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 lg:mb-10 text-white max-w-2xl lg:max-w-3xl mx-auto">
-            Entre no SkillarCode agora e mostre suas habilidades!
-          </p>
-          <Link href="/login">
-            <Button size="lg" className="bg-white text-[#052A5F] hover:bg-gray-100 lg:text-lg lg:px-10 lg:py-6">
-              Começar Agora
-            </Button>
-          </Link>
+      {/* CTA Section — MD3 filled container */}
+      <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--md3-primary-container)] to-[var(--md3-surface-container-high)]" />
+        <div className="container mx-auto px-4 text-center relative">
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-[var(--md3-on-primary-container)] tracking-tight">
+              Pronto para Começar?
+            </h3>
+            <p className="text-lg sm:text-xl mb-8 text-[var(--md3-on-primary-container)]/80 max-w-xl mx-auto leading-relaxed">
+              Entre no SkillarCode agora e mostre suas habilidades!
+            </p>
+            <Link href="/login">
+              <Button size="lg" className="rounded-full text-base px-10 bg-[var(--md3-inverse-surface)] text-[var(--md3-inverse-on-surface)] hover:brightness-110">
+                Começar Agora
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#041a3a] text-white py-6 sm:py-8 lg:py-12">
+      {/* Footer — MD3 surface */}
+      <footer className="bg-[var(--md3-surface-container-low)] border-t border-[var(--md3-outline-variant)]/30 text-foreground py-8 sm:py-12">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 lg:gap-4 mb-4 lg:mb-6">
-            {/* LOGOTYPE<img
-              className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 object-contain"
-              src="/42skillar.png"
-              alt="skillar"
-            />*/}
-            <p className="text-base sm:text-lg lg:text-xl font-semibold">SkillarCode</p>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-8 w-8 rounded-xl bg-primary/20 flex items-center justify-center">
+              <Trophy className="h-4 w-4 text-primary" />
+            </div>
+            <p className="text-lg font-semibold text-foreground">SkillarCode</p>
           </div>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-400 px-2 max-w-3xl mx-auto">
-            Plataforma de competições de tecnologia em tempo real - Mostre suas habilidades
+          <p className="text-sm text-[var(--md3-on-surface-variant)] max-w-md mx-auto">
+            Plataforma de competições de tecnologia em tempo real — Mostre suas habilidades
           </p>
-          {/*<p className="text-xs sm:text-sm lg:text-base text-gray-500 mt-3 sm:mt-4 lg:mt-6 px-4 max-w-2xl lg:max-w-3xl mx-auto">
-            &copy; 2025 SkillarCode lda. Todos os direitos reservados a: Tiago Matias, Liédson Habacuc, Mauro Silva & Nádia Cristovão
-          </p>*/}
         </div>
       </footer>
     </div>

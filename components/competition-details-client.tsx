@@ -27,11 +27,11 @@ export default function CompetitionDetailsClient({
       case 1:
         return <img src="/rank-1.png" className="h-12 w-12 text-yellow-500" />
       case 2:
-        return <img src="/rank-2.png" className="h-12 w-12 text-gray-400" />
+        return <img src="/rank-2.png" className="h-12 w-12 text-muted-foreground" />
       case 3:
         return <img src="/rank-3.png" className="h-12 w-12 text-amber-600" />
       default:
-        return <span className="text-lg font-bold text-gray-500">#{position}</span>
+        return <span className="text-lg font-bold text-muted-foreground">#{position}</span>
     }
   }
 
@@ -51,31 +51,31 @@ export default function CompetitionDetailsClient({
   const getRankBadgeColor = (position: number) => {
     switch (position) {
       case 1:
-        return "bg-[#052A5F] text-white border-[#073266]"
+        return "bg-[var(--md3-primary-container)] text-foreground border-[var(--md3-outline-variant)]"
       case 2:
-        return "bg-[#073266] text-white border-[#052A5F]"
+        return "bg-[var(--md3-surface-container-high)] text-foreground border-[var(--md3-outline-variant)]"
       case 3:
-        return "bg-[#06224A] text-white border-[#073266]"
+        return "bg-[var(--md3-surface-container-low)] text-foreground border-[var(--md3-outline-variant)]"
       default:
-        return "bg-[#041a3a] text-white border-[#052A5F]"
+        return "bg-[var(--md3-surface-container-lowest)] text-foreground border-[var(--md3-outline-variant)]"
     }
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-[#06224A] to-[#052A5F] container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
+    <main className="min-h-screen bg-[var(--md3-surface-container-lowest)] container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
       {/* Competition Header */}
       <div className="mb-6 sm:mb-8 lg:mb-10">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
           <div className="flex-1">
-            <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-2">{competition.title}</h1>
-            <p className="text-sm sm:text-base lg:text-lg text-gray-300 mb-4">{competition.description}</p>
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-300">
+            <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-2">{competition.title}</h1>
+            <p className="text-sm sm:text-base lg:text-lg text-[var(--md3-on-surface-variant)] mb-4">{competition.description}</p>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">
               <div className="flex items-center gap-2">
                 {competition.creator?.avatar_url && (
                   <img
                     src={competition.creator.avatar_url}
                     alt="Avatar do criador"
-                    className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[#073266] object-cover"
+                    className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[var(--md3-outline-variant)] object-cover"
                   />
                 )}
                 <span>{t('competitionDetail.createdBy')} {competition.creator?.username}</span>
@@ -87,14 +87,14 @@ export default function CompetitionDetailsClient({
               <CountdownTimer endDate={competition.custom_end_date || competition.end_date} />
               {competition.duration_type && competition.duration_value && (
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#052A5F]">{t('competitionDetail.duration')}</span>
+                  <span className="font-semibold text-primary">{t('competitionDetail.duration')}</span>
                   <span>{competition.duration_value} {competition.duration_type}</span>
                 </div>
               )}
             </div>
           </div>
           <div className="flex gap-2">
-            <Badge variant={competition.is_active ? "default" : "secondary"} className="bg-[#052A5F] text-white text-xs sm:text-sm">
+            <Badge variant={competition.is_active ? "default" : "secondary"} className="bg-[var(--md3-primary-container)] text-foreground text-xs sm:text-sm">
               {competition.is_active ? t('competitionDetail.active') : t('competitionDetail.finished')}
             </Badge>
           </div>
@@ -116,15 +116,15 @@ export default function CompetitionDetailsClient({
       </div>
 
       {/* Ranking */}
-      <Card className="bg-[#073266] border-[#052A5F]">
+      <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2 text-white">
-                <Trophy className="h-5 w-5 text-[#052A5F]" />
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <Trophy className="h-5 w-5 text-primary" />
                 {t('competitionDetail.realtimeRanking')}
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <CardDescription className="text-[var(--md3-on-surface-variant)]">
                 {participants.length === 0
                   ? t('competitionDetail.noParticipants')
                   : `${participants.length} ${participants.length > 1 ? t('competitionDetail.participants') : t('competitionDetail.participant')}`}
@@ -136,9 +136,9 @@ export default function CompetitionDetailsClient({
         <CardContent>
           {participants.length === 0 ? (
             <div className="text-center py-8">
-              <Users className="h-16 w-16 text-[#052A5F] mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">{t('competitionDetail.noParticipants')}</h3>
-              <p className="text-gray-300">{t('competitionDetail.noParticipantsDesc')}</p>
+              <Users className="h-16 w-16 text-primary mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">{t('competitionDetail.noParticipants')}</h3>
+              <p className="text-[var(--md3-on-surface-variant)]">{t('competitionDetail.noParticipantsDesc')}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -148,11 +148,11 @@ export default function CompetitionDetailsClient({
                   <div
                     key={participant.id}
                     className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 sm:p-4 rounded-lg border ${
-                      position <= 3 ? "bg-[#052A5F]" : "bg-[#06224A]"
-                    } border-[#073266] gap-3`}
+                      position <= 3 ? "bg-[var(--md3-primary-container)]" : "bg-[var(--md3-surface-container-low)]"
+                    } border-[var(--md3-outline-variant)] gap-3`}
                   >
                     <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#073266] shrink-0">
+                      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[var(--md3-surface-container-high)] shrink-0">
                         {getRankIcon(position)}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -163,27 +163,27 @@ export default function CompetitionDetailsClient({
                                 <img
                                   src={participant.user.avatar_url}
                                   alt={`Avatar de ${participant.user.username}`}
-                                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[#073266] object-cover cursor-pointer shrink-0"
+                                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-[var(--md3-outline-variant)] object-cover cursor-pointer shrink-0"
                                 />
                               </HoverCard.Trigger>
-                              <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[#073266] border border-[#052A5F] rounded hc-content hc-shadow hc-delay-150 hidden sm:block">
+                              <HoverCard.Content side="right" align="center" sideOffset={8} className="z-50 p-3 bg-[var(--md3-surface-container-high)] border border-[var(--md3-outline-variant)] rounded hc-content hc-shadow hc-delay-150 hidden sm:block">
                                 <IntraProfilePreview username={participant.user.username} avatarUrl={participant.user.avatar_url} />
                               </HoverCard.Content>
                             </HoverCard.Root>
                           )}
-                          <h3 className="font-semibold text-white text-sm sm:text-base truncate">{participant.user?.username}</h3>
-                          <Badge variant="outline" className={`border-[#052A5F] ${getRankBadgeColor(position)} text-xs sm:text-sm`}>
+                          <h3 className="font-semibold text-foreground text-sm sm:text-base truncate">{participant.user?.username}</h3>
+                          <Badge variant="outline" className={`border-[var(--md3-outline-variant)] ${getRankBadgeColor(position)} text-xs sm:text-sm`}>
                             {getRankTitle(position)}
                           </Badge>
                         </div>
-                        <p className="text-xs sm:text-sm text-gray-300">
+                        <p className="text-xs sm:text-sm text-[var(--md3-on-surface-variant)]">
                           {t('competitionDetail.participatingSince')} {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                         </p>
                       </div>
                     </div>
                     <div className="text-left sm:text-right pl-13 sm:pl-0">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{participant.points || 0}</div>
-                      <div className="text-xs sm:text-sm lg:text-base text-gray-300">{t('competitionDetail.points')}</div>
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">{participant.points || 0}</div>
+                      <div className="text-xs sm:text-sm lg:text-base text-[var(--md3-on-surface-variant)]">{t('competitionDetail.points')}</div>
                     </div>
                   </div>
                 )
