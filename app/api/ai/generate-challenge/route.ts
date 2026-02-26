@@ -44,11 +44,11 @@ Estrutura esperada:
 }`
 
     // Try multiple model names and correct endpoint path
-    const modelCandidates = Array.from(new Set([
-      'gemini-3.0-flash',
-      'gemini-2.5-flash'
-
-    ].filter(Boolean))) as string[]
+    const modelCandidates = [
+      'gemini-2.5-flash',
+      'gemini-2.0-flash',
+      'gemini-1.5-flash',
+    ]
 
     let json: any = null
     let usedModel: string | undefined
@@ -66,31 +66,38 @@ Estrutura esperada:
         },
       }
 
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
 
-      if (!res.ok) {
-        const txt = await res.text()
-        lastError = { status: res.status, body: txt?.slice?.(0, 2000), model }
-        // If model not found or invalid model name, try next candidate
-        if (res.status === 404 || (res.status === 400 && /model|not\s*found|invalid/i.test(txt || ''))) {
+        if (!res.ok) {
+          const txt = await res.text()
+          lastError = { status: res.status, body: txt?.slice?.(0, 2000), model }
+          if (res.status === 404 || (res.status === 400 && /model|not\s*found|invalid/i.test(txt || ''))) {
+            continue
+          }
+          if (res.status === 429 || res.status === 503) {
+            continue
+          }
+          console.error('[v0] Gemini error:', model, res.status, txt?.slice?.(0, 2000))
           continue
         }
-        console.error('[v0] Gemini error:', model, res.status, txt?.slice?.(0, 2000))
-        return NextResponse.json({ error: 'Gemini API error', debug: lastError }, { status: 502 })
-      }
 
-      json = await res.json()
-      usedModel = model
-      break
+        json = await res.json()
+        usedModel = model
+        break
+      } catch (fetchErr) {
+        lastError = { status: 0, body: String(fetchErr), model }
+        continue
+      }
     }
 
     if (!json) {
       return NextResponse.json({ 
-        error: 'Gemini API error', 
+        error: 'Gemini API error - all models failed', 
         debug: { ...(lastError || {}), attemptedModels: modelCandidates, apiBase } 
       }, { status: 502 })
     }

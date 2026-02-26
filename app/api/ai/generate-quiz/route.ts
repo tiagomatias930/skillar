@@ -37,11 +37,11 @@ Retorne APENAS um JSON válido no formato:
 Título do desafio: ${body.title}
 Descrição: ${body.description}`
 
-    // Try multiple model names for resilience (same approach as generate-challenge)
+    // Try multiple model names for resilience (same models as generate-challenge)
     const modelCandidates = [
-      'gemini-2.0-flash',
+      'gemini-3.0-flash',
+      'gemini-3.5-flash',
       'gemini-2.5-flash',
-      'gemini-1.5-flash',
     ]
 
     let json: any = null
@@ -65,34 +65,43 @@ Descrição: ${body.description}`
         }
       }
 
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
 
-      if (!res.ok) {
-        const text = await res.text()
-        lastError = { status: res.status, body: text?.slice?.(0, 2000), model }
-        // If model not found or invalid model name, try next candidate
-        if (res.status === 404 || (res.status === 400 && /model|not\s*found|invalid/i.test(text || ''))) {
-          continue
+        if (!res.ok) {
+          const text = await res.text()
+          lastError = { status: res.status, body: text?.slice?.(0, 2000), model }
+          // If model not found or invalid model name, try next candidate
+          if (res.status === 404 || (res.status === 400 && /model|not\s*found|invalid/i.test(text || ''))) {
+            continue
+          }
+          // Rate limit or transient error — try next model
+          if (res.status === 429 || res.status === 503) {
+            continue
+          }
+          console.error('[v0] Gemini error:', model, res.status, text?.slice?.(0, 2000))
+          continue // try next model instead of failing immediately
         }
-        console.error('[v0] Gemini error:', model, res.status, text?.slice?.(0, 2000))
-        return NextResponse.json({ success: false, error: 'Gemini API error', debug: lastError }, { status: 502 })
-      }
 
-      json = await res.json()
-      usedModel = model
-      break
+        json = await res.json()
+        usedModel = model
+        break
+      } catch (fetchErr) {
+        lastError = { status: 0, body: String(fetchErr), model }
+        continue
+      }
     }
 
     if (!json) {
       return NextResponse.json({
         success: false,
-        error: 'Gemini API error',
+        error: 'Gemini API error - all models failed',
         debug: { ...(lastError || {}), attemptedModels: modelCandidates }
       }, { status: 502 })
     }
