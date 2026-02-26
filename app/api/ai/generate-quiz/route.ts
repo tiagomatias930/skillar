@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const body: GenerateRequest = await request.json()
 
     // Accept multiple possible env var names to be more robust across deployments
-    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+    const apiKey = process.env.GOOGLE_GEMINI_API_KEY || process.env.VITY_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
     if (!apiKey) {
       console.error('[v0] Gemini API key not configured. Expected one of: GEMINI_API_KEY, GOOGLE_GEMINI_API_KEY, GOOGLE_API_KEY')
