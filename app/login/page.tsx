@@ -165,7 +165,7 @@ export default function LoginPage() {
     setIsLoading(true)
     setError(null)
 
-    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-a63865c995c8eeb14a1227c650d61edb4fc4a2f7e986f97e4f49d867efede229&redirect_uri=https%3A%2F%2F42skillar.vercel.app%2Flogin&response_type=code`
+    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${process.env.INTRA42_CLIENT_ID}&redirect_uri=https%3A%2F%2F42skillar.vercel.app%2Flogin&response_type=code`
 
     window.location.href = authUrl
   }
@@ -173,7 +173,7 @@ export default function LoginPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center p-2 bg-cover bg-center bg-fixed"
-      style={{ backgroundImage: `url('/_.gif')` }}
+      style={{ backgroundImage: `url('/foto_Implementada_no_centro.png')` }}
     >
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
       <div className="w-full max-w-md lg:max-w-lg xl:max-w-xl">
