@@ -168,9 +168,8 @@ export default function LoginPage() {
     setIsLoading(true)
     setError(null)
 
-    const authUrl = `https://api.intra.42.fr/oauth/authorize?client_id=${process.env.INTRA42_CLIENT_ID}&redirect_uri=https%3A%2F%2F42skillar.vercel.app%2Flogin&response_type=code`
-
-    window.location.href = authUrl
+    // Redirect through server-side API route so it can read the env var from Vercel
+    window.location.href = "/api/auth/42/redirect"
   }
 
   return (
