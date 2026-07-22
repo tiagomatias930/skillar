@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
-
+import { Navigation } from "@/components/navigation";
 
 export default function AvaliacaoForm() {
 	const [competitions, setCompetitions] = useState<any[]>([]);
@@ -88,17 +88,20 @@ export default function AvaliacaoForm() {
 	}, [selectedCompetition]);
 
 	return (
-		<div style={{ backgroundImage: "url('/AI(1).gif')", backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundAttachment: 'fixed', minHeight: '100vh' }} className="p-2 sm:p-4">
-			<div className="max-w-xl mx-auto">
-				<h1 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center text-foreground">Avaliação</h1>
-				<p className="mb-4 sm:mb-6 text-sm sm:text-base text-[var(--md3-on-surface-variant)] text-center text-foreground px-2">
-					Selecione o desafio que está participando, responda o quiz e submeta seu projeto para avaliação automática por IA.
+		<div className="min-h-screen bg-black text-white font-mono flex flex-col">
+			<Navigation />
+
+			<div className="flex-grow container mx-auto px-4 py-8 max-w-xl">
+				<h1 className="text-2xl font-bold mb-2 text-center text-white uppercase tracking-widest">Auditoria e Verificação</h1>
+				<p className="mb-6 text-xs text-zinc-400 text-center leading-relaxed">
+					Selecione o laboratório ou CTF target, responda ao questionário de pré-avaliação e envie seu relatório de exploração (POC) para auditoria automatizada por IA.
 				</p>
-				<div className="mb-4 sm:mb-6 px-2 sm:px-0">
-					<Label htmlFor="competition-select" className="text-foreground text-sm sm:text-base">Escolha o desafio:</Label>
+
+				<div className="mb-6 bg-zinc-950 p-4 border border-border">
+					<Label htmlFor="competition-select" className="text-zinc-500 font-bold uppercase text-[10px]">Selecione o Lab / CTF Target:</Label>
 					<select
 						id="competition-select"
-						className="w-full p-2 rounded border mt-1 text-black text-sm sm:text-base"
+						className="w-full mt-1 bg-black border border-border text-white text-xs rounded-none px-3 py-2 outline-none focus:border-primary transition-all font-mono"
 						value={selectedCompetition?.id || ''}
 						onChange={e => {
 							const comp = competitions.find(c => c.id === e.target.value);
@@ -111,64 +114,74 @@ export default function AvaliacaoForm() {
 						))}
 					</select>
 				</div>
+
 				{selectedCompetition && (
-					<div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded mx-2 sm:mx-0">
-						<div className="mb-2 text-foreground text-sm sm:text-base"><b>Descrição:</b> {selectedCompetition.description}</div>
+					<div className="mb-6 p-4 border border-border bg-zinc-950 text-xs leading-relaxed">
+						<div className="text-zinc-500 font-bold uppercase text-[10px] mb-1">Briefing do Target:</div>
+						<div className="text-zinc-300">{selectedCompetition.description}</div>
 					</div>
 				)}
-				{selectedCompetition && loadingQuiz && <div className="text-center text-foreground">Carregando pré-avaliação...</div>}
-				{selectedCompetition && quizError && <div className="text-center text-red-300">{quizError}</div>}
+
+				{selectedCompetition && loadingQuiz && <div className="text-center text-xs text-zinc-500 animate-pulse">Acessando banco de questões de pré-avaliação...</div>}
+				{selectedCompetition && quizError && <div className="text-center text-xs text-red-400 font-bold">{quizError}</div>}
+
 				{selectedCompetition && !loadingQuiz && !quizError && questions && questions.length > 0 && !quizDone && (
-					<PreEvaluationQuiz
-						questions={questions}
-						onComplete={async (score) => {
-							setQuizDone(true);
-							setQuizScore(score);
-							
-							// Add quiz points to participant
-							try {
-								const res = await fetch(`/api/competitions/${selectedCompetition.id}/add-quiz-points`, {
-									method: 'POST',
-									headers: { 'Content-Type': 'application/json' },
-									body: JSON.stringify({ 
-										username: formData.user, 
-										quizScore: score 
-									})
-								});
-								const data = await res.json();
-								if (data.success) {
-									console.log('Quiz points added successfully:', data.points);
-									setPointsAdded(true);
-								} else {
-									console.error('Failed to add quiz points:', data.error);
+					<div className="border border-border p-4 bg-zinc-950 mb-6">
+						<PreEvaluationQuiz
+							questions={questions}
+							onComplete={async (score) => {
+								setQuizDone(true);
+								setQuizScore(score);
+
+								// Add quiz points to participant
+								try {
+									const res = await fetch(`/api/competitions/${selectedCompetition.id}/add-quiz-points`, {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({
+											username: formData.user,
+											quizScore: score
+										})
+									});
+									const data = await res.json();
+									if (data.success) {
+										console.log('Quiz points added successfully:', data.points);
+										setPointsAdded(true);
+									} else {
+										console.error('Failed to add quiz points:', data.error);
+									}
+								} catch (err) {
+									console.error('Error adding quiz points:', err);
 								}
-							} catch (err) {
-								console.error('Error adding quiz points:', err);
-							}
-						}}
-					/>
+							}}
+						/>
+					</div>
 				)}
+
 				{selectedCompetition && generatingWithAI && (
-					<div className="text-center text-foreground">Gerando pré-avaliação com IA...</div>
+					<div className="text-center text-xs text-zinc-500 animate-pulse">Gerando questionário de segurança por IA...</div>
 				)}
 				{selectedCompetition && !loadingQuiz && !quizError && !generatingWithAI && questions && questions.length === 0 && (
-					<div className="text-center text-foreground">Nenhuma questão de pré-avaliação disponível para esta competição.</div>
+					<div className="text-center text-xs text-zinc-500 p-4 border border-border bg-zinc-950">Sem questionários de pré-avaliação disponíveis para este target.</div>
 				)}
+
 				{selectedCompetition && quizDone && (
-					<>
+					<div className="space-y-4">
 						{pointsAdded && (
-							<div className="mb-4 p-4 rounded-lg bg-green-500/20 border border-green-500/50 animate-in fade-in slide-in-from-top-2 duration-500">
-								<div className="text-center text-green-300">
-									✅ <b>{quizScore} pontos</b> foram adicionados à sua participação!
+							<div className="p-4 rounded-none bg-emerald-500/10 border border-emerald-500/30 animate-in fade-in slide-in-from-top-2 duration-500">
+								<div className="text-center text-xs text-emerald-400 font-bold">
+									✅ {quizScore} flags / pontos adicionados ao seu scoreboard!
 								</div>
 							</div>
 						)}
-						<AiEvaluationForm
-							initialUser={formData.user}
-							initialDesafio={formData.desafio}
-							initialDescDesafio={formData.desc_desafio}
-						/>
-					</>
+						<div className="border border-border p-4 bg-zinc-950">
+							<AiEvaluationForm
+								initialUser={formData.user}
+								initialDesafio={formData.desafio}
+								initialDescDesafio={formData.desc_desafio}
+							/>
+						</div>
+					</div>
 				)}
 			</div>
 		</div>

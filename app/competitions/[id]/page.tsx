@@ -32,13 +32,13 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
 
   if (!competition) {
     return (
-      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+      <div className="min-h-screen bg-black text-white font-mono">
         <Navigation />
         <main className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
-            <h3 className="text-xl font-semibold text-foreground mb-2">Competição não encontrada</h3>
+            <h3 className="text-sm font-bold text-red-500 uppercase tracking-widest mb-4">Laboratório não encontrado</h3>
             <Link href="/competitions">
-              <button className="bg-primary hover:brightness-110 text-foreground px-4 py-2 rounded">Voltar às Competições</button>
+              <button className="rounded-none border border-primary bg-primary text-black hover:bg-black hover:text-primary transition-all font-mono font-bold text-xs px-4 py-2 uppercase tracking-wider">Voltar aos Labs / CTFs</button>
             </Link>
           </div>
         </main>
@@ -49,7 +49,7 @@ export default async function CompetitionPage({ params }: CompetitionPageProps) 
   const participantsRanking = await getCompetitionRanking(id)
 
   return (
-    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+    <div className="min-h-screen bg-black text-white font-mono">
       <Navigation />
       <CompetitionDetailsClient 
         competition={competition} 

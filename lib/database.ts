@@ -86,27 +86,42 @@ export async function createUserWithAvatar(username: string, avatar_url?: string
 }
 
 export async function getUserByUsername(username: string): Promise<User | null> {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const { data, error } = await supabase.from("users").select("*").eq("username", username).single()
+    const { data, error } = await supabase.from("users").select("*").eq("username", username).single()
 
-  if (error) return null
-  return data
+    if (error) return null
+    return data
+  } catch (err: any) {
+    if (err.message && err.message.includes("Dynamic server usage")) {
+      throw err
+    }
+    console.warn("[v0] Database connection failed while fetching user by username (offline mode):", err.message || err)
+    return null
+  }
 }
 
 // Competition functions
 export async function updateExpiredCompetitions(): Promise<void> {
   console.log("[v0] Updating expired competitions")
 
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  // Call the close_expired_competitions() function
-  const { error: closureError } = await supabase.rpc('close_expired_competitions')
+    // Call the close_expired_competitions() function
+    const { error: closureError } = await supabase.rpc('close_expired_competitions')
 
-  if (closureError) {
-    console.error("[v0] Error closing expired competitions:", closureError)
-  } else {
-    console.log("[v0] Successfully closed expired competitions")
+    if (closureError) {
+      console.error("[v0] Error closing expired competitions:", closureError.message || closureError)
+    } else {
+      console.log("[v0] Successfully closed expired competitions")
+    }
+  } catch (err: any) {
+    if (err.message && err.message.includes("Dynamic server usage")) {
+      throw err
+    }
+    console.warn("[v0] Database connection failed while updating expired competitions (offline mode):", err.message || err)
   }
 }
 
@@ -114,23 +129,38 @@ export async function getActiveCompetitions(): Promise<Competition[]> {
   console.log("[v0] Fetching active competitions")
 
   // First, update any expired competitions
-  await updateExpiredCompetitions()
-
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from("competitions")
-    .select("*, creator:users!competitions_creator_id_fkey(*)")
-    .eq("is_active", true)
-    .order("created_at", { ascending: false })
-
-  if (error) {
-    console.error("[v0] Error fetching competitions:", error)
-    return []
+  try {
+    await updateExpiredCompetitions()
+  } catch (err: any) {
+    if (err.message && err.message.includes("Dynamic server usage")) {
+      throw err
+    }
+    // Ignore other errors
   }
 
-  console.log("[v0] Fetched competitions:", data?.length || 0)
-  return data || []
+  try {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+      .from("competitions")
+      .select("*, creator:users!competitions_creator_id_fkey(*)")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+
+    if (error) {
+      console.error("[v0] Error fetching competitions:", error)
+      return []
+    }
+
+    console.log("[v0] Fetched competitions:", data?.length || 0)
+    return data || []
+  } catch (err: any) {
+    if (err.message && err.message.includes("Dynamic server usage")) {
+      throw err
+    }
+    console.warn("[v0] Database connection failed while fetching active competitions (offline mode):", err.message || err)
+    return []
+  }
 }
 
 export async function createCompetition(
@@ -236,32 +266,39 @@ export async function joinCompetition(
 export async function getCompetitionRanking(competitionId: string): Promise<Participant[]> {
   console.log("[v0] getCompetitionRanking called with competitionId:", competitionId)
 
-  const supabase = await createClient()
-  const { data, error } = await supabase
-    .from("participants")
-    .select("*, user:users!participants_user_id_fkey(*)")
-    .eq("competition_id", competitionId)
-    .order("points", { ascending: false })
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from("participants")
+      .select("*, user:users!participants_user_id_fkey(*)")
+      .eq("competition_id", competitionId)
+      .order("points", { ascending: false })
 
-  if (error) {
-    console.error("[v0] Error fetching ranking:", error)
+    if (error) {
+      console.error("[v0] Error fetching ranking:", error)
+      return []
+    }
+
+    console.log("[v0] Raw ranking data:", data)
+    console.log("[v0] Number of participants found:", data?.length || 0)
+
+    data?.forEach((participant, index) => {
+      console.log(`[v0] Participant ${index + 1}:`, {
+        id: participant.id,
+        username: participant.user?.username,
+        points: participant.points,
+        pointsType: typeof participant.points,
+      })
+    })
+
+    return data || []
+  } catch (err: any) {
+    if (err.message && err.message.includes("Dynamic server usage")) {
+      throw err
+    }
+    console.warn("[v0] Database connection failed while fetching ranking (offline mode):", err.message || err)
     return []
   }
-
-  console.log("[v0] Raw ranking data:", data)
-  console.log("[v0] Number of participants found:", data?.length || 0)
-
-  data?.forEach((participant, index) => {
-    console.log(`[v0] Participant ${index + 1}:`, {
-      id: participant.id,
-      username: participant.user?.username,
-      points: participant.points,
-      pointsType: typeof participant.points,
-      
-    })
-  })
-
-  return data || []
 }
 
 export async function updateParticipantPoints(
@@ -387,19 +424,27 @@ export async function getReports(): Promise<Report[]> {
 
 // Competition history functions
 export async function getCompetitionHistory(): Promise<CompetitionHistory[]> {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const { data, error } = await supabase
-    .from("competition_history")
-    .select("*, winner:users!competition_history_winner_id_fkey(*), competition:competitions!competition_history_competition_id_fkey(*)")
-    .order("ended_at", { ascending: false })
+    const { data, error } = await supabase
+      .from("competition_history")
+      .select("*, winner:users!competition_history_winner_id_fkey(*), competition:competitions!competition_history_competition_id_fkey(*)")
+      .order("ended_at", { ascending: false })
 
-  if (error) {
-    console.error("Error fetching history:", error)
+    if (error) {
+      console.error("Error fetching history:", error)
+      return []
+    }
+
+    return data || []
+  } catch (err: any) {
+    if (err.message && err.message.includes("Dynamic server usage")) {
+      throw err
+    }
+    console.warn("[v0] Database connection failed while fetching history (offline mode):", err.message || err)
     return []
   }
-
-  return data || []
 }
 
 // Blacklist functions

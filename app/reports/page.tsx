@@ -119,89 +119,91 @@ export default function ReportsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
-        <Navigation />
-        <main className="container mx-auto px-4 py-8">
-          <div className="text-center">Carregando...</div>
-        </main>
+      <div className="min-h-screen bg-black flex items-center justify-center font-mono text-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-none h-12 w-12 border border-primary border-t-transparent mx-auto"></div>
+          <p className="mt-4 text-zinc-500 text-xs">ACESSANDO CENTRAL DE INCIDENTES...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+    <div className="min-h-screen bg-black text-white font-mono">
       <Navigation />
       <ToastContainer />
 
       <main className="container mx-auto px-4 py-6 sm:py-8 lg:py-10 xl:py-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8 lg:mb-10">
           <div>
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-2">
-              <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground-900">Sistema de Relatórios</h1>
+            <div className="flex flex-wrap items-center gap-3 mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-tight">Central de Incidentes</h1>
               <a
                 href="/evaluation-criteria"
-                className="text-xs sm:text-sm px-2 sm:px-3 py-1 rounded bg-blue-100 text-gray-700 font-semibold hover:bg-blue-200 transition-colors border border-blue-200"
-                title="Ver critérios de avaliação"
+                className="text-xs px-3 py-1 rounded-none bg-zinc-900 text-primary border border-primary/30 font-bold hover:bg-black transition-colors"
+                title="Ver regras de engajamento"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Critérios de Avaliação
+                Regras de Engajamento
               </a>
             </div>
-            <p className="text-sm sm:text-base lg:text-lg text-foreground-600">Reporte comportamentos inadequados e mantenha a comunidade segura</p>
+            <p className="text-xs sm:text-sm text-zinc-400">Reporte violações de conduta hacker, ataques ilegais ou abusos na arena</p>
           </div>
-          <Button onClick={() => setShowForm(!showForm)} className="bg-red-600 hover:bg-red-700 w-full sm:w-auto lg:text-base lg:px-6 lg:py-3">
+          <Button onClick={() => setShowForm(!showForm)} className="rounded-none border border-red-500 bg-red-600 hover:bg-black hover:text-red-400 text-white font-bold transition-all w-full sm:w-auto font-mono">
             <Plus className="h-4 w-4 mr-2" weight="bold" />
-            {showForm ? "Cancelar" : "Novo Relatório"}
+            {showForm ? "CANCELAR" : "SUBMETER INCIDENTE"}
           </Button>
         </div>
 
         {/* Report Form */}
         {showForm && (
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-red-600">
-                <Warning className="h-5 w-5" weight="duotone" />
-                Criar Novo Relatório
+          <Card className="mb-8 rounded-none border border-red-500/30 bg-zinc-950">
+            <CardHeader className="border-b border-border mb-4">
+              <CardTitle className="flex items-center gap-2 text-red-500 text-sm font-bold uppercase tracking-wider">
+                <Warning className="h-4 w-4" />
+                Relatar Nova Ocorrência
               </CardTitle>
-              <CardDescription>
-                Use este formulário para reportar comportamentos inadequados ou violações das regras
+              <CardDescription className="text-xs text-zinc-500 font-mono">
+                Use este console seguro para submeter violações das regras de engajamento
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmitReport} className="space-y-4">
+              <form onSubmit={handleSubmitReport} className="space-y-4 font-mono text-xs">
                 <div>
-                  <Label htmlFor="reportedUsername">Username do Usuário Reportado</Label>
+                  <Label htmlFor="reportedUsername" className="text-zinc-400 uppercase font-bold text-[10px]">Identificação do Operador Alvo</Label>
                   <Input
                     id="reportedUsername"
                     type="text"
-                    placeholder="Digite o username do usuário"
+                    placeholder="Digite o username do operador..."
                     value={reportedUsername}
                     onChange={(e) => setReportedUsername(e.target.value)}
+                    className="rounded-none border-border bg-black text-white font-mono placeholder:text-zinc-600 focus-visible:border-primary focus-visible:ring-0 mt-1"
                     required
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="reason">Motivo do Relatório</Label>
+                  <Label htmlFor="reason" className="text-zinc-400 uppercase font-bold text-[10px]">Descrição do Incidente</Label>
                   <Textarea
                     id="reason"
-                    placeholder="Descreva detalhadamente o comportamento inadequado ou violação..."
+                    placeholder="Descreva detalhadamente a violação ou comportamento..."
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
+                    className="rounded-none border-border bg-black text-white font-mono placeholder:text-zinc-600 focus-visible:border-primary focus-visible:ring-0 hover:border-zinc-700 mt-1"
                     required
                     rows={4}
                   />
                 </div>
 
-                {error && <p className="text-sm text-red-500">{error}</p>}
+                {error && <p className="text-xs text-red-400 font-bold">{error}</p>}
 
-                <div className="flex gap-4">
-                  <Button type="button" variant="outline" onClick={() => setShowForm(false)} className="flex-1">
-                    Cancelar
+                <div className="flex gap-4 pt-2">
+                  <Button type="button" variant="outline" onClick={() => setShowForm(false)} className="flex-1 rounded-none border-border">
+                    CANCELAR
                   </Button>
-                  <Button type="submit" disabled={isSubmitting} className="flex-1 bg-red-600 hover:bg-red-700">
-                    {isSubmitting ? "Enviando..." : "Enviar Relatório"}
+                  <Button type="submit" disabled={isSubmitting} className="flex-1 rounded-none border border-red-500 bg-red-600 hover:bg-black hover:text-red-400 transition-all font-bold">
+                    {isSubmitting ? "ENVIANDO..." : "ENVIAR RELATÓRIO"}
                   </Button>
                 </div>
               </form>
@@ -210,55 +212,55 @@ export default function ReportsPage() {
         )}
 
         {/* Reports List */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-foreground-600" weight="duotone" />
-              Relatórios da Comunidade
+        <Card className="rounded-none border border-border bg-zinc-950">
+          <CardHeader className="border-b border-border mb-4">
+            <CardTitle className="flex items-center gap-2 text-sm font-bold text-white uppercase tracking-wider">
+              <ShieldCheck className="h-4 w-4 text-primary" />
+              Histórico de Incidentes
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-xs text-zinc-500 font-mono">
               {reports.length === 0
-                ? "Nenhum relatório ainda"
-                : `${reports.length} relatório${reports.length > 1 ? "s" : ""} registrado${reports.length > 1 ? "s" : ""}`}
+                ? "Sem incidentes reportados na rede"
+                : `${reports.length} incidente${reports.length > 1 ? "s" : ""} registrado${reports.length > 1 ? "s" : ""}`}
             </CardDescription>
           </CardHeader>
           <CardContent>
             {reports.length === 0 ? (
-              <div className="text-center py-12">
-                <ShieldCheck className="h-16 w-16 text-foreground-400 mx-auto mb-4" weight="duotone" />
-                <h3 className="text-lg font-semibold text-foreground-900 mb-2">Nenhum relatório ainda</h3>
-                <p className="text-foreground-600">A comunidade está segura por enquanto!</p>
+              <div className="text-center py-12 font-mono">
+                <ShieldCheck className="h-12 w-12 text-zinc-600 mx-auto mb-4" />
+                <h3 className="text-sm font-bold text-white uppercase mb-2">Sem incidentes na rede</h3>
+                <p className="text-xs text-zinc-500">A infraestrutura está limpa. Sem incidentes de segurança pendentes.</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 font-mono">
                 {reports.map((report) => (
-                  <div key={report.id} className="border rounded-lg p-4 bg-[var(--md3-primary-container)] transition-colors">
+                  <div key={report.id} className="border border-border p-4 bg-black rounded-none hover:border-red-500/30 transition-all">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                          <Warning className="h-5 w-5 text-red-600" weight="duotone" />
+                        <div className="w-10 h-10 border border-red-500/20 bg-red-500/5 flex items-center justify-center shrink-0">
+                          <Warning className="h-5 w-5 text-red-500" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <Badge variant="destructive">Relatório</Badge>
-                            <span className="text-sm text-foreground-600">#{report.id.slice(0, 8)}</span>
+                            <Badge variant="destructive" className="rounded-none border border-red-500/30 bg-red-500/10 text-red-400 text-[10px]">INCIDENTE</Badge>
+                            <span className="text-[10px] text-zinc-600">ID: {report.id.slice(0, 8)}</span>
                           </div>
-                          <div className="flex items-center gap-4 mt-1 text-sm text-foreground-600">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-1 text-xs text-zinc-500">
                             <div className="flex items-center gap-1">
-                              <User className="h-4 w-4" />
-                              <span>Reportado: {report.reported_user?.username}</span>
+                              <User className="h-3.5 w-3.5" />
+                              <span>Alvo: <strong className="text-white">{report.reported_user?.username}</strong></span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <CalendarBlank className="h-4 w-4" weight="duotone" />
-                              <span>{new Date(report.created_at).toLocaleDateString("pt-BR")}</span>
+                              <CalendarBlank className="h-3.5 w-3.5" />
+                              <span>Registrado em: {new Date(report.created_at).toLocaleDateString("pt-BR")}</span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="ml-13">
-                      <p className="text-foreground-900 mb-2">{report.reason}</p>
-                      <p className="text-sm text-foreground-600">Reportado por: {report.reporter_user?.username}</p>
+                    <div className="pl-0 sm:pl-13 mt-3 sm:mt-0 border-t sm:border-t-0 border-border/40 pt-2 sm:pt-0">
+                      <p className="text-zinc-300 text-xs leading-relaxed bg-zinc-950 p-2.5 border border-border/80 mb-2">{report.reason}</p>
+                      <p className="text-[10px] text-zinc-500">Reportado por: <strong className="text-zinc-400">{report.reporter_user?.username}</strong></p>
                     </div>
                   </div>
                 ))}

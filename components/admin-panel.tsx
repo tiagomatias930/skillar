@@ -74,75 +74,77 @@ export function AdminPanel() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-mono text-xs">
       <ToastContainer />
-      <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
+      <Card className="rounded-none border border-border bg-zinc-950 text-white">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-primary/15 flex items-center justify-center">
-              <GearSix className="h-4.5 w-4.5 text-primary" weight="duotone" />
+          <CardTitle className="flex items-center gap-3 text-sm font-bold uppercase tracking-wider">
+            <div className="h-9 w-9 border border-primary/40 bg-primary/10 flex items-center justify-center">
+              <GearSix className="h-4.5 w-4.5 text-primary" />
             </div>
-            Painel Administrativo
+            CONSOLA_ADMIN_ARENA
           </CardTitle>
-          <CardDescription>Ferramentas para gerenciar a plataforma SkillarCode</CardDescription>
+          <CardDescription className="text-xs text-zinc-500 font-mono">Comandos operacionais de SysAdmin para controle do Skillar Arena</CardDescription>
         </CardHeader>
       </Card>
 
       <div className="grid md:grid-cols-2 gap-6">
         {/* Close Competitions */}
-        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
+        <Card className="rounded-none border border-border bg-zinc-950 text-white">
           <CardHeader>
-            <CardTitle className="flex items-center gap-3 text-amber-400">
-              <div className="h-8 w-8 rounded-xl bg-amber-500/15 flex items-center justify-center">
-                <ArrowCounterClockwise className="h-4 w-4" weight="bold" />
+            <CardTitle className="flex items-center gap-3 text-amber-400 text-sm font-bold uppercase tracking-wider">
+              <div className="h-8 w-8 border border-amber-500/20 bg-amber-500/5 flex items-center justify-center">
+                <ArrowCounterClockwise className="h-4 w-4 text-amber-500" />
               </div>
-              Fechar Competições Expiradas
+              Desativar Labs Expirados
             </CardTitle>
-            <CardDescription>Encerra automaticamente competições que passaram de 7 dias</CardDescription>
+            <CardDescription className="text-xs text-zinc-500 font-mono">Desativa automaticamente instâncias de laboratórios com limite de tempo excedido</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={handleCloseCompetitions} disabled={isClosingCompetitions} className="w-full">
-              {isClosingCompetitions ? "Fechando..." : "Fechar Competições Expiradas"}
+            <Button onClick={handleCloseCompetitions} disabled={isClosingCompetitions} className="w-full rounded-none border border-primary bg-primary text-black hover:bg-black hover:text-primary transition-all font-bold py-2.5 font-mono uppercase tracking-wider">
+              {isClosingCompetitions ? "DESATIVANDO LABS..." : "DESATIVAR LABS EXPIRADOS"}
             </Button>
           </CardContent>
         </Card>
 
         {/* Blacklist User */}
-        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
+        <Card className="rounded-none border border-border bg-zinc-950 text-white">
           <CardHeader>
-            <CardTitle className="flex items-center gap-3 text-red-400">
-              <div className="h-8 w-8 rounded-xl bg-red-500/15 flex items-center justify-center">
-                <Prohibit className="h-4 w-4" weight="bold" />
+            <CardTitle className="flex items-center gap-3 text-red-500 text-sm font-bold uppercase tracking-wider">
+              <div className="h-8 w-8 border border-red-500/20 bg-red-500/5 flex items-center justify-center">
+                <Prohibit className="h-4 w-4 text-red-500" />
               </div>
-              Adicionar à Lista Negra
+              Inserir na Banlist
             </CardTitle>
-            <CardDescription>Banir usuário que violou as regras da comunidade</CardDescription>
+            <CardDescription className="text-xs text-zinc-500 font-mono">Bane operadores e bloqueia credenciais PGP/VPN na arena</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleBlacklistUser} className="space-y-4">
               <div>
-                <Label htmlFor="blacklist-username">Username</Label>
+                <Label htmlFor="blacklist-username" className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Identificação do Operador</Label>
                 <Input
                   id="blacklist-username"
                   type="text"
-                  placeholder="Username do usuário"
+                  placeholder="Username do operador..."
                   value={blacklistUsername}
                   onChange={(e) => setBlacklistUsername(e.target.value)}
+                  className="bg-black border border-border text-white text-xs rounded-none px-3 py-1.5 outline-none focus:border-primary transition-all font-mono"
                   required
                 />
               </div>
               <div>
-                <Label htmlFor="blacklist-reason">Motivo (opcional)</Label>
+                <Label htmlFor="blacklist-reason" className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">Motivo (opcional)</Label>
                 <Textarea
                   id="blacklist-reason"
-                  placeholder="Motivo do banimento..."
+                  placeholder="Descreva a violação das regras de engajamento..."
                   value={blacklistReason}
                   onChange={(e) => setBlacklistReason(e.target.value)}
+                  className="bg-black border border-border text-white text-xs rounded-none px-3 py-1.5 outline-none focus:border-primary transition-all font-mono"
                   rows={3}
                 />
               </div>
-              <Button type="submit" disabled={isBlacklisting} className="w-full rounded-full bg-red-500/80 hover:bg-red-500 text-white">
-                {isBlacklisting ? "Adicionando..." : "Adicionar à Lista Negra"}
+              <Button type="submit" disabled={isBlacklisting} className="w-full rounded-none border border-red-500 bg-red-600 text-white hover:bg-black hover:text-red-400 transition-all font-bold py-2.5 font-mono uppercase tracking-wider">
+                {isBlacklisting ? "GRAVANDO BLOQUEIO..." : "GRAVAR BLOQUEIO NA REDE"}
               </Button>
             </form>
           </CardContent>

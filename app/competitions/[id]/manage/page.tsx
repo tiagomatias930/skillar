@@ -168,37 +168,39 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
   const getRankIcon = (position: number) => {
     switch (position) {
       case 1:
-        return <img src="/rank-1.png" className="h-12 w-12 text-yellow-500" />
+        return <span className="text-yellow-400 font-bold text-sm">#01</span>
       case 2:
-        return <img src="/rank-2.png" className="h-12 w-12 text-muted-foreground" />
+        return <span className="text-zinc-400 font-bold text-sm">#02</span>
       case 3:
-        return <img src="/rank-3.png" className="h-12 w-12 text-amber-600" />
+        return <span className="text-amber-500 font-bold text-sm">#03</span>
       default:
-        return <span className="text-sm font-bold text-muted-foreground">#{position}</span>
+        return <span className="text-zinc-600 font-bold text-sm">#{position < 10 ? `0${position}` : position}</span>
     }
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
-        <Navigation />
-        <main className="container mx-auto px-4 py-8">
-          <div className="text-center text-foreground">Carregando...</div>
-        </main>
+      <div className="min-h-screen bg-black text-white font-mono flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-none h-12 w-12 border border-primary border-t-transparent mx-auto"></div>
+          <p className="mt-4 text-zinc-500 text-xs">ACESSANDO TERMINAL ADMINISTRATIVO...</p>
+        </div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+      <div className="min-h-screen bg-black text-white font-mono">
         <Navigation />
-        <main className="container mx-auto px-4 py-8">
-          <Card className="text-center py-12 bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
+        <main className="container mx-auto px-4 py-8 max-w-lg">
+          <Card className="rounded-none border border-red-500/30 bg-zinc-950 text-center py-8">
             <CardContent>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Erro</h3>
-              <p className="text-red-400 mb-4">{error}</p>
-              <Button onClick={() => router.back()}>Voltar</Button>
+              <h3 className="text-sm font-bold text-red-500 uppercase tracking-widest mb-2">Acesso Negado</h3>
+              <p className="text-xs text-zinc-400 mb-4">{error}</p>
+              <Button onClick={() => router.back()} className="rounded-none border border-border bg-transparent text-white hover:bg-white hover:text-black transition-all text-xs font-mono">
+                Voltar
+              </Button>
             </CardContent>
           </Card>
         </main>
@@ -207,43 +209,43 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
   }
 
   return (
-    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+    <div className="min-h-screen bg-black text-white font-mono">
       <Navigation />
       <ToastContainer />
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Gerenciar Competição</h1>
-          <p className="text-[var(--md3-on-surface-variant)]">{competition?.title}</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white uppercase tracking-widest mb-2">Painel Admin do Laboratório</h1>
+          <p className="text-xs text-zinc-500 font-mono uppercase">TARGET_ID: {competition?.id} {"//"} {competition?.title}</p>
         </div>
 
-        <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30 shadow-xl">
-          <CardHeader>
-            <div className="flex items-center justify-between">
+        <Card className="rounded-none border border-border bg-zinc-950">
+          <CardHeader className="border-b border-border mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <CardTitle className="flex items-center gap-2 text-foreground">
-                  <Trophy className="h-5 w-5 text-primary" weight="duotone" />
-                  Atribuir Pontos aos Participantes
+                <CardTitle className="flex items-center gap-2 text-sm font-bold text-white uppercase tracking-wider">
+                  <Trophy className="h-4 w-4 text-primary" />
+                  Auditar Scoreboard e Flags de Agentes
                 </CardTitle>
-                <CardDescription className="text-[var(--md3-on-surface-variant)]">
-                  Como criador, você pode atribuir pontos aos participantes da competição
+                <CardDescription className="text-xs text-zinc-500 font-mono mt-1">
+                  Como administrador do lab, você pode ajustar flags/pontos obtidos pelos agentes infiltrados.
                 </CardDescription>
               </div>
-              <Button onClick={handleSavePoints} disabled={isSaving}>
-                <FloppyDisk className="h-4 w-4 mr-2" weight="duotone" />
-                {isSaving ? "Salvando..." : "Salvar Pontos"}
+              <Button onClick={handleSavePoints} disabled={isSaving} className="rounded-none border border-primary bg-primary text-black hover:bg-black hover:text-primary transition-all font-bold text-xs">
+                <FloppyDisk className="h-4 w-4 mr-2" />
+                {isSaving ? "GRAVANDO TELEMETRIA..." : "GRAVAR LOGS & SCORE"}
               </Button>
             </div>
           </CardHeader>
           <CardContent>
             {participants.length === 0 ? (
-              <div className="text-center py-8">
-                <UsersThree className="h-16 w-16 text-muted-foreground mx-auto mb-4" weight="duotone" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Nenhum participante ainda</h3>
-                <p className="text-[var(--md3-on-surface-variant)]">Aguarde participantes se inscreverem na competição</p>
+              <div className="text-center py-12">
+                <UsersThree className="h-12 w-12 text-zinc-600 mx-auto mb-4" />
+                <h3 className="text-sm font-bold text-white uppercase mb-2">Nenhum agente infiltrado</h3>
+                <p className="text-xs text-zinc-500">Aguardando conexão de VPN por novos agentes no laboratório virtual.</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {participants
                   .sort((a, b) => (pointsUpdates[b.id] ?? b.points) - (pointsUpdates[a.id] ?? a.points))
                   .map((participant, index) => {
@@ -253,25 +255,25 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                     return (
                       <div
                         key={participant.id}
-                        className={`flex items-center justify-between p-4 rounded-lg border bg-[var(--md3-surface-container-high)] border-[var(--md3-outline-variant)]/30 ${
-                          position <= 3 ? "ring-2 ring-blue-400/50" : ""
+                        className={`flex items-center justify-between p-4 rounded-none border bg-black border-border transition-all ${
+                          position <= 3 ? "border-primary/45 bg-primary/5" : ""
                         }`}
                       >
                         <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--md3-surface-container-high)]">
+                          <div className="flex items-center justify-center w-10 h-10 border border-border bg-zinc-950 font-bold">
                             {getRankIcon(position)}
                           </div>
                           <div>
-                            <h3 className="font-semibold text-foreground">{participant.user?.username}</h3>
-                            <p className="text-sm text-[var(--md3-on-surface-variant)]">
-                              Participando desde {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
+                            <h3 className="font-bold text-white text-sm sm:text-base">{participant.user?.username}</h3>
+                            <p className="text-[10px] text-zinc-500 font-mono uppercase mt-0.5">
+                              Infiltração ativa desde: {new Date(participant.joined_at).toLocaleDateString("pt-BR")}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
                           <div className="text-right">
-                            <Label htmlFor={`points-${participant.id}`} className="text-sm text-foreground font-semibold block mb-1">
-                              Pontos
+                            <Label htmlFor={`points-${participant.id}`} className="text-[10px] text-zinc-500 font-bold uppercase block mb-1">
+                              Flags / Score
                             </Label>
                             <Input
                               id={`points-${participant.id}`}
@@ -279,7 +281,7 @@ export default function ManageCompetitionPage({ params }: ManageCompetitionPageP
                               min="0"
                               value={currentPoints}
                               onChange={(e) => handlePointsChange(participant.id, Number.parseInt(e.target.value) || 0)}
-                              className="w-20 text-center bg-white border-2 border-blue-400 text-black font-bold text-lg shadow-lg focus:ring-2 focus:ring-blue-300"
+                              className="bg-black border border-border text-white text-xs rounded-none px-3 py-1.5 outline-none focus:border-primary text-center w-24 font-mono font-bold"
                             />
                           </div>
                         </div>

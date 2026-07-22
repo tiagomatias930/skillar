@@ -73,7 +73,7 @@ export default function TeamsDiagnosticPage() {
                 <li>Veja o status das tabelas abaixo</li>
                 <li>Se houver problemas, copie os scripts SQL fornecidos</li>
                 <li>Execute-os no <a href="https://app.supabase.com" target="_blank" className="underline">Supabase SQL Editor</a></li>
-                <li>Clique em "Verificar Novamente" para confirmar</li>
+                <li>Clique em &quot;Verificar Novamente&quot; para confirmar</li>
               </ol>
             </div>
           </div>

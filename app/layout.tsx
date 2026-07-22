@@ -8,9 +8,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "SkillarCode - Competições de Programação em Tempo Real",
-  description: "Plataforma para criar e gerenciar competições com rankings em tempo real",
-  generator: "SkillarCode App",
+  title: "Skillar Arena - Hacking Labs & CTF Championships",
+  description: "Plataforma de campeonatos de cybersegurança, hacking, pentest, redteam e blueteam com rankings em tempo real.",
+  generator: "Skillar Arena App",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -30,7 +30,7 @@ export default function RootLayout({
     return (
       <html lang="pt">
         <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
             <Analytics />
           </ThemeProvider>

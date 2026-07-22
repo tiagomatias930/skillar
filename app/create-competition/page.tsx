@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Trophy, ArrowLeft, Clock, CalendarBlank } from "@phosphor-icons/react"
+import { Crosshair, ArrowLeft, Clock, CalendarBlank } from "@phosphor-icons/react"
 import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { useToast } from "@/components/toast"
@@ -47,7 +47,7 @@ export default function CreateCompetitionPage() {
     }
 
     if (!title.trim() || !description.trim()) {
-      showToast("Título e descrição são obrigatórios", "error")
+      showToast("Título e briefing são obrigatórios", "error")
       return
     }
 
@@ -77,15 +77,15 @@ export default function CreateCompetitionPage() {
       const data = await response.json()
 
       if (response.ok) {
-        showToast("Competição criada com sucesso!", "success")
+        showToast("Laboratório implantado com sucesso!", "success")
         setTimeout(() => {
           router.push(`/competitions/${data.competition.id}`)
         }, 1000)
       } else {
-        showToast(data.error || "Erro ao criar competição", "error")
+        showToast(data.error || "Erro ao implantar laboratório", "error")
       }
     } catch (error) {
-      showToast("Erro ao criar competição", "error")
+      showToast("Erro ao implantar laboratório", "error")
     } finally {
       setIsLoading(false)
     }
@@ -93,10 +93,10 @@ export default function CreateCompetitionPage() {
 
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen bg-[var(--md3-surface-container-lowest)] flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center font-mono">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-2 border-primary border-t-transparent mx-auto"></div>
-          <p className="mt-4 text-[var(--md3-on-surface-variant)]">Verificando autenticação...</p>
+          <div className="animate-spin rounded-none h-12 w-12 border border-primary border-t-transparent mx-auto"></div>
+          <p className="mt-4 text-zinc-500 text-xs">Acessando canal seguro...</p>
         </div>
       </div>
     )
@@ -107,60 +107,61 @@ export default function CreateCompetitionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--md3-surface-container-lowest)]">
+    <div className="min-h-screen bg-black text-white font-mono">
       <Navigation />
       <ToastContainer />
 
       <main className="container mx-auto px-4 py-8 sm:py-10 lg:py-12">
         <div className="max-w-2xl mx-auto">
           <div className="mb-6">
-            <Link href="/competitions" className="inline-flex items-center gap-2 text-[var(--md3-on-surface-variant)] hover:text-foreground transition-colors duration-200">
+            <Link href="/competitions" className="inline-flex items-center gap-2 text-zinc-500 hover:text-primary transition-colors duration-200">
               <ArrowLeft className="h-4 w-4" weight="bold" />
-              Voltar para Competições
+              Voltar para Labs
             </Link>
           </div>
 
-          <Card className="bg-[var(--md3-surface-container)] border-[var(--md3-outline-variant)]/30">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-foreground text-xl sm:text-2xl">
-                <div className="h-10 w-10 rounded-xl bg-yellow-500/15 flex items-center justify-center">
-                  <Trophy className="h-5 w-5 text-yellow-400" weight="duotone" />
+          <Card className="rounded-none border border-border bg-zinc-950">
+            <CardHeader className="border-b border-border mb-4">
+              <CardTitle className="flex items-center gap-3 text-white text-lg sm:text-xl uppercase tracking-wider">
+                <div className="h-10 w-10 border border-primary/30 bg-primary/10 flex items-center justify-center">
+                  <Crosshair className="h-5 w-5 text-primary animate-pulse" />
                 </div>
-                Criar Nova Competição
+                Implantar Novo Lab
               </CardTitle>
-              <CardDescription>
-                Preencha os detalhes da sua competição
+              <CardDescription className="text-xs text-zinc-500">
+                Preencha as especificações técnicas da missão e vulnerabilidades
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="text-foreground font-medium">Título da Competição</Label>
+                  <Label htmlFor="title" className="text-white font-bold uppercase text-xs">Nome do Lab / Desafio</Label>
                   <Input
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Ex: Desafio de Algoritmos"
+                    placeholder="Ex: CTF - Active Directory Breach"
+                    className="rounded-none border-border bg-black text-white font-mono placeholder:text-zinc-600 focus-visible:border-primary focus-visible:ring-0"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description" className="text-foreground font-medium">Descrição</Label>
+                  <Label htmlFor="description" className="text-white font-bold uppercase text-xs">Briefing da Missão</Label>
                   <Textarea
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Descreva os objetivos e regras da competição..."
-                    className="border-[var(--md3-outline)] rounded-xl min-h-[120px] focus-visible:border-primary focus-visible:ring-primary/30 focus-visible:ring-[3px] hover:border-[var(--md3-on-surface)]"
+                    placeholder="Descreva os objetivos do pentest, vulnerabilidades e flags a capturar..."
+                    className="border-border rounded-none bg-black text-white font-mono placeholder:text-zinc-600 min-h-[120px] focus-visible:border-primary focus-visible:ring-0 hover:border-zinc-700"
                     required
                   />
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-foreground font-medium">Duração da Competição</Label>
+                  <Label className="text-white font-bold uppercase text-xs">Janela de Exploração (Duração)</Label>
                   
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-6 text-xs">
                     <label className="flex items-center gap-2 cursor-pointer group">
                       <input
                         type="radio"
@@ -169,7 +170,7 @@ export default function CreateCompetitionPage() {
                         onChange={() => setUseCustomDate(false)}
                         className="accent-primary"
                       />
-                      <span className="text-[var(--md3-on-surface-variant)] group-hover:text-foreground transition-colors">Definir duração</span>
+                      <span className="text-zinc-400 group-hover:text-white transition-colors">Definir Duração</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer group">
                       <input
@@ -179,54 +180,56 @@ export default function CreateCompetitionPage() {
                         onChange={() => setUseCustomDate(true)}
                         className="accent-primary"
                       />
-                      <span className="text-[var(--md3-on-surface-variant)] group-hover:text-foreground transition-colors">Data específica</span>
+                      <span className="text-zinc-400 group-hover:text-white transition-colors">Data e Hora Específica</span>
                     </label>
                   </div>
 
                   {!useCustomDate ? (
-                    <div className="bg-[var(--md3-surface-container-high)] p-5 rounded-2xl space-y-4 border border-[var(--md3-outline-variant)]/30">
-                      <div className="flex items-center gap-2 text-[var(--md3-on-surface-variant)] text-sm">
-                        <Clock className="h-4 w-4 text-primary/70" weight="duotone" />
-                        Escolha a duração
+                    <div className="bg-black p-5 rounded-none space-y-4 border border-border">
+                      <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                        <Clock className="h-4 w-4 text-primary" />
+                        Configure o tempo de atividade
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         <div>
-                          <Label className="text-[var(--md3-on-surface-variant)] text-sm">Tipo</Label>
+                          <Label className="text-zinc-500 text-[10px] uppercase font-bold">Unidade</Label>
                           <select
                             value={durationType}
                             onChange={(e) => setDurationType(e.target.value as "dias" | "horas")}
-                            className="w-full mt-1 bg-[var(--md3-surface-container-highest)] border border-[var(--md3-outline)] text-foreground rounded-xl px-3 py-2.5 outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/30 transition-all"
+                            className="w-full mt-1 bg-zinc-950 border border-border text-white text-xs rounded-none px-3 py-2 outline-none focus:border-primary transition-all font-mono"
                           >
                             <option value="dias">Dias</option>
                             <option value="horas">Horas</option>
                           </select>
                         </div>
                         <div>
-                          <Label className="text-[var(--md3-on-surface-variant)] text-sm">Valor</Label>
+                          <Label className="text-zinc-500 text-[10px] uppercase font-bold">Quantidade</Label>
                           <Input
                             type="number"
                             min={1}
                             value={durationValue}
                             onChange={(e) => setDurationValue(parseInt(e.target.value) || 1)}
+                            className="rounded-none border-border bg-zinc-950 text-white text-xs mt-1"
                           />
                         </div>
                         <div>
-                          <Label className="text-[var(--md3-on-surface-variant)] text-sm">Minutos</Label>
+                          <Label className="text-zinc-500 text-[10px] uppercase font-bold">Minutos</Label>
                           <Input
                             type="number"
                             min={0}
                             max={59}
                             value={durationMinutes}
                             onChange={(e) => setDurationMinutes(parseInt(e.target.value) || 0)}
+                            className="rounded-none border-border bg-zinc-950 text-white text-xs mt-1"
                           />
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-[var(--md3-surface-container-high)] p-5 rounded-2xl space-y-4 border border-[var(--md3-outline-variant)]/30">
-                      <div className="flex items-center gap-2 text-[var(--md3-on-surface-variant)] text-sm">
-                        <CalendarBlank className="h-4 w-4 text-primary/70" weight="duotone" />
-                        Escolha a data e hora de término
+                    <div className="bg-black p-5 rounded-none space-y-4 border border-border">
+                      <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                        <CalendarBlank className="h-4 w-4 text-primary" />
+                        Configure a data/hora limite
                       </div>
                       <Input
                         type="datetime-local"
@@ -234,6 +237,7 @@ export default function CreateCompetitionPage() {
                         onChange={(e) => setCustomEndDate(e.target.value)}
                         min={new Date().toISOString().slice(0, 16)}
                         required={useCustomDate}
+                        className="rounded-none border-border bg-zinc-950 text-white text-xs mt-1"
                       />
                     </div>
                   )}
@@ -243,17 +247,17 @@ export default function CreateCompetitionPage() {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 rounded-full"
+                    className="flex-1 rounded-none border border-primary bg-primary text-black hover:bg-black hover:text-primary transition-all font-mono font-bold"
                   >
-                    {isLoading ? "Criando..." : "Criar Competição"}
+                    {isLoading ? "IMPLANTANDO..." : "IMPLANTAR LAB"}
                   </Button>
                   <Link href="/competitions" className="flex-1">
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full rounded-full"
+                      className="w-full rounded-none border-border hover:border-red-500/50 hover:text-red-400 font-mono transition-all"
                     >
-                      Cancelar
+                      CANCELAR
                     </Button>
                   </Link>
                 </div>
