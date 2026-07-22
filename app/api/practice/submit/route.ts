@@ -2,11 +2,11 @@ import { type NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
 const CTF_CHALLENGES = {
-  "ctf-1": { flag: "FLAG{sql_injection_master_99}", points: 100 },
-  "ctf-2": { flag: "FLAG{bof_stack_overflow_success}", points: 250 },
-  "ctf-3": { flag: "FLAG{xor_key_cracked_bin_101}", points: 400 },
-  "ctf-4": { flag: "FLAG{sk1llar}", points: 100 },
-  "ctf-5": { flag: "FLAG{dns_exfiltration_detected}", points: 200 }
+  "ctf-1": { flag: "FLAG{HALLOWEEN_ACTIVATED}", points: 100 },
+  "ctf-2": { flag: "FLAG{true}", points: 200 },
+  "ctf-3": { flag: "FLAG{SkillarArena_Operator}", points: 150 },
+  "ctf-4": { flag: "FLAG{vishing}", points: 100 },
+  "ctf-5": { flag: "FLAG{exif_metadata_coordinate_solved}", points: 250 }
 }
 
 export async function POST(request: NextRequest) {

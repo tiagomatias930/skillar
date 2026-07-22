@@ -37,48 +37,48 @@ interface CTFChallenge {
 const PRACTICE_CTFS: CTFChallenge[] = [
   {
     id: "ctf-1",
-    title: "SQL Infiltration",
-    points: 100,
-    difficulty: "Iniciante",
-    category: "Web",
-    description: "Um portal de login corporativo está vulnerável a SQL Injection. O banco de dados relacional contém uma tabela secreta. Obtenha a flag contida nela explorando o parâmetro de input.",
-    hint: "Dica: Tente injetar aspas simples (') para quebrar a query ou use payloads de UNION Select."
-  },
-  {
-    id: "ctf-4",
-    title: "Hash Telemetry",
+    title: "O Enigma de César",
     points: 100,
     difficulty: "Iniciante",
     category: "Cryptography",
-    description: "Interceptamos um hash MD5 da comunicação interna de um operador malicioso: e99a18c428cb38d5f260853678922e03. Descubra a senha correspondente em texto claro.",
-    hint: "Dica: A senha em texto claro é uma variação do nome da nossa arena. O formato da flag final é FLAG{senha_descoberta}."
+    description: "Decodifique a cifra oculta recuperada do cabeçalho de requisição de um servidor comprometido. O texto criptografado é: 'KDOORZHHQ_DFWLYDWHG'.",
+    hint: "Dica: Trata-se de uma cifra de rotação (Cifra de César) com deslocamento de 3 posições à esquerda no alfabeto."
   },
   {
-    id: "ctf-5",
-    title: "Shadow Exfiltration",
-    points: 200,
-    difficulty: "Médio",
-    category: "Forensics",
-    description: "Analise a telemetria PCAP capturada do tráfego interno. Um atacante exfiltrou informações confidenciais através de canais ocultos no protocolo DNS (DNS Tunneling). Identifique a flag transmitida.",
-    hint: "Dica: Inspecione requisições do tipo TXT e queries de subdomínios codificados em Base64."
-  },
-  {
-    id: "ctf-2",
-    title: "Buffer Overflow POC",
-    points: 250,
-    difficulty: "Médio",
-    category: "Pwnable",
-    description: "Um executável compilado em C e rodando em arquitetura x86 possui uma vulnerabilidade de estouro de buffer clássica. Analise a pilha (stack) para sobrescrever a variável de controle e capturar a flag.",
-    hint: "Dica: Calcule o offset correto até a variável de retorno para injetar o payload de controle."
+    id: "ctf-4",
+    title: "O Elo Mais Fraco",
+    points: 100,
+    difficulty: "Iniciante",
+    category: "Web",
+    description: "Qual é o termo técnico em inglês atribuído à variante de Engenharia Social na qual o atacante realiza chamadas de voz simulando suporte técnico oficial ou instituições financeiras para induzir a vítima a fornecer credenciais de acesso ou OTPs?",
+    hint: "Dica: A resposta é uma palavra em inglês que mistura 'voice' com 'phishing'. Formato da flag: FLAG{palavra_descoberta}."
   },
   {
     id: "ctf-3",
-    title: "Reverse Engineering Vault",
-    points: 400,
-    difficulty: "Avançado",
+    title: "Ofuscação Reverso",
+    points: 150,
+    difficulty: "Médio",
     category: "Reversing",
-    description: "Recebemos um binário ELF criptografado que atua como cofre digital. Ele executa validações complexas, incluindo operações bitwise XOR e loops de verificação matemática. Descompile o binário e extraia a flag.",
-    hint: "Dica: Utilize ferramentas como Ghidra ou IDA Pro para inspecionar a função main e os arrays de constantes XOR."
+    description: "Um analista de segurança interceptou um script suspeito que inicia com a seguinte string ofuscada em Base64: 'U2tpbGxhckFyZW5hX09wZXJhdG9y'. Qual é o valor decodificado em texto claro?",
+    hint: "Dica: Decodifique a string de Base64 para ASCII. Formato da flag: FLAG{texto_descoberto}."
+  },
+  {
+    id: "ctf-2",
+    title: "Portas Lógicas de Segurança",
+    points: 200,
+    difficulty: "Médio",
+    category: "Pwnable",
+    description: "Um cofre lógico abre se a seguinte expressão booleana for verdadeira: (A AND NOT B) OR (C AND B). Se as variáveis de entrada forem configuradas como A = True, B = False e C = True, qual é o valor resultante do circuito? (Escreva 'true' ou 'false')",
+    hint: "Dica: Calcule a expressão substituindo os valores lógicos. Formato da flag: FLAG{true} ou FLAG{false}."
+  },
+  {
+    id: "ctf-5",
+    title: "Protocolo Fantasma (Metadata)",
+    points: 250,
+    difficulty: "Avançado",
+    category: "Forensics",
+    description: "Um operador do Red Team deixou pistas ocultas contendo coordenadas geográficas e chaves de criptografia salvas nos metadados invisíveis EXIF de uma imagem compartilhada no canal de inteligência. Qual o nome dessa técnica de ocultação de dados?",
+    hint: "Dica: O termo vem do grego 'steganos' (escondido) e 'graphe' (escrita). Formato da flag: FLAG{steganos_metadata_coordinate_solved} modificado para 'FLAG{exif_metadata_coordinate_solved}'."
   }
 ]
 
