@@ -108,6 +108,21 @@ export default function PracticePage() {
   const [picoStatus, setPicoStatus] = useState<any>(null)
   const [testingPico, setTestingPico] = useState(false)
 
+  // Date Helpers to prevent client-side RangeError crashes
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return "N/A"
+    const date = new Date(dateStr)
+    if (isNaN(date.getTime())) return "N/A"
+    return date.toLocaleDateString("pt-BR")
+  }
+
+  const formatTime = (dateStr: string) => {
+    if (!dateStr) return ""
+    const date = new Date(dateStr)
+    if (isNaN(date.getTime())) return ""
+    return date.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' })
+  }
+
   useEffect(() => {
     const username = localStorage.getItem("skillar_username")
     if (!username) {
@@ -156,12 +171,19 @@ export default function PracticePage() {
       const response = await fetch("/api/practice/ctftime")
       if (response.ok) {
         const data = await response.json()
-        setCtftimeEvents(data)
+        if (Array.isArray(data)) {
+          setCtftimeEvents(data)
+        } else {
+          console.error("CTFtime API response is not an array:", data)
+          setCtftimeEvents([])
+        }
       } else {
         showToast("Erro ao carregar dados do CTFtime", "error")
+        setCtftimeEvents([])
       }
     } catch (err) {
       showToast("Erro de conexão ao acessar dados externos do CTFtime", "error")
+      setCtftimeEvents([])
     } finally {
       setLoadingCtftime(false)
     }
@@ -511,13 +533,13 @@ export default function PracticePage() {
                     <CircleNotch className="h-6 w-6 animate-spin mx-auto mb-2 text-primary" />
                     CONECTANDO AO FEED GLOBAL...
                   </div>
-                ) : ctftimeEvents.length === 0 ? (
+                                ) : !Array.isArray(ctftimeEvents) || ctftimeEvents.length === 0 ? (
                   <div className="text-center py-10 font-mono text-zinc-600 text-xs">
                     Nenhum evento agendado ou erro de API.
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {ctftimeEvents.map((event, index) => (
+                    {Array.isArray(ctftimeEvents) && ctftimeEvents.map((event, index) => (
                       <div key={index} className="p-3 border border-border/80 bg-black space-y-2">
                         <div className="flex justify-between items-start gap-1">
                           <h4 className="text-xs font-bold text-white uppercase truncate">{event.title}</h4>
@@ -528,7 +550,7 @@ export default function PracticePage() {
                         <div className="space-y-1 text-[9px] text-zinc-500">
                           <div className="flex items-center gap-1.5">
                             <CalendarBlank className="h-3.5 w-3.5 text-zinc-600" />
-                            <span>Início: {new Date(event.start).toLocaleDateString()} {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            <span>Início: {formatDate(event.start)} {formatTime(event.start)}</span>
                           </div>
                           <div className="flex items-center gap-1.5 text-[9px]">
                             <Globe className="h-3.5 w-3.5 text-zinc-600" />
