@@ -182,7 +182,7 @@ export default function CompetitionDetailsClient({
                         </p>
                       </div>
                     </div>
-                    <div className="text-left sm:text-right pl-13 sm:pl-0 border-l border-border/40 sm:border-l-0 sm:pl-4 pl-4">
+                    <div className="text-left sm:text-right pl-12 sm:pl-0 border-l border-border/40 sm:border-l-0 mt-3 sm:mt-0">
                       <div className="text-xl sm:text-2xl font-bold text-white tracking-widest">{participant.points || 0}</div>
                       <div className="text-[10px] text-primary uppercase font-bold">{t('competitionDetail.points')}</div>
                     </div>

@@ -229,7 +229,7 @@ export default function RankingPage() {
                           </p>
                         </div>
                       </div>
-                      <div className="text-left sm:text-right mt-3 sm:mt-0 pl-13 sm:pl-0 border-l border-border/40 sm:border-l-0 sm:pl-4 pl-4">
+                      <div className="text-left sm:text-right mt-3 sm:mt-0 pl-12 sm:pl-0 border-l border-border/40 sm:border-l-0">
                         <div className="text-xl sm:text-2xl font-bold text-white tracking-widest">{user.totalPoints}</div>
                         <div className="text-[10px] text-primary font-bold uppercase">{t("ranking.totalPoints")}</div>
                       </div>
