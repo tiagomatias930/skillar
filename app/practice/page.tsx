@@ -123,6 +123,16 @@ export default function PracticePage() {
     return date.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' })
   }
 
+  // Safe helper to extract organizer name from string or array of objects
+  const getOrganizerName = (organizers: any) => {
+    if (!organizers) return "CTFtime Group"
+    if (typeof organizers === "string") return organizers
+    if (Array.isArray(organizers) && organizers.length > 0) {
+      return organizers[0]?.name || "CTFtime Group"
+    }
+    return "CTFtime Group"
+  }
+
   useEffect(() => {
     const username = localStorage.getItem("skillar_username")
     if (!username) {
@@ -554,7 +564,7 @@ export default function PracticePage() {
                           </div>
                           <div className="flex items-center gap-1.5 text-[9px]">
                             <Globe className="h-3.5 w-3.5 text-zinc-600" />
-                            <span>Org: {event.organizers || "CTFtime Group"}</span>
+                            <span>Org: {getOrganizerName(event.organizers)}</span>
                           </div>
                         </div>
                         <div className="pt-1 flex gap-2">
