@@ -136,7 +136,20 @@ export async function POST(request: NextRequest) {
     const { createUserWithAvatar } = await import("@/lib/database")
     const username = userData.login.trim()
     const avatar_url = userData.image?.link || userData.image
-    await createUserWithAvatar(username, avatar_url)
+    
+    try {
+      await createUserWithAvatar(username, avatar_url)
+    } catch (dbErr: any) {
+      console.error("❌ Database save failed:", dbErr)
+      usedCodes.delete(code) // Allow code retry or login retry
+      return NextResponse.json(
+        { 
+          success: false,
+          error: `Erro ao registar utilizador na base de dados: ${dbErr.message}`
+        },
+        { status: 500 }
+      )
+    }
 
     const result = {
       success: true,

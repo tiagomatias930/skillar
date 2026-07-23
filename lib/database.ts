@@ -80,7 +80,7 @@ export async function createUserWithAvatar(username: string, avatar_url?: string
   const { data, error } = await supabase.from("users").insert({ username, avatar_url }).select().single()
   if (error) {
     console.error("Error creating user with avatar:", error)
-    return null
+    throw new Error(`Erro ao registar utilizador na BD: ${error.message} (Código: ${error.code})`)
   }
   return data
 }
