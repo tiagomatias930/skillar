@@ -176,7 +176,9 @@ export async function createCompetition(
 
   // Get creator user
   const creator = await getUserByUsername(creatorUsername)
-  if (!creator) return null
+  if (!creator) {
+    throw new Error(`Utilizador criador '${creatorUsername}' não encontrado na base de dados. Tente fazer logout e login novamente.`)
+  }
 
   await setCurrentUser(creatorUsername)
 
@@ -222,7 +224,7 @@ export async function createCompetition(
 
   if (error) {
     console.error("Error creating competition:", error)
-    return null
+    throw new Error(`Erro de inserção na BD: ${error.message} (Código: ${error.code})`)
   }
 
   return data

@@ -42,9 +42,9 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ competition })
-  } catch (error) {
+  } catch (error: any) {
     console.error("Create competition error:", error)
-    return NextResponse.json({ error: "Erro interno do servidor" }, { status: 500 })
+    return NextResponse.json({ error: error.message || "Erro interno do servidor" }, { status: 500 })
   }
 }
 
