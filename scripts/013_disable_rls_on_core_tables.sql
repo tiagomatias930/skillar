@@ -1,0 +1,7 @@
+-- Desativa o Row Level Security (RLS) nas tabelas principais para evitar erros de permissão
+ALTER TABLE users DISABLE ROW LEVEL SECURITY;
+ALTER TABLE competitions DISABLE ROW LEVEL SECURITY;
+ALTER TABLE participants DISABLE ROW LEVEL SECURITY;
+ALTER TABLE reports DISABLE ROW LEVEL SECURITY;
+ALTER TABLE blacklist DISABLE ROW LEVEL SECURITY;
+ALTER TABLE competition_history DISABLE ROW LEVEL SECURITY;
